@@ -97,7 +97,12 @@ module.exports = {
         // "jquery-ui": "~1.10.4",
         "normalize.css": "~3.0.0",
         // "arbor": "*",
-        "jquery": "*"
+        "jquery": "*",
+        "page": "*",
+        
+        "bacon": "*",
+        "mori": "*",
+        "bootstrap": "*"
         
         
     },

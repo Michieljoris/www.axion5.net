@@ -2,10 +2,52 @@
 /*jshint strict:false unused:true smarttabs:true eqeqeq:true immed: true undef:true*/
 /*jshint maxparams:7 maxcomplexity:7 maxlen:150 devel:true newcap:false*/ 
 var server = require('bb-server');
+var bbCms = require('bb-cms');
+var htmlBuilder = require('html-builder');
+var VOW = require('dougs_vow');
 
+
+function cms(req, res, data) {
+    var path = req.url.query.path;
+    if (path.indexOf('editable') === 0) {
+        htmlBuilder('build/recipe.js')
+            .when(function() {}
+                  ,function(err) {
+                     
+                  }); //TODO this should return any error messages!!!
+    }
+    else {
+        bbCms.updateJson(path, data);
+        
+        
+    }
+}
+
+function save(req, res) {
+    bbCms.save(req, res,
+               cms,
+               { auth: false });
+    
+    // console.log('in server.js', path);
+    
+    // bbCms.save(req, res);
+    
+    
+    
+}
+// bbCms.init({
+//     default: {
+//         recipe: 'build/recipe.js',
+//         basePath: 'build'
+//     },
+//     blog: {
+//         recipe: 'build/blog-recipe.js',
+//         basePath: 'www/blog'
+//     }
+// });
     // sendMail = require("./firstDoorSendMail.js")
     // ,testSendMail = require("./testSendMail.js")
-    // ,sync = require("./sync.js")
+    // ,sync = require("./sync.j)
     // ,dropbox_authorize = require("./dropbox_authorize.js")
     // ,dropbox_connect = require("./dropbox_connect.js")
     // ,editor_save = require('./editor_save.js')
@@ -26,13 +68,13 @@ var options = {
     root: './www'
     //if not assigned defaults to 8080. If that port's not available
     //the server will try 8081 and so on.
-    ,port: 9001
+    ,port: 9100
     
     // Assign true to allow listing of directories when the path in
     // the url matches a path on the server relative to the
     // root. Assign an array of paths to limit listing to the listed
     // paths (relative to the root) eg. ['/lib']. Defaults to true. 
-    ,dir: true
+    ,dir: false
     
     // If index.html is found in an allowable directory it is sent
     // over instead of the directory listing. Assign a string to look
@@ -83,13 +125,13 @@ var options = {
     //to these requests. See previous options.
     // Defaults to false.  ,
     // ,stamp: false
-    ,stamp: {
-        prefix: '__' // or for example: 'stamp-'
-        ,length: 10  //32 for md5 and 40 for sha1, but set to 10 by default
-    // set length to 13 if you use mtime create the stamp for a resource
-    // if 10 is not long enough, in other words, if a resource is not
-    // updated and stays cached, up the length property by 1
-    }
+    // ,stamp: {
+    //     prefix: '__' // or for example: 'stamp-'
+    //     ,length: 10  //32 for md5 and 40 for sha1, but set to 10 by default
+    // // set length to 13 if you use mtime create the stamp for a resource
+    // // if 10 is not long enough, in other words, if a resource is not
+    // // updated and stays cached, up the length property by 1
+    // }
     
     //files can be transformed (recast) before being sent to the
     // client. If the cache is turned on this will only happen the
@@ -139,7 +181,7 @@ var options = {
     // false. If set to true, better turn on caching as well, otherwise it will
     // try to prerender the page for every _escaped_fragment_ request, Also
     // either enable phantomPath or seoServer
-    ,prerender:true 
+    ,prerender:!develop_mode
     
     //specify a path for phantomjs or set it to truthy. In the last case the
     //server will use the phantomjs module's path or as a last resort
@@ -160,11 +202,12 @@ var options = {
     
     //If method and path match the functin will be called with [req, res].
     ,postHandlers: {
-        // "/__api/save" : editor_save,
+        "/__api/save" : save
         // "/contactus_form" : sendMail
         // ,"/contactus_form" : testSendMail
         }
     ,getHandlers: {
+        "/__api/test" : bbCms.list
         // "/sync": sync,
         // "/dropbox_authorize": dropbox_authorize,
         // "/dropbox_connect": dropbox_connect

@@ -26,7 +26,9 @@
   "dependencies": {
     "bb-server": "git://github.com/michieljoris/bb-server.git",
     "html-builder": "git://github.com/michieljoris/html-builder.git",
-    "fs-extra": "0.8.x"
+    "fs-extra": "0.8.x",
+    "bb-cms": "*",
+    "dougs_vow": "*"
   },
   "devDependencies": {
     "docco": "*"
@@ -35,5 +37,5 @@
   "scripts": {
     "docs": "node node_modules/.bin/docco src/blog.js"
   },
-  "version": "0.1.1"
+  "version": "0.1.3"
 }

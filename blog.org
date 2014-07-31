@@ -1,5 +1,8 @@
 * good to know
 
+https://github.com/daviferreira/medium-editor
+http://epiceditor.com/
+  
 * bugs
 
 * persona:
@@ -47,5 +50,10 @@ Add this to the post handlers
 	,"/signin": signin
 	,"/signout": signout
 After successfull signin $scope.signedIn is the user's email address	
+
+
+
+
+
 
 

@@ -1,20 +1,6 @@
-/*global */
-var mainMenuTree = [
-    // { label: 'Home', icon: '', route: 'home'
-    //    // sub: [
-    //    //     { label: 'Contact us', route: 'contactus', scroll: true}
-    //    //     ]
-    // }
-];
-
-var slides =  [
-    // { url: "images/slides/home_page_Early_Childhood_Education_and_Care_training.jpg"
-    //   // ,title: 'Early Childhood Education and Care training'
-    //   // ,subtitle: 'Aged care slogan'
-    // }
-];
-
 var develop_mode = process.env.DEVELOP; 
+// module.exports = {
+
 var exports = {
     verbose: true
     ,printMap: false
@@ -28,12 +14,13 @@ var exports = {
         ,out:'built' 
         ,js: 'scripts'
     }
-    ,reload: {
-        // enable: develop_mode,
-        enable: develop_mode,
-        msg: "reload"
-        //url is in the file bin/URL
-    }
+    // ,reload: {
+    //     // enable: develop_mode,
+    //     enable: develop_mode,
+    //     msg: "reload"
+    //     //url is in the file bin/URL
+    // }
+    
     
     /*
       If cachify if falsy resources will be requested as is, without a
@@ -115,7 +102,7 @@ var exports = {
     //to generate a string to save to the file defined in 'out'.
     ,partials: {
         ids: {
-            title: '<title>Deploy demo</title>'
+            title: '<title>Blog</title>'
             ,skewer: develop_mode ? '<script src="http://localhost:9090/skewer"></script>' : ' '
             // ,recaptcha: '<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>'
             // ,fragment: '<meta name="fragment" content="!">'
@@ -138,8 +125,10 @@ var exports = {
         ,linkBlock:  {
             id: 'linkBlock',
             files:  [
-                // 'bower/normalize.css/normalize.css'
-                // ,'bower/bootstrap/dist/css/bootstrap.css'
+                'bower/normalize.css/normalize.css'
+                ,'bower/bootstrap/dist/css/bootstrap.css'
+                ,'medium-editor.css'
+                ,'medium-default-theme.css'
                 // ,'bower/foundation/css/foundation.css'
                 // ,'bower/jquery-ui/jquery-ui.custom.css'
                 // ,'bower/angular-ui/build/angular-ui.css'
@@ -149,7 +138,7 @@ var exports = {
                 
                 ,'main.css'
             ]
-            ,path: 'css/'
+            ,path: 'css'
         }
         
         //order these scriptBlocks in the order that they would be loaded by the
@@ -193,11 +182,17 @@ var exports = {
                     // ,'angular.js'
                     // ,'test.coffee'
                     "bower/jquery/dist/jquery.js"
+                    ,"bower/page/index.js"
                     // "vendor/jquery-1.6.2.js"
+                    ,'bower/bootstrap/dist/js/bootstrap.js'
                     ,"bower/modernizr/modernizr.js"
+                    ,"bower/bacon/dist/Bacon.min.js"
+                    ,"bower/mori/mori.js"
                     ,"bower/logthis/logthis.js"
-                    // ,"bower/ractive/ractive.js"
-                    // ,"bower/vue/dist/vue.js"
+                    ,"bower/ractive/ractive.js"
+                    ,"bower/vue/dist/vue.js"
+                    ,"medium-editor.js"
+                    ,"epiceditor.js"
                     //The following will be substitud with the list of required
                     //modules, in the proper order, also the module enabler
                     //script will be added before the first module in every
@@ -222,10 +217,9 @@ var exports = {
                     
                     ,['main.js']
                     ,"start.js"
-                    // ,'cape.js'
                     
                 ],
-                path: 'scripts/'
+                path: 'scripts'
             }
         ]
         // ,slideShow: [{ type: 'flex',
@@ -257,17 +251,18 @@ var exports = {
             //   }
             // },
             //Main layout
-            ,{ id: 'body'
+            { id: 'body'
                ,src: 'html/body.html' 
-               ,tagIdPostfix: '--' //can be overridden per template
+               // ,tagIdPostfix: '--' //can be overridden per template
                ,mapping: {
                    // hello_world: "hello_world"
                }
              }
+            // ,require('./test')
             ,{  
                src: 'html/basicPage.html'
                ,tagIdPostfix: '' //can be overridden per template
-               ,pathOut: ''
+               ,pathOut: '/'
                ,out: 'www/index.html' //optional, relative to root
                
                //Maps tag ids to partial ids. Tag ids have to be
@@ -282,7 +277,8 @@ var exports = {
                //want to retrieve cachified versions. Include the resources
                //under cachify.list
                ,mapping: {
-                   head: ['title', 'meta',  'html/ieshim',//'skewer',
+                   head: ['title',
+                          'meta',  'html/ieshim',//'skewer',
                           // 'firebug',
                           'headJsBlock',
                           'linkBlock'

@@ -1,1 +1,7 @@
- 
+body {
+    margin-top:20px;
+} 
+
+.editable {
+    margin-bottom:10px;
+}
