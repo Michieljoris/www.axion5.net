@@ -1,50 +1,45 @@
-/*global __dirname:false require:false*/
-/*jshint strict:false unused:true smarttabs:true eqeqeq:true immed: true undef:true*/
-/*jshint maxparams:7 maxcomplexity:7 maxlen:150 devel:true newcap:false*/ 
+var Path = require('path');
+require('logthis').config({ _on: true, 'server.js': 'debug', 'bb-cms.js': 'debug' });
+var log = require('logthis').logger._create(Path.basename(__filename));
+
 var server = require('bb-server');
 var bbCms = require('bb-cms');
-var htmlBuilder = require('html-builder');
+var htmlBuilder = require('html-builder').build;
 var VOW = require('dougs_vow');
 
+var develop_mode = process.env.DEVELOP; 
 
-function cms(req, res, data) {
+function cms(req) {
+    //received data is now already saved to path
     var path = req.url.query.path;
     if (path.indexOf('editable') === 0) {
-        htmlBuilder('build/recipe.js')
-            .when(function() {}
-                  ,function(err) {
-                     
-                  }); //TODO this should return any error messages!!!
+        return htmlBuilder('build/recipe.js');
+    } 
+    else if (path.indexOf('blog') === 0) {
+        return bbCms.writeJson('blog', path, req.data)
+            .when(
+                function() {
+                    log('succesfully wrote index.json');
+            
+                });
     }
-    else {
-        bbCms.updateJson(path, data);
-        
-        
-    }
+    return VOW.broken('You can\'t save to this path: ' + path);
 }
 
+
 function save(req, res) {
-    bbCms.save(req, res,
-               cms,
-               { auth: false });
-    
-    // console.log('in server.js', path);
-    
-    // bbCms.save(req, res);
-    
-    
-    
+    bbCms.save(req, res, { auth: !develop_mode })
+        .when(
+            function() {
+                return cms(req);
+            })
+        .when(
+            function() { bbCms.sendResponse(res); }
+            ,function(err) {
+                console.log('error', err);
+                bbCms.sendResponse(err);
+            }); 
 }
-// bbCms.init({
-//     default: {
-//         recipe: 'build/recipe.js',
-//         basePath: 'build'
-//     },
-//     blog: {
-//         recipe: 'build/blog-recipe.js',
-//         basePath: 'www/blog'
-//     }
-// });
     // sendMail = require("./firstDoorSendMail.js")
     // ,testSendMail = require("./testSendMail.js")
     // ,sync = require("./sync.j)

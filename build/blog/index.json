@@ -1,0 +1,16 @@
+{
+  "blog": {
+    "index.json": {
+      "fileName": "build/blog/index.json"
+    },
+    "list.json": {
+      "fileName": "build/blog/list.json"
+    },
+    "test": {
+      "fileName": "build/blog/test"
+    },
+    "blog/test": {
+      "fileName": "blog/test"
+    }
+  }
+}

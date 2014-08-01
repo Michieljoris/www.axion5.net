@@ -21,7 +21,6 @@ var exports = {
     //     //url is in the file bin/URL
     // }
     
-    
     /*
       If cachify if falsy resources will be requested as is, without a
       stamp. Which means bb-server will send them with max-age=0 and

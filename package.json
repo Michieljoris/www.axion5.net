@@ -28,7 +28,8 @@
     "html-builder": "git://github.com/michieljoris/html-builder.git",
     "fs-extra": "0.8.x",
     "bb-cms": "*",
-    "dougs_vow": "*"
+    "dougs_vow": "*",
+    "logthis": "*"
   },
   "devDependencies": {
     "docco": "*"
@@ -37,5 +38,5 @@
   "scripts": {
     "docs": "node node_modules/.bin/docco src/blog.js"
   },
-  "version": "0.1.3"
+  "version": "0.1.4"
 }

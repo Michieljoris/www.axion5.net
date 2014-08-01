@@ -140,16 +140,17 @@ var testClick = $("#test-button").asEventStream("click");
 testClick.onValue(function(e) {
     var request = new XMLHttpRequest();
     console.log('test button clicked');
+    saveFile('blog/test', "some text");
     
-    request.open('GET', '__api/test', true);
+    // request.open('GET', '__api/test', true);
     // request.setRequestHeader('Content-Type',
     //                          'application/x-www-form-urlencoded; charset=UTF-8');
-    function reqListener () {
-        console.log(this.responseText);
-    }
+    // function reqListener () {
+    //     console.log(this.responseText);
+    // }
 
-    request.onload = reqListener;
-    request.send();
+    // request.onload = reqListener;
+    // request.send();
     
 });
 

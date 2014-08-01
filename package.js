@@ -107,6 +107,7 @@ module.exports = {
         "fs-extra": "0.8.x"
 	,"bb-cms": "*"
         ,"dougs_vow": "*"
+        ,"logthis": '*'
 	// "dbox": "*",
         // "nodemailer": "0.5.x",
         // "dbox": "0.6.x",
