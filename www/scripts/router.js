@@ -12,8 +12,7 @@ function index() {
     view.innerHTML = "<h1>404</h1><br>This path doesn\'t exist: " + context.path + '';
     console.log('index', arguments);
     var request = new XMLHttpRequest();
-    console.log('test button clicked');
-    saveFile('blog/articles/test.html', "some text");
+    log('retrieving index');
     
     request.open('GET', 'blog/articles.json', true);
     request.setRequestHeader('Content-Type',
