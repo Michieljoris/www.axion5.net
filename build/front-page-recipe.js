@@ -1,6 +1,4 @@
-var develop_mode = process.env.DEVELOP; 
-// module.exports = {
-
+var develop_mode = process.env.DEVELOP || process.env.EMACS;
 var exports = {
     verbose: true
     ,printMap: false
@@ -106,7 +104,6 @@ var exports = {
             // ,recaptcha: '<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>'
             // ,fragment: '<meta name="fragment" content="!">'
             
-            ,hello_world: '<h2>Hello world. Build on this scaffold!!!</h2>'
         }
         ,metaBlock : {
             id: 'meta',
@@ -126,8 +123,8 @@ var exports = {
             files:  [
                 'bower/normalize.css/normalize.css'
                 ,'bower/bootstrap/dist/css/bootstrap.css'
-                ,'medium-editor.css'
-                ,'medium-default-theme.css'
+                // ,'medium-editor.css'
+                // ,'medium-default-theme.css'
                 // ,'bower/foundation/css/foundation.css'
                 // ,'bower/jquery-ui/jquery-ui.custom.css'
                 // ,'bower/angular-ui/build/angular-ui.css'
@@ -181,17 +178,17 @@ var exports = {
                     // ,'angular.js'
                     // ,'test.coffee'
                     "bower/jquery/dist/jquery.js"
-                    ,"bower/page/index.js"
+                    // ,"bower/page/index.js"
                     // "vendor/jquery-1.6.2.js"
                     ,'bower/bootstrap/dist/js/bootstrap.js'
                     ,"bower/modernizr/modernizr.js"
-                    ,"bower/bacon/dist/Bacon.min.js"
-                    ,"bower/mori/mori.js"
-                    ,"bower/logthis/logthis.js"
-                    ,"bower/ractive/ractive.js"
-                    ,"bower/vue/dist/vue.js"
-                    ,"medium-editor.js"
-                    ,"epiceditor.js"
+                    // ,"bower/bacon/dist/Bacon.min.js"
+                    // ,"bower/mori/mori.js"
+                    // ,"bower/logthis/logthis.js"
+                    // ,"bower/ractive/ractive.js"
+                    // ,"bower/vue/dist/vue.js"
+                    // ,"medium-editor.js"
+                    // ,"epiceditor.js"
                     //The following will be substitud with the list of required
                     //modules, in the proper order, also the module enabler
                     //script will be added before the first module in every
@@ -214,8 +211,8 @@ var exports = {
                     //because it needs to denodify.wrap it.
                     // ,'modules/mymodule.nm.js'
                     
-                    ,['main.js']
-                    ,"start.js"
+                    // ,['main.js']
+                    // ,"start.js"
                     
                 ],
                 path: 'scripts'
@@ -255,11 +252,12 @@ var exports = {
                // ,tagIdPostfix: '--' //can be overridden per template
                ,mapping: {
                    // editbar: 'html/editbar.html'
-                   header: 'html/header.html'
-                   ,leftbar: 'html/leftbar.html'
-                   ,rightbar: 'html/rightbar.html'
+                   // header: 'html/header.html'
+                   header: 'title'
+                   ,leftbar: 'recentWidget'
+                   ,rightbar: ['archiveWidget', 'tagWidget']
                    ,bottom: 'html/bottom.html'
-                   ,main: 'html/main.html'
+                   ,main: 'main'
                    ,editbar: 'html/editbar.html'
                }
              }
@@ -268,7 +266,7 @@ var exports = {
                src: 'html/basicPage.html'
                ,tagIdPostfix: '' //can be overridden per template
                ,pathOut: '/'
-               ,out: 'www/edit.html' //optional, relative to root
+               ,out: 'www/index.html' //optional, relative to root
                
                //Maps tag ids to partial ids. Tag ids have to be
                //postfixed with two dashes in the template. Partials
@@ -304,3 +302,4 @@ var exports = {
 
 //TODO update bootstrap
 //TODO use bower or something for vendor libs
+

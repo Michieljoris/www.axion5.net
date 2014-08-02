@@ -102,10 +102,5 @@
     
 
 //module info
-    var m = {
-	"0": {
-		"filename": "/scripts/main.js",
-		"resolve": {}
-	}
-};
+    var m = {};
 })(this);

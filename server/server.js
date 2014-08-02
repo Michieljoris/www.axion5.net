@@ -1,43 +1,82 @@
 var Path = require('path');
-require('logthis').config({ _on: true, 'server.js': 'debug', 'bb-cms.js': 'debug' });
+require('logthis').config({ _on: true, 'server.js': 'debug', 'bb-blog.js': 'debug' });
 var log = require('logthis').logger._create(Path.basename(__filename));
 
 var server = require('bb-server');
-var bbCms = require('bb-cms');
+// var bbBlog = require('bb-blog');
 var htmlBuilder = require('html-builder').build;
 var VOW = require('dougs_vow');
 
 var develop_mode = process.env.DEVELOP; 
 
-function cms(req) {
-    //received data is now already saved to path
+var basePath = 'cms';
+function cms(req, res) {
     var path = req.url.query.path;
+    var angular = 'angular/'; //angular routing etc
+    var client = 'client/'; //routing etc on client
+    var staticSite = 'nojs/'; //all pages are static
     if (path.indexOf('editable') === 0) {
-        return htmlBuilder('build/recipe.js');
+        return htmlBuilder(Path.join('build', 'recipe.js'));
     } 
-    else if (path.indexOf('blog') === 0) {
-        return bbCms.writeJson('blog', path, req.data)
+    else if (path.indexOf(client) === 0) {
+        return bbBlog.writeJson(Path.join(basePath, client), //dir to list
+                               path.slice(client.length), req.data,
+                               Path.join('www', client))
             .when(
                 function() {
                     log('succesfully wrote index.json');
-            
+                    return bbBlog.wrap(Path.join(basePath, client, 'article-recipe.js'));
                 });
+    }
+    else if (path.indexOf(staticSite) === 0) {
+        
+        // return bbCms.writeJson(Path.join(basePath, client), //dir to list
+        //                        path.slice(client.length), req.data,
+        //                        Path.join('www', client))
+            // .when(
+            //     function() {
+            //         log('succesfully wrote index.json');
+            //         return bbCms.wrap(Path.join(basePath, client, 'article-recipe.js'));
+            //     });
     }
     return VOW.broken('You can\'t save to this path: ' + path);
 }
 
 
+
+function create(req, res) {
+    var title = req.url.query.title;
+    cms.create(title, 'build/static-recipe.js'),
+    cms.create(title, 'build/static-recipe.js')
+        .when( function() {
+            return cms.create(title, 'build/recipe.js');
+        })
+        .when(
+            function() { bbBlog.sendResponse(res); }
+            ,function(err) {
+                console.log('error', err);
+                bbBlog.sendResponse(err);
+            }); 
+    
+    //create arti
+    
+}
+
+function remove(req, res) {
+    var path = req.url.query.path;
+}
+
 function save(req, res) {
-    bbCms.save(req, res, { auth: !develop_mode })
+    bbBlog.save(req, res, { auth: !develop_mode, basePath: basePath })
         .when(
             function() {
                 return cms(req);
             })
         .when(
-            function() { bbCms.sendResponse(res); }
+            function() { bbBlog.sendResponse(res); }
             ,function(err) {
                 console.log('error', err);
-                bbCms.sendResponse(err);
+                bbBlog.sendResponse(err);
             }); 
 }
     // sendMail = require("./firstDoorSendMail.js")
@@ -51,7 +90,6 @@ function save(req, res) {
 // ;
 
  
-var develop_mode = process.env.DEVELOP; 
 console.log('develop mode', develop_mode);
 // develop_mode = false;
 //TODO: limit sending of files to certain mimetypes and/or extensions
@@ -202,7 +240,9 @@ var options = {
         // ,"/contactus_form" : testSendMail
         }
     ,getHandlers: {
-        "/__api/test" : bbCms.list
+        // "/__api/test" : bbBlog.list,
+        // "/__api/create" : create, 
+        // "/__api/remove" : remove 
         // "/sync": sync,
         // "/dropbox_authorize": dropbox_authorize,
         // "/dropbox_connect": dropbox_connect

@@ -1,0 +1,17 @@
+{
+  "index.json": {
+    "fileName": "cms/blog/index.json",
+    "published": true,
+    "createdAt": "2014-08-02T05:14:51.033Z",
+    "publishedAt": "2014-08-02T05:14:51.033Z",
+    "tags": [
+      "tag1",
+      "tag2"
+    ],
+    "categories": [
+      "catagory 1",
+      "category 2"
+    ],
+    "comments": true
+  }
+}

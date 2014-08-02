@@ -21,9 +21,12 @@
     <script src="js/angular-ui-ieshiv.js"></script>
     <![endif]-->						    
 
+<script type="text/javascript" src="/denodify.js"></script>
 
 <link rel="stylesheet" type="text/css" href="/css/bower/normalize.css/normalize.css">
 <link rel="stylesheet" type="text/css" href="/css/bower/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/css/medium-editor.css">
+<link rel="stylesheet" type="text/css" href="/css/medium-default-theme.css">
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 
 <script type='text/javascript'>function cachify(path) { return path; }</script></head>
@@ -48,60 +51,47 @@
   </div>
     
   <div class="row">
-    <div id="header--" class="col-md-12"><title>Blog</title></div>
+    <div id="header--" class="col-md-12">
+<!--partial:html/header.html-->
+<h1>My blog</h1>
+</div>
   </div>
   
   
   <div class="row">
+    <div class="col-md-12"> 
+      <div data-filename="editable/article" class="editable", id="editable/article"> 
+        Open up inspector to see output from the included denodified node 
+        module. 
+        Run bin/serve in one terminal and bin/build in another. Update the source of 
+        the site, the site will get rebuilt and the page refreshed. 
+      </div> 
+    </div> 
+
+    <div> 
+      <div class="col-md-12"> 
+        <button id="save-button" class="btn btn-info">Save</button> 
+        <button id="test-button" class="btn btn-info">Testing</button> 
+      </div> 
+    </div> 
+
+    <div id="epiceditor"></div> 
     
-    <div id="leftbar--" class="col-xs-2"><ul id="most-recent-partial">
-  <li><a href="now-what">Now what?</a></li>
-  <li><a href="oh-i-do-blabber-on">Oh, I do blabber on</a></li>
-  <li><a href="what-is-this-about">What is this about</a></li>
-</ul></div>
-    <div id="main--" class="col-xs-8"><div class="teaser">d-a</div><div class="more"><a href="now-what">More</a></div>
-<div class="teaser">d-a</div><div class="more"><a href="oh-i-do-blabber-on">More</a></div>
-<div class="teaser">c-b-d</div><div class="more"><a href="what-is-this-about">More</a></div>,<div class="teaser">d-a</div><div class="more"><a href="a-very-important-post">More</a></div>
-<div class="teaser">a-b-d</div><div class="more"><a href="some-title">More</a></div></div>
-    <div id="rightbar--" class="col-xs-2"><ul id="archive-partial">
- <li><a href="2010" >2010</a>
-  <ul>
-   <li><a href="2010/4" >May</a>
-    <ul>
-     <li><a href="some-title" >Some title</a></li>
-    </ul>
-   </li>
-   <li><a href="2010/9" >Oct</a>
-    <ul>
-     <li><a href="a-very-important-post" >A very important post</a></li>
-     <li><a href="what-is-this-about" >What is this about</a></li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li><a href="2011" >2011</a>
-  <ul>
-   <li><a href="2011/0" >Jan</a>
-    <ul>
-     <li><a href="oh-i-do-blabber-on" >Oh, I do blabber on</a></li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li><a href="2012" >2012</a>
-  <ul>
-   <li><a href="2012/1" >Feb</a>
-    <ul>
-     <li><a href="now-what" >Now what?</a></li>
-    </ul>
-   </li>
-  </ul>
- </li>
-</ul><ul id="by-tag-partial">
-  <li><a href="d">d</a> (5)</li>
-  <li><a href="a">a</a> (4)</li>
-  <li><a href="b">b</a> (2)</li>
-</ul></div>
+    <div id="leftbar--" class="col-xs-2">
+<!--partial:html/leftbar.html-->
+Leftbar
+<a href="/article1">Article 1</a>
+<a href="/article2">Article 2</a>
+</div>
+    <div id="main--" class="col-xs-8">
+<!--partial:html/main.html-->
+<div id="view"> </div>
+
+</div>
+    <div id="rightbar--" class="col-xs-2">
+<!--partial:html/rightbar.html-->
+Rightbar
+</div>
 
   </div>
   <div class="row">
@@ -113,8 +103,19 @@ Bottom
 </div>
 
 <script type="text/javascript" src="/scripts/bower/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="/scripts/bower/page/index.js"></script>
 <script type="text/javascript" src="/scripts/bower/bootstrap/dist/js/bootstrap.js"></script>
 <script type="text/javascript" src="/scripts/bower/modernizr/modernizr.js"></script>
+<script type="text/javascript" src="/scripts/bower/bacon/dist/Bacon.min.js"></script>
+<script type="text/javascript" src="/scripts/bower/mori/mori.js"></script>
+<script type="text/javascript" src="/scripts/bower/logthis/logthis.js"></script>
+<script type="text/javascript" src="/scripts/bower/ractive/ractive.js"></script>
+<script type="text/javascript" src="/scripts/bower/vue/dist/vue.js"></script>
+<script type="text/javascript" src="/scripts/medium-editor.js"></script>
+<script type="text/javascript" src="/scripts/epiceditor.js"></script>
+<script type="text/javascript" src="/scripts/router.js?module=0"></script>
+<script type="text/javascript" src="/scripts/main.js?module=1"></script>
+<script type="text/javascript" src="/scripts/start.js"></script>
 </body>
 </html>	
 	 
