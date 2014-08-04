@@ -15,7 +15,6 @@ blog.init({
     paths: ['editable', 'posts'],
     pagination: 3
 });
-
 // var basePath = 'build';
 // function blog(req, res) {
 //     var path = req.url.query.path;
