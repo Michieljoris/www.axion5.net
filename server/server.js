@@ -3,82 +3,84 @@ require('logthis').config({ _on: true, 'server.js': 'debug', 'bb-blog.js': 'debu
 var log = require('logthis').logger._create(Path.basename(__filename));
 
 var server = require('bb-server');
-// var bbBlog = require('bb-blog');
-var htmlBuilder = require('html-builder').build;
 var VOW = require('dougs_vow');
 
 var develop_mode = process.env.DEVELOP; 
 
-var basePath = 'cms';
-function cms(req, res) {
-    var path = req.url.query.path;
-    var angular = 'angular/'; //angular routing etc
-    var client = 'client/'; //routing etc on client
-    var staticSite = 'nojs/'; //all pages are static
-    if (path.indexOf('editable') === 0) {
-        return htmlBuilder(Path.join('build', 'recipe.js'));
-    } 
-    else if (path.indexOf(client) === 0) {
-        return bbBlog.writeJson(Path.join(basePath, client), //dir to list
-                               path.slice(client.length), req.data,
-                               Path.join('www', client))
-            .when(
-                function() {
-                    log('succesfully wrote index.json');
-                    return bbBlog.wrap(Path.join(basePath, client, 'article-recipe.js'));
-                });
-    }
-    else if (path.indexOf(staticSite) === 0) {
+// var htmlBuilder = require('html-builder').build;
+var blog = require('bb-blog');
+
+blog.init({
+    basePath: 'build',
+    paths: ['editable', 'posts'],
+    pagination: 3
+});
+
+// var basePath = 'build';
+// function blog(req, res) {
+//     var path = req.url.query.path;
+//     var angular = 'angular/'; //angular routing etc
+//     var client = 'client/'; //routing etc on client
+//     var staticSite = 'nojs/'; //all pages are static
+//     if (path.indexOf('editable') === 0) {
+//         return htmlBuilder(Path.join('build', 'recipe.js'));
+//     } 
+//     else if (path.indexOf(client) === 0) {
+//         return bbBlog.writeJson(Path.join(basePath, client), //dir to list
+//                                path.slice(client.length), req.data,
+//                                Path.join('www', client))
+//             .when(
+//                 function() {
+//                     log('succesfully wrote index.json');
+//                     return bbBlog.wrap(Path.join(basePath, client, 'article-recipe.js'));
+//                 });
+//     }
+//     else if (path.indexOf(staticSite) === 0) {
         
-        // return bbCms.writeJson(Path.join(basePath, client), //dir to list
-        //                        path.slice(client.length), req.data,
-        //                        Path.join('www', client))
-            // .when(
-            //     function() {
-            //         log('succesfully wrote index.json');
-            //         return bbCms.wrap(Path.join(basePath, client, 'article-recipe.js'));
-            //     });
-    }
-    return VOW.broken('You can\'t save to this path: ' + path);
-}
+//         // return bbCms.writeJson(Path.join(basePath, client), //dir to list
+//         //                        path.slice(client.length), req.data,
+//         //                        Path.join('www', client))
+//             // .when(
+//             //     function() {
+//             //         log('succesfully wrote index.json');
+//             //         return bbCms.wrap(Path.join(basePath, client, 'article-recipe.js'));
+//             //     });
+//     }
+//     return VOW.broken('You can\'t save to this path: ' + path);
+// }
 
 
 
-function create(req, res) {
-    var title = req.url.query.title;
-    cms.create(title, 'build/static-recipe.js'),
-    cms.create(title, 'build/static-recipe.js')
-        .when( function() {
-            return cms.create(title, 'build/recipe.js');
-        })
-        .when(
-            function() { bbBlog.sendResponse(res); }
-            ,function(err) {
-                console.log('error', err);
-                bbBlog.sendResponse(err);
-            }); 
+// function create(req, res) {
+//     blog.create(req.url.query.title)
+//         .when(
+//             function() { bbBlog.sendResponse(res); }
+//             ,function(err) {
+//                 console.log('error', err);
+//                 bbBlog.sendResponse(err);
+//             }); 
     
-    //create arti
+//     //create arti
     
-}
+// }
 
-function remove(req, res) {
-    var path = req.url.query.path;
-}
+// function remove(req, res) {
+//     var path = req.url.query.path;
+// }
 
-function save(req, res) {
-    bbBlog.save(req, res, { auth: !develop_mode, basePath: basePath })
-        .when(
-            function() {
-                return cms(req);
-            })
-        .when(
-            function() { bbBlog.sendResponse(res); }
-            ,function(err) {
-                console.log('error', err);
-                bbBlog.sendResponse(err);
-            }); 
-}
+// function save(req, res) {
+//     bbBlog.save(req, res, { auth: !develop_mode, basePath: basePath })
+//         .when(
+//             function() {
+//                 return blog(req);
+//             })
+//         .when(
+//             function() { bbBlog.sendResponse(res); }
+//             ,function(err) {
+//                 console.log('error', err);
+//                 bbBlog.sendResponse(err);
+//             }); 
+// }
     // sendMail = require("./firstDoorSendMail.js")
     // ,testSendMail = require("./testSendMail.js")
     // ,sync = require("./sync.j)
@@ -235,14 +237,14 @@ var options = {
     
     //If method and path match the functin will be called with [req, res].
     ,postHandlers: {
-        "/__api/save" : save
+        "/__api/save" : blog.save
         // "/contactus_form" : sendMail
         // ,"/contactus_form" : testSendMail
         }
     ,getHandlers: {
         // "/__api/test" : bbBlog.list,
-        // "/__api/create" : create, 
-        // "/__api/remove" : remove 
+        // "/__api/create" : blog.create, 
+        "/__api/remove" : blog.remove 
         // "/sync": sync,
         // "/dropbox_authorize": dropbox_authorize,
         // "/dropbox_connect": dropbox_connect

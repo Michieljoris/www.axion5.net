@@ -101,6 +101,10 @@ var exports = {
         ids: {
             title: '<title>Blog</title>'
             ,skewer: develop_mode ? '<script src="http://localhost:9090/skewer"></script>' : ' '
+            ,tagWidget: ''
+            ,recentWidget: ''
+            ,archiveWidget: ''
+            ,main: ''
             // ,recaptcha: '<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>'
             // ,fragment: '<meta name="fragment" content="!">'
             
@@ -266,7 +270,8 @@ var exports = {
                src: 'html/basicPage.html'
                ,tagIdPostfix: '' //can be overridden per template
                ,pathOut: '/'
-               ,out: 'www/index.html' //optional, relative to root
+               // ,out: 'www/index.html' //optional, relative to root
+               ,out: outPath //optional, relative to root
                
                //Maps tag ids to partial ids. Tag ids have to be
                //postfixed with two dashes in the template. Partials
