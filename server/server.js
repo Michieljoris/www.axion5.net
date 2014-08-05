@@ -13,7 +13,9 @@ var blog = require('bb-blog');
 blog.init({
     basePath: 'build',
     paths: ['editable', 'posts'],
-    pagination: 3
+    posts: 'posts',
+    pagination: 3,
+    auth: false
 });
 // var basePath = 'build';
 // function blog(req, res) {
