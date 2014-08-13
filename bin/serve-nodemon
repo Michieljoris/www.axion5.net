@@ -1,6 +1,6 @@
 #!/bin/sh
 nodemon \
--w ~/mysrc/javascript/bb-server \
+-w /media/212gig/mysrc/javascript/bb-server \
 -w ~/mysrc/javascript/bb-cms \
 -w server \
 server/server.js    

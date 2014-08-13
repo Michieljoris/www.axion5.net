@@ -8,15 +8,15 @@ var VOW = require('dougs_vow');
 var develop_mode = process.env.DEVELOP; 
 
 // var htmlBuilder = require('html-builder').build;
-var blog = require('bb-blog');
+// var blog = require('bb-blog');
 
-blog.init({
-    basePath: 'build',
-    paths: ['editable', 'posts'],
-    posts: 'posts',
-    pagination: 3,
-    auth: false
-});
+// blog.init({
+//     basePath: 'build',
+//     paths: ['editable', 'posts'],
+//     posts: 'posts',
+//     pagination: 3,
+//     auth: false
+// });
 // var basePath = 'build';
 // function blog(req, res) {
 //     var path = req.url.query.path;
@@ -238,14 +238,16 @@ var options = {
     
     //If method and path match the functin will be called with [req, res].
     ,postHandlers: {
-        "/__api/save" : blog.save
+        // "/__api/save" : blog.save
+        
         // "/contactus_form" : sendMail
         // ,"/contactus_form" : testSendMail
         }
     ,getHandlers: {
+        // "/__api/remove" : blog.remove 
+        
         // "/__api/test" : bbBlog.list,
         // "/__api/create" : blog.create, 
-        "/__api/remove" : blog.remove 
         // "/sync": sync,
         // "/dropbox_authorize": dropbox_authorize,
         // "/dropbox_connect": dropbox_connect

@@ -83,19 +83,25 @@ saveClick.onValue(function(e) {
 
 var testClick = $("#test-button").asEventStream("click");
 testClick.onValue(function(e) {
-    var request = new XMLHttpRequest();
-    console.log('test button clicked');
-    // saveFile('blog/articles/test.html', "some text");
     
-    request.open('GET', 'blog/articles.json', true);
-    request.setRequestHeader('Content-Type',
-                             'application/x-www-form-urlencoded; charset=UTF-8');
-    function reqListener () {
-        console.log(this.responseText);
-    }
+    var regexp = /<!--partial:([^>]*)-->/;
+    var data = $(".editable")[0].innerHTML;
+    log('data\n', data);
+    var fileName = regexp.exec(data)[1];
+    log('filename:', fileName);
+    // var request = new XMLHttpRequest();
+    // console.log('test button clicked');
+    // // saveFile('blog/articles/test.html', "some text");
+    
+    // request.open('GET', 'blog/articles.json', true);
+    // request.setRequestHeader('Content-Type',
+    //                          'application/x-www-form-urlencoded; charset=UTF-8');
+    // function reqListener () {
+    //     console.log(this.responseText);
+    // }
 
-    request.onload = reqListener;
-    request.send();
+    // request.onload = reqListener;
+    // request.send();
     
 });
 
