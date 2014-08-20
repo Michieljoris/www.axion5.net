@@ -259,7 +259,9 @@ var exports = {
                    ,leftbar: 'html/leftbar.html'
                    ,rightbar: 'html/rightbar.html'
                    ,bottom: 'html/bottom.html'
-                   ,main: 'post/sample-post.html'
+                   ,post1: 'post/sample-post.html'
+                   ,post2: 'post/sample-post2.html'
+                   ,post3: 'post/unpublished/sample-post2.html'
                    ,editbar: 'html/editbar.html'
                }
              }

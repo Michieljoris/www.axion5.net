@@ -115,8 +115,12 @@ function saveFile(fileName, data) {
 var newClick = $("#new-button").asEventStream("click");
 newClick.onValue(function(e) {
     log('new');
-    var fileName = prompt('New post title ?');
-    saveFile(fileName, 'new file');
+    var postTitle = prompt('New post title ?');
+    saveFile('post/unpublished/' + postTitle + '.html',
+             "<pre>publish: no\n" +
+             "title:" + postTitle + "\n\
+comments: no\n\
+delete: no</pre>\nWrite post here..");
 });
 
 var saveClick = $("#save-button").asEventStream("click");
@@ -124,10 +128,17 @@ saveClick.onValue(function(e) {
     var request = new XMLHttpRequest();
     log('save button clicked');
     var editables = document.querySelectorAll('.editable');
-    console.log(editables, editables.length);
+    
+    // var editables = editor.serialize();
+    // editables = Object.keys(editables)
+    //     .map(function(key) {
+    //         return editables[key].value;
+    //     });
+    // console.log(editables, editables.length);
     var posts = {};
     
-    for (var i = 0; i < editables.length; i++) {
+    // for (var i = 0; i < editables.length; i++) {
+    for (var i = 0; i < 1; i++) {
         unwrap(editables[i],"span"); // remove all spans, preserving their content
         
         var regexp = /<!--partial:([^>]*)-->([^]*)/;
@@ -135,19 +146,24 @@ saveClick.onValue(function(e) {
         var innerHTML = editables[i].innerHTML;
         innerHTML = innerHTML.replace(/<br>/g,'\n');
         editables[i].innerHTML = innerHTML;
-        log('data\n', innerHTML);
+        
+        // if (editableStrings[i] === innerHTML) continue; 
+        // editableStrings[i] = innerHTML;
+        
+        
+        // log('data\n', innerHTML);
         var result = regexp.exec(innerHTML);
-        log('result\n', result);
+        // log('result\n', result);
         var fileName = result[1];
         var text = result[2];
-        log('filename:', fileName);
-        log('text:', text);
+        // log('filename:', fileName);
+        // log('text:', text);
         // var filename = editables[i].dataset.filename;
         // posts[fileName] = editables[i].innerHTML;
         posts[fileName] = text;
         // articles[editables[i].id] = editables[i].innerHTML;
     }
-    console.log(posts);
+    // console.log(posts);
     Object.keys(posts).forEach(function(key) {
         saveFile(key, posts[key]);
     });
@@ -169,10 +185,18 @@ var toggle = 1;
 var testClick = $("#test-button").asEventStream("click");
 testClick.onValue(function(e) {
     console.log('test click');
-    // log(editor.serialize());
+    log('serialize', editor.serialize());
     var metas = document.querySelectorAll('.editable pre:first-of-type');
     metas = Array.prototype.slice.apply(metas);
-    log('metas:', metas);
+    var teaserBreaks = document.querySelectorAll('.editable pre');
+    // log('breaks: ', teaserBreaks);
+    teaserBreaks = Array.prototype.slice.apply(teaserBreaks);
+    teaserBreaks = teaserBreaks.filter(function(teaserBreak) {
+        // log('innerHTML', teaserBreak.innerHTML);
+        return teaserBreak.innerHTML.indexOf('-----') !== -1;
+    });
+    log('break:', teaserBreaks);
+    metas = metas.concat(teaserBreaks);
     metas.forEach(function(meta) {
         if (toggle) {
             meta.setAttribute('style', 'display:none;');   
@@ -185,6 +209,8 @@ testClick.onValue(function(e) {
             editor.activate();
         }
     });
+    
+    
     toggle = 1-toggle;
     // saveFile('blog/articles/test.html', "some text");
     // saveFile('post/test.html', "some text");
@@ -211,9 +237,26 @@ testClick.onValue(function(e) {
 });
 
 
-
+var editableStrings; 
 document.addEventListener('DOMContentLoaded', function(){
     log('document loaded');
     view = document.querySelectorAll('#view')[0];
+    var editables = document.querySelectorAll('.editable');
+    editables = Array.prototype.slice.apply(editables);
+    editableStrings = editables.map(function(editable) {
+        return editable.innerHTML;
+    });
+    log(editableStrings);
+    
+    
+    // for (var i = 0; i < editables.length; i++) {
+    //     // unwrap(editables[i],"span"); // remove all spans, preserving their content
+    //     // var regexp = /<!--partial:([^>]*)-->([^]*)/;
+    //     // var data = $(".editable")[0].innerHTML;
+    //     var innerHTML = editables[i].innerHTML;
+    //     innerHTML = innerHTML.replace(/<br>/g,'\n');
+    //     editables[i].innerHTML = innerHTML;
+    // } 
+    log(editables);
     // router.init(view);
 });
