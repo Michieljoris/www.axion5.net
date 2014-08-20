@@ -104,14 +104,8 @@
 //module info
     var m = {
 	"0": {
-		"filename": "/scripts/router.js",
-		"resolve": {}
-	},
-	"1": {
 		"filename": "/scripts/main.js",
-		"resolve": {
-			"./router.js": 0
-		}
+		"resolve": {}
 	}
 };
 })(this);

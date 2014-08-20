@@ -8,7 +8,7 @@ var routes = [
   ,{ path: '*', action: r404 }
 ];
 
-function index() {
+function index(context) {
     view.innerHTML = "<h1>404</h1><br>This path doesn\'t exist: " + context.path + '';
     console.log('index', arguments);
     var request = new XMLHttpRequest();

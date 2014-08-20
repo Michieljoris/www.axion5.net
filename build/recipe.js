@@ -259,7 +259,7 @@ var exports = {
                    ,leftbar: 'html/leftbar.html'
                    ,rightbar: 'html/rightbar.html'
                    ,bottom: 'html/bottom.html'
-                   ,main: 'html/main.html'
+                   ,main: 'post/sample-post.html'
                    ,editbar: 'html/editbar.html'
                }
              }
@@ -268,7 +268,7 @@ var exports = {
                src: 'html/basicPage.html'
                ,tagIdPostfix: '' //can be overridden per template
                ,pathOut: '/'
-               ,out: 'www/edit.html' //optional, relative to root
+               ,out: 'www/index.html' //optional, relative to root
                
                //Maps tag ids to partial ids. Tag ids have to be
                //postfixed with two dashes in the template. Partials
