@@ -138,7 +138,7 @@ saveClick.onValue(function(e) {
     var posts = {};
     
     // for (var i = 0; i < editables.length; i++) {
-    for (var i = 0; i < 1; i++) {
+    for (var i = 2; i < 3; i++) {
         unwrap(editables[i],"span"); // remove all spans, preserving their content
         
         var regexp = /<!--partial:([^>]*)-->([^]*)/;
