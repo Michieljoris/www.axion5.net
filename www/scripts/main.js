@@ -1,3 +1,23 @@
+ // { publish: true,
+ //  tags: [ 'tag1', 'tag2' ],
+ //  categories: [ 'cat1', 'cat2' ],
+ //  comments: true,
+ //  teaser: '<h3>Some title</h3><p>safdas</p><p>asdfasd</p><p>fasdfa</p><p>\n</p><p>\n</p><p></p><p>\n</p>',
+ //  existing: 
+ //   { fileName: 'build/post/unpublished/sample-post2.html',
+ //     publish: false,
+ //     tags: [ 'tag1', 'tag2' ],
+ //     categories: [ 'cat1', 'cat2' ],
+ //     comments: true,
+ //     created: Sun Jan 20 2013 00:00:00 GMT+1000 (EST),
+ //     title: 'Some title',
+ //     teaser: '<h3>Some title</h3><p>safdas</p><p>asdfasd</p><p>fasdfa</p><p>\n</p><p>\n</p><p></p><p>\n</p>',
+ //     published: Mon Mar 20 2000 00:00:00 GMT+1000 (EST) },
+ //  key: 'unpublished/sample-post2.html',
+ //  created: Sun Jan 20 2013 00:00:00 GMT+1000 (EST),
+ //  published: Mon Mar 20 2000 00:00:00 GMT+1000 (EST),
+ //  title: 'Some title' } (+1ms)
+
 var log = logthis._create('main.js');
 // logthis._on();
 // logthis['main.js']._enable();
@@ -116,52 +136,68 @@ var newClick = $("#new-button").asEventStream("click");
 newClick.onValue(function(e) {
     log('new');
     var postTitle = prompt('New post title ?');
-    saveFile('post/unpublished/' + postTitle + '.html',
-             "<pre>publish: no\n" +
+    //TODO make sure postTitle is unique!!!!
+    saveFile('post/' + postTitle + '.html',
+             "<pre>published: no\n" +
              "title:" + postTitle + "\n\
 comments: no\n\
 delete: no</pre>\nWrite post here..");
 });
 
+function cleanseOfTags(str) {
+    log(str, str.length);
+    var result = '';
+    var ignore;
+    for (var i = 0; i < str.length; i++) {
+        var c = str[i];
+        if (c === '<') ignore = true;
+        if (!ignore) result += c;
+        if (c === '>') ignore = false;
+    }
+    return result;
+}
+
+
+var regexp = /<!--partial:([^>]*)-->([^]*)/;
 var saveClick = $("#save-button").asEventStream("click");
 saveClick.onValue(function(e) {
     var request = new XMLHttpRequest();
     log('save button clicked');
     var editables = document.querySelectorAll('.editable');
     
-    // var editables = editor.serialize();
-    // editables = Object.keys(editables)
-    //     .map(function(key) {
-    //         return editables[key].value;
-    //     });
-    // console.log(editables, editables.length);
     var posts = {};
     
     // for (var i = 0; i < editables.length; i++) {
-    for (var i = 2; i < 3; i++) {
+    for (i = 2; i < 3; i++) {
+        //patch/fix of chrome bug:
         unwrap(editables[i],"span"); // remove all spans, preserving their content
-        
-        var regexp = /<!--partial:([^>]*)-->([^]*)/;
-        // var data = $(".editable")[0].innerHTML;
-        var innerHTML = editables[i].innerHTML;
+    }    
+    
+    var pres = document.querySelectorAll('.editable pre:first-of-type');
+    for (var i = 0; i < pres.length; i++) {
+        unwrap(pres[i],"p",function(elm) {
+            elm.parentNode.insertBefore(document.createElement('br'),elm);
+        });
+        var innerHTML = pres[i].innerHTML;
         innerHTML = innerHTML.replace(/<br>/g,'\n');
-        editables[i].innerHTML = innerHTML;
+        pres[i].innerHTML = cleanseOfTags(innerHTML);
+    }
+    // for (var i = 0; i < editables.length; i++) {
+    for (i = 2; i < 3; i++) {
+        innerHTML = editables[i].innerHTML;
+        // if (innerHTML.trim().slice(innerHTML.length -6) == '</pre>')
+        //     innerHTML += "<p>Enter text here</p>";
+        // editables[i].innerHTML = innerHTML;
         
         // if (editableStrings[i] === innerHTML) continue; 
         // editableStrings[i] = innerHTML;
         
         
-        // log('data\n', innerHTML);
         var result = regexp.exec(innerHTML);
-        // log('result\n', result);
         var fileName = result[1];
         var text = result[2];
-        // log('filename:', fileName);
-        // log('text:', text);
-        // var filename = editables[i].dataset.filename;
         // posts[fileName] = editables[i].innerHTML;
         posts[fileName] = text;
-        // articles[editables[i].id] = editables[i].innerHTML;
     }
     // console.log(posts);
     Object.keys(posts).forEach(function(key) {

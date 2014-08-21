@@ -261,7 +261,7 @@ var exports = {
                    ,bottom: 'html/bottom.html'
                    ,post1: 'post/sample-post.html'
                    ,post2: 'post/sample-post2.html'
-                   ,post3: 'post/unpublished/sample-post2.html'
+                   ,post3: 'post/Some title.html'
                    ,editbar: 'html/editbar.html'
                }
              }
