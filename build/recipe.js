@@ -101,12 +101,16 @@ var exports = {
     //to generate a string to save to the file defined in 'out'.
     ,partials: {
         ids: {
-            title: '<title>Blog</title>'
-            ,skewer: develop_mode ? '<script src="http://localhost:9090/skewer"></script>' : ' '
+            main: "place holder for content"
+            ,tagWidget: '<br>tag widget here'
+            ,recentWidget: 'recent widget here'
+            ,archiveWidget: '<br>archive widget here'
+            // title: '<title>Blog</title>',
+            // skewer: develop_mode ? '<script src="http://localhost:9090/skewer"></script>' : ' '
             // ,recaptcha: '<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>'
             // ,fragment: '<meta name="fragment" content="!">'
             
-            ,hello_world: '<h2>Hello world. Build on this scaffold!!!</h2>'
+            // hello_world: '<h2>Hello world. Build on this scaffold!!!</h2>'
         }
         ,metaBlock : {
             id: 'meta',
@@ -186,10 +190,10 @@ var exports = {
                     ,'bower/bootstrap/dist/js/bootstrap.js'
                     ,"bower/modernizr/modernizr.js"
                     ,"bower/bacon/dist/Bacon.min.js"
-                    ,"bower/mori/mori.js"
+                    // ,"bower/mori/mori.js"
                     ,"bower/logthis/logthis.js"
-                    ,"bower/ractive/ractive.js"
-                    ,"bower/vue/dist/vue.js"
+                    // ,"bower/ractive/ractive.js"
+                    // ,"bower/vue/dist/vue.js"
                     ,"medium-editor.js"
                     ,"epiceditor.js"
                     //The following will be substitud with the list of required
@@ -249,6 +253,7 @@ var exports = {
             //       // doc: 'markdown/doc.md'
             //   }
             // },
+            { id: 'title', src: 'html/title.html' },
             //Main layout
             { id: 'body'
                ,src: 'html/body.html' 
@@ -256,12 +261,13 @@ var exports = {
                ,mapping: {
                    // editbar: 'html/editbar.html'
                    header: 'html/header.html'
-                   ,leftbar: 'html/leftbar.html'
-                   ,rightbar: 'html/rightbar.html'
+                   ,leftbar: 'recentWidget'
+                   ,rightbar: ['archiveWidget', 'tagWidget']
+                   // ,leftbar: 'html/leftbar.html'
+                   // ,rightbar: 'html/rightbar.html'
                    ,bottom: 'html/bottom.html'
-                   ,post1: 'post/sample-post.html'
-                   ,post2: 'post/sample-post2.html'
-                   ,post3: 'post/Some title.html'
+                   // ,main: 'post/sample-post.html'
+                   ,main: 'main'
                    ,editbar: 'html/editbar.html'
                }
              }

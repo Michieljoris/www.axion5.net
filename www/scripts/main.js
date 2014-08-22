@@ -167,8 +167,8 @@ saveClick.onValue(function(e) {
     
     var posts = {};
     
-    // for (var i = 0; i < editables.length; i++) {
-    for (i = 2; i < 3; i++) {
+    for (var i = 0; i < editables.length; i++) {
+    // for (i = 2; i < 3; i++) {
         //patch/fix of chrome bug:
         unwrap(editables[i],"span"); // remove all spans, preserving their content
     }    
@@ -182,18 +182,20 @@ saveClick.onValue(function(e) {
         innerHTML = innerHTML.replace(/<br>/g,'\n');
         pres[i].innerHTML = cleanseOfTags(innerHTML);
     }
-    // for (var i = 0; i < editables.length; i++) {
-    for (i = 2; i < 3; i++) {
+    for (var i = 0; i < editables.length; i++) {
+    // for (i = 2; i < 3; i++) {
         innerHTML = editables[i].innerHTML;
         // if (innerHTML.trim().slice(innerHTML.length -6) == '</pre>')
         //     innerHTML += "<p>Enter text here</p>";
         // editables[i].innerHTML = innerHTML;
         
+        //UNCOMMENT!!!!!!
         // if (editableStrings[i] === innerHTML) continue; 
         // editableStrings[i] = innerHTML;
         
         
         var result = regexp.exec(innerHTML);
+        if (!result) continue;
         var fileName = result[1];
         var text = result[2];
         // posts[fileName] = editables[i].innerHTML;
@@ -205,6 +207,26 @@ saveClick.onValue(function(e) {
     });
     // // saveFile('nojs/test.html', "some text");
 });
+
+
+var renderClick = $("#render-button").asEventStream("click");
+renderClick.onValue(function(e) {
+    log('render');
+    var request = new XMLHttpRequest();
+    
+    // $http.post('__api/save?path=' + fileName, data).
+    request.open('GET', '__api/render', true);
+    // request.setRequestHeader('Content-Type',
+    //                          'application/x-www-form-urlencoded; charset=UTF-8');
+    function reqListener () {
+        console.log('response: ', this.responseText);
+    }
+
+    request.onload = reqListener;
+    request.send();
+    
+});
+
 
 var deleteClick = $("#delete-button").asEventStream("click");
 deleteClick.onValue(function(e) {
@@ -233,16 +255,20 @@ testClick.onValue(function(e) {
     });
     log('break:', teaserBreaks);
     metas = metas.concat(teaserBreaks);
+    if (toggle) {
+        document.querySelector('#test-button').innerHTML = 'Edit';
+        editor.deactivate();   
+    }
+    else {
+        document.querySelector('#test-button').innerHTML = 'Done';
+        editor.activate();   
+    }
     metas.forEach(function(meta) {
         if (toggle) {
             meta.setAttribute('style', 'display:none;');   
-            document.querySelector('#test-button').innerHTML = 'Edit';
-            editor.deactivate();
         }
         else {
             meta.removeAttribute('style');   
-            document.querySelector('#test-button').innerHTML = 'Done';
-            editor.activate();
         }
     });
     

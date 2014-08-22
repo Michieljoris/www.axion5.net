@@ -105,7 +105,7 @@ module.exports = {
         "bb-server": "git://github.com/michieljoris/bb-server.git",
         "html-builder": "git://github.com/michieljoris/html-builder.git",
         "fs-extra": "0.8.x"
-	,"bb-cms": "*"
+	,"bb-blog": "*"
         ,"dougs_vow": "*"
         ,"logthis": '*'
 	// "dbox": "*",

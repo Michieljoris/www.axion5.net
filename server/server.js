@@ -11,11 +11,13 @@ var develop_mode = process.env.DEVELOP;
 var blog = require('bb-blog');
 
 blog.init({
-    basePath: 'build',
-    paths: ['editable', 'post'],
-    posts: 'post',
+    paths: { base: 'build' , posts: 'post' },
+    writable: ['editable', 'post'],
     pagination: 3,
     auth: false
+    ,widgets: {
+        recent: { max: 3, save: true } ,archive: { save: true } ,tag: { save: true, max: 3 }
+    }
 });
 // var basePath = 'build';
 // function blog(req, res) {
@@ -244,7 +246,8 @@ var options = {
         // ,"/contactus_form" : testSendMail
         }
     ,getHandlers: {
-        "/__api/remove" : blog.remove 
+        "/__api/remove" : blog.remove,
+        "/__api/render" : blog.render 
         
         // "/__api/test" : bbBlog.list,
         // "/__api/create" : blog.create, 

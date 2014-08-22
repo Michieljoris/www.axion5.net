@@ -1,7 +1,26 @@
 body {
-    margin-top:20px;
+    margin-top:40px;
 } 
 
 .editable {
     margin-bottom:10px;
 }
+
+.box {
+    /* border: black solid 1px; */
+}
+
+ul {
+    margin-left:0px;
+    padding-left:0px;
+    list-style:none;
+}
+
+#archive-partial ul {
+    padding-left: 8px;
+    margin-left: 0px;
+    font-size: 12px;
+}
+
+
+
