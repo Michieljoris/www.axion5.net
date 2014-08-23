@@ -7,14 +7,19 @@ var fromTemplate = { id: 'body'
                      ,mapping: {
                          // editbar: 'html/editbar.html'
                          header: 'html/header.html'
-                         ,leftbar: 'recentWidget'
-                         ,rightbar: ['archiveWidget', 'tagWidget']
+                         ,leftbar: 'recentWidgetWrapper'
+                         
+                         ,rightbar: ['recentWidgetWrapper', 'tagWidgetWrapper',
+                                     'archiveWidgetWrapper']
                          // ,leftbar: 'html/leftbar.html'
                          // ,rightbar: 'html/rightbar.html'
                          ,bottom: 'html/bottom.html'
                          // ,main: 'post/sample-post.html'
+                         ,pageTitle: "pageTitle"
                          ,main: 'html/post.html'
                          ,editbar: 'html/editbar.html'
+                         ,"disqus-embed": "html/disqus-embed.html"
+                         ,"disqus-count": "html/disqus-count.html"
                      }
                    };
 
@@ -156,6 +161,7 @@ var exports = {
             tagWidget: '<br>tag widget here'
             ,recentWidget: 'recent widget here'
             ,archiveWidget: '<br>archive widget here'
+            ,pageTitle: 'insert title here'
             // title: '<title>Blog</title>',
             // skewer: develop_mode ? '<script src="http://localhost:9090/skewer"></script>' : ' '
             // ,recaptcha: '<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>'
@@ -191,6 +197,7 @@ var exports = {
                 // ,'vendor/checkboxes.css'
                 
                 ,'main.css'
+                ,'main-edit.css'
             ]
             ,path: 'css'
         }
@@ -305,6 +312,27 @@ var exports = {
             //   }
             // },
             { id: 'title', src: 'html/title.html' },
+            
+            { id: "archiveWidgetWrapper",
+              src: "html/archiveWidgetWrapper",
+              mapping: {
+                  widget: 'archiveWidget'
+              }
+            },
+            
+            { id: "tagWidgetWrapper",
+              src: "html/tagWidgetWrapper",
+              mapping: {
+                  widget: 'tagWidget'
+              }
+            },
+            
+            { id: "recentWidgetWrapper",
+              src: "html/recentWidgetWrapper",
+              mapping: {
+                  widget: 'recentWidget'
+              }
+            },
             fromTemplate,
             toTemplate
             //Main layout

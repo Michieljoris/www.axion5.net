@@ -20,12 +20,9 @@
     <script src="js/angular-ui-ieshiv.js"></script>
     <![endif]-->						    
 
-<script type="text/javascript" src="/denodify.js"></script>
 
 <link rel="stylesheet" type="text/css" href="/css/bower/normalize.css/normalize.css">
 <link rel="stylesheet" type="text/css" href="/css/bower/bootstrap/dist/css/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="/css/medium-editor.css">
-<link rel="stylesheet" type="text/css" href="/css/medium-default-theme.css">
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 
 <script type='text/javascript'>function cachify(path) { return path; }</script></head>
@@ -33,54 +30,124 @@
     <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
 
-<div class="container">
+<div id="main" class="holder container-fluid">
 
 
   <!-- <div class="row"> -->
-  <div id="editbar--" ><!--partial:html/editbar.html--><div class="navbar navbar-default navbar-fixed-top col-xs-12" style="padding-top:5px;">
-  <button id="new-button" class="btn btn-info">New</button>
-  <button id="save-button" class="btn btn-info">Save</button>
-  <button id="delete-button" class="btn btn-info">Delete</button>
-  <button id="test-button" class="btn btn-info">Done</button>
-  <button id="render-button" class="btn btn-info">Render</button>
-</div>
-</div>
+  <div id="editbar--" > </div>
   <!-- </div> -->
 
-  <div class="row">
-    <div id="header--" class="col-xs-12"><!--partial:html/header.html--><h1>My blog</h1>
+  <div class="header row">
+    <div id="header--" class="col-xs-12"><!--partial:html/header.html--><h1><a href="/">My blog</a></h1>
 </div>
   </div>
 
 
-  <div class="row">
+  <div id="body" class="row">
 
-    <div id="leftbar--" class="well well-sm box col-xs-2">recent widget here</div>
 
-    <div  class="box col-xs-8">
-      <div  id="main--" class="well well-sm editable">place holder for content</div>
+    <div  class="col-xs-10">
+      <div id="pageTitle--">Latest</div>
+      <div  id="main--" class="editable"><div class="box teaser">
+<h2>sample-post</h2>
+<p>bla asdfasdfas\\test]</p>
+<span class="more"><a href="/post/sample-post.html">More</a></span>
+</div>
+<div class="box teaser">
+<h2>short title</h2>
+<h3>Some title</h3><p>safdas</p><p>asdfasd</p><p>fasdfa</p><p>
+</p><p>
+</p><p></p><p>
+</p>
+
+<span class="more"><a href="/post/short-title.html">More</a></span>
+</div>
+<div class="box teaser">
+<h2>Editable post changed title</h2>
+<p>ok then</p><h3>Editable postasdfasdfasdfasdf</h3><p>asdfadttregdsgsfdg</p><p>safdaseditededited</p><p>refasdfgsdgsfdgsdfgd</p><p>asdfasd</p><p>fasdfa</p><p>
+</p><p>
+</p><p></p><p>
+</p>
+
+<span class="more"><a href="/post/editable-post-changed-title.html">More</a></span>
+</div><nav id="page-nav">
+  <span class="page-number current">  1  </span>
+  <a class="page-number" href="/page2">  2  </a>
+  <a class="extend next" href="/page2">  Next »  </a>
+</nav></div>
+      <div  id="disqus-embed--"> </div>
+      <div  id="disqus-count--"> </div>
     </div>
 
 
-    <div id="rightbar--" class="well well-sm box col-xs-2"><br>archive widget here<br>tag widget here</div>
-
-  </div>
-
-  <div class="row">
-    <div id="bottom--" class="well well-sm box col-xs-12"><!--partial:html/bottom.html-->Bottom
+    <div id="rightbar--" class="box col-xs-2"><!--partial:html/recentWidgetWrapper.html--><div class="widget">
+  <b>Recent posts</b>
+  <div id="widget--"><ul id="most-recent-partial">
+  <li><a href="/post/sample-post.html">sample-post</a></li>
+  <li><a href="/post/short-title.html">short title</a></li>
+  <li><a href="/post/editable-post-changed-title.html">Editable post changed title</a></li>
+</ul></div>
 </div>
+<!--partial:html/tagWidgetWrapper.html--><div class="widget">
+  <b>Tags</b>
+  <div id="widget--"><ul id="by-tag-partial">
+  <li><a href="/tag/tag1">tag1</a> (4)</li>
+  <li><a href="/tag/tag2">tag2</a> (2)</li>
+  <li><a href="/tag/t4">t4</a> (1)</li>
+</ul></div>
+</div>
+<!--partial:html/archiveWidgetWrapper.html--><div class="widget">
+  <b>Archive</b>
+  <div id="widget--"><ul class="css-treeview" id="archive-partial">
+ <li><a  href="/1990" >1990</a>
+  <ul>
+   <li><a  href="/1990/March" >March</a>
+    <ul>
+     <li><a  href="/post/editable-post-changed-title.html" >Editable post changed title</a></li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li><a  href="/2006" >2006</a>
+  <ul>
+   <li><a  href="/2006/March" >March</a>
+    <ul>
+     <li><a  href="/post/short-title.html" >short title</a></li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li><a  href="/2010" >2010</a>
+  <ul>
+   <li><a  href="/2010/March" >March</a>
+    <ul>
+     <li><a  href="/post/sample-post.html" >sample-post</a></li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li><a  href="/2014" >2014</a>
+  <ul>
+   <li><a  href="/2014/August" >August</a>
+    <ul>
+     <li><a  href="/post/my-new-post.html" >My new post</a></li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul></div>
+</div>
+</div>
+
   </div>
+
+  <footer id="bottom--"><!--partial:html/bottom.html-->Footer
+</footer>
+
+</div>
 
 <script type="text/javascript" src="/scripts/bower/jquery/dist/jquery.js"></script>
-<script type="text/javascript" src="/scripts/bower/page/index.js"></script>
 <script type="text/javascript" src="/scripts/bower/bootstrap/dist/js/bootstrap.js"></script>
-<script type="text/javascript" src="/scripts/bower/modernizr/modernizr.js"></script>
-<script type="text/javascript" src="/scripts/bower/bacon/dist/Bacon.min.js"></script>
-<script type="text/javascript" src="/scripts/bower/logthis/logthis.js"></script>
-<script type="text/javascript" src="/scripts/medium-editor.js"></script>
-<script type="text/javascript" src="/scripts/epiceditor.js"></script>
-<script type="text/javascript" src="/scripts/main.js?module=0"></script>
-<script type="text/javascript" src="/scripts/start.js"></script>
 </body>
 </html>	
 	 

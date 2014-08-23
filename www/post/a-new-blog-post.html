@@ -1,0 +1,120 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" xmlns:ng="http://angularjs.org" lang="en"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" xmlns:ng="http://angularjs.org" lang="en"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" xmlns:ng="http://angularjs.org" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> 
+<html class="no-js" xmlns:ng="http://angularjs.org" lang="en">
+  <!--<![endif]-->
+  <head id="head"><!--partial:html/title.html--><title>My blog</title>
+<meta charset='utf-8'/><meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/><meta content='' name='description'/><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'/>
+<!--partial:html/ieshim.html--><!--[if lte IE 8]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script>
+      // The ieshiv takes care of our ui.directives, bootstrap module directives and 
+      // AngularJS's ng-view, ng-include, ng-pluralize and ng-switch directives.
+      // However, IF you have custom directives (yours or someone else's) then
+      // enumerate the list of tags in window.myCustomTags
+
+      window.myCustomTags = [ 'yourDirective', 'somebodyElsesDirective' ]; // optional
+    </script>
+    <script src="js/angular-ui-ieshiv.js"></script>
+    <![endif]-->						    
+
+<script type="text/javascript" src="/denodify.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/css/bower/normalize.css/normalize.css">
+<link rel="stylesheet" type="text/css" href="/css/bower/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/css/medium-editor.css">
+<link rel="stylesheet" type="text/css" href="/css/medium-default-theme.css">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+
+<script type='text/javascript'>function cachify(path) { return path; }</script></head>
+  <body id="body"><!--partial:html/body.html--><!--[if lt IE 7]>
+    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
+
+<div class="container">
+
+
+  <!-- <div class="row"> -->
+  <div id="editbar--" ><!--partial:html/editbar.html--><div class="navbar navbar-default navbar-fixed-top col-xs-12" style="padding-top:5px;">
+  <button id="new-button" class="btn btn-info">New</button>
+  <button id="save-button" class="btn btn-info">Save</button>
+  <button id="delete-button" class="btn btn-info">Delete</button>
+  <button id="test-button" class="btn btn-info">Done</button>
+  <button id="render-button" class="btn btn-info">Render</button>
+</div>
+</div>
+  <!-- </div> -->
+
+  <div class="row">
+    <div id="header--" class="col-xs-12"><!--partial:html/header.html--><h1>My blog</h1>
+</div>
+  </div>
+
+
+  <div class="row">
+
+    <div id="leftbar--" class="well well-sm box col-xs-2"><ul id="most-recent-partial">
+  <li><a href="/post/basdfe-title.html">basdfe title</a></li>
+  <li><a href="/post/sample-post.html">sample-post</a></li>
+  <li><a href="/post/editable-postokthen123456.html">Editable postokthen123456</a></li>
+</ul></div>
+
+    <div  class="box col-xs-8">
+      <h2 id="blog-title--">A new blog post</h2>
+      <div  id="main--" class="well well-sm editable"><div class='row' style='margin-left: 0; padding-left:10px; border:solid grey 1px; height:40; width:100%;'>placeholder for post/A new blog post.html</div></div>
+    </div>
+
+
+    <div id="rightbar--" class="well well-sm box col-xs-2"><ul class="css-treeview" id="archive-partial">
+ <li><a  href="/1990" >1990</a>
+  <ul>
+   <li><a  href="/1990/2" >Mar</a>
+    <ul>
+     <li><a  href="/post/editable-postokthen123456.html" >Editable postokthen123456</a></li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li><a  href="/2000" >2000</a>
+  <ul>
+   <li><a  href="/2000/2" >Mar</a>
+    <ul>
+     <li><a  href="/post/sample-post.html" >sample-post</a></li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li><a  href="/2006" >2006</a>
+  <ul>
+   <li><a  href="/2006/2" >Mar</a>
+    <ul>
+     <li><a  href="/post/basdfe-title.html" >basdfe title</a></li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul><ul id="by-tag-partial">
+  <li><a href="tag/tag1">tag1</a> (3)</li>
+  <li><a href="tag/tag2">tag2</a> (3)</li>
+</ul></div>
+
+  </div>
+
+  <div class="row">
+    <div id="bottom--" class="well well-sm box col-xs-12"><!--partial:html/bottom.html-->Bottom
+</div>
+  </div>
+
+<script type="text/javascript" src="/scripts/bower/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="/scripts/bower/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="/scripts/bower/modernizr/modernizr.js"></script>
+<script type="text/javascript" src="/scripts/bower/bacon/dist/Bacon.min.js"></script>
+<script type="text/javascript" src="/scripts/bower/logthis/logthis.js"></script>
+<script type="text/javascript" src="/scripts/medium-editor.js"></script>
+<script type="text/javascript" src="/scripts/main.js?module=0"></script>
+<script type="text/javascript" src="/scripts/start.js"></script>
+</body>
+</html>	
+	 

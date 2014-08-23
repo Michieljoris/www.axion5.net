@@ -1,13 +1,9 @@
 body {
-    margin-top:40px;
+    /* margin-top:40px; */
 } 
 
 .editable {
     margin-bottom:10px;
-}
-
-.box {
-    /* border: black solid 1px; */
 }
 
 ul {
@@ -23,4 +19,96 @@ ul {
 }
 
 
+.box {
+    -webkit-box-shadow: 1px 2px 3px #ddd;
+    box-shadow: 1px 2px 3px #ddd;
+    background: #fff;
+}
+
+#pageTitle-- time {
+    font-size: 12px;
+}
+
+
+/* /\* Sticky bottom *\/ */
+.header {
+    padding-bottom:10px;
+}
+
+.header .title {
+    margin-bottom:0px
+}
+
+html,body{
+    height: 100%
+}
+
+.holder{
+    min-height: 100%;
+    position:relative;
+}
+
+#body{
+    /* padding-bottom: 100px;    /\* height of footer *\/ */
+}
+
+footer{
+    height: 100px; 
+    width:100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: #f8f8f8;
+}
+
+
+.footer {
+    background:#f8f8f8;  
+}
+
+/* Multi page navigation */
+
+#page-nav {
+    zoom: 1;
+    margin: 50px auto;
+    background: #fff;
+    -webkit-box-shadow: 1px 2px 3px #ddd;
+    box-shadow: 1px 2px 3px #ddd;
+    border: 1px solid #ddd;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    text-align: center;
+    color: #999;
+    overflow: hidden;
+}
+
+#page-nav .prev {
+    float: left;
+}
+
+#page-nav .next {
+    float: right;
+}
+
+#page-nav a {
+    color: #999;
+    text-decoration: none;
+}
+
+#page-nav a, #page-nav span {
+    padding: 
+}
+
+#page-nav .page-number {
+    display: inline-block;
+}
+
+#page-nav a {
+    color: #999;
+    text-decoration: none;
+}
+
+#page-nav a, #page-nav span {
+    padding: 10px 20px;
+}
 

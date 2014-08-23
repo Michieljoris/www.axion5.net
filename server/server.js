@@ -26,7 +26,7 @@ blog.init({
         // *** a tag page, paginated, teasers
         // links to other pages when more than one page
         // previous, next, page number, last, first page
-        ,tag: true
+        ,tag: { path: 'tag' }
         // *** a month page, paginated, teasers
         // next/previous month/year
         // links to other pages when more than one page
@@ -39,17 +39,25 @@ blog.init({
         // ,year: 'some year recipe.js'
         ,year: true
         // *** a landing page with all posts (paginated)
-        ,landing: {
-            recipe: 'generic-recipe.js'
-        }
+        ,landing: true
+        // ,landing: {
+        //     from: [ 'fromTemplate', 'mapping', 'main'],
+        //     to: [ 'toTemplate', 'out' ]
+        // }
+        // ,landing: {
+        //     recipe: 'generic-recipe.js'
+        // }
         // *** a page with the post
         ,post: {
             recipe: 'editable-post-recipe.js',
-            from: [ 'fromTemplate', 'mapping', 'main'],
-            to: [ 'toTemplate', 'out' ]
+            path: 'post'
+            // from: [ 'fromTemplate', 'mapping', 'main'],
+            // to: [ 'toTemplate', 'out' ]
         }
     }
-    
+    ,recipe: 'default-recipe.js'
+    ,from: [ 'fromTemplate', 'mapping', 'main']
+    ,to: [ 'toTemplate', 'out' ]
 });
 // var basePath = 'build';
 // function blog(req, res) {
@@ -244,7 +252,7 @@ var options = {
     //is index.html, but a different filename can get assigned to spa. Use a
     //fragment meta tag in your spa file, or use hashbang in your urls to have
     //google crawl _escaped_fragment_ urls.
-    ,spa: true
+    ,spa: false
     
     //the server can prerender requests for _escaped_fragment_ urls. For any
     // prerendering to occur the following option needs to be true. Defaults to
