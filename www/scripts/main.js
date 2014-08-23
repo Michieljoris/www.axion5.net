@@ -73,8 +73,8 @@ function removeFile(fileName) {
     log('removing file ' + fileName);
     var request = new XMLHttpRequest();
     
-    // $http.post('__api/save?path=' + fileName, data).
-    request.open('GET', '__api/remove?path=' + fileName, true);
+    // $http.post('/__api/save?path=' + fileName, data).
+    request.open('GET', '/__api/remove?path=' + fileName, true);
     // request.setRequestHeader('Content-Type',
     //                          'application/x-www-form-urlencoded; charset=UTF-8');
     function reqListener () {
@@ -94,8 +94,8 @@ function saveFile(fileName, data) {
     console.log('Saving file ' + fileName);
     var request = new XMLHttpRequest();
     
-    // $http.post('__api/save?path=' + fileName, data).
-    request.open('POST', '__api/save?path=' + fileName, true);
+    // $http.post('/__api/save?path=' + fileName, data).
+    request.open('POST', '/__api/save?path=' + fileName, true);
     request.setRequestHeader('Content-Type',
                              'application/x-www-form-urlencoded; charset=UTF-8');
     function reqListener () {
@@ -214,8 +214,8 @@ renderClick.onValue(function(e) {
     log('render');
     var request = new XMLHttpRequest();
     
-    // $http.post('__api/save?path=' + fileName, data).
-    request.open('GET', '__api/render', true);
+    // $http.post('/__api/save?path=' + fileName, data).
+    request.open('GET', '/__api/render', true);
     // request.setRequestHeader('Content-Type',
     //                          'application/x-www-form-urlencoded; charset=UTF-8');
     function reqListener () {
