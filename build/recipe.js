@@ -1,8 +1,65 @@
 var develop_mode = process.env.DEVELOP; 
 // module.exports = {
 
+var fromTemplate = { id: 'body'
+                     ,src: 'html/body.html' 
+                     // ,tagIdPostfix: '--' //can be overridden per template
+                     ,mapping: {
+                         // editbar: 'html/editbar.html'
+                         header: 'html/header.html'
+                         ,leftbar: 'recentWidgetWrapper'
+                         
+                         ,rightbar: ['recentWidgetWrapper', 'tagWidgetWrapper',
+                                     'archiveWidgetWrapper']
+                         // ,leftbar: 'html/leftbar.html'
+                         // ,rightbar: 'html/rightbar.html'
+                         ,bottom: 'html/bottom.html'
+                         // ,main: 'post/sample-post.html'
+                         ,pageTitle: "pageTitle"
+                         ,main: 'html/post.html'
+                         ,editbar: 'html/editbar.html'
+                         // ,"disqus-embed": "html/disqus-embed.html"
+                         // ,"disqus-count": "html/disqus-count.html"
+                     }
+                   };
+
+var toTemplate = {  
+    src: 'html/basicPage.html'
+    ,tagIdPostfix: '' //can be overridden per template
+    ,pathOut: '/'
+    ,out: 'www/edit.html' //optional, relative to root
+    
+    //Maps tag ids to partial ids. Tag ids have to be
+    //postfixed with two dashes in the template. Partials
+    //with an extension will be loaded from the partials
+    //folder for this template. Markdown files will be
+    //converted to html. Partials in an array will be
+    //concatenated before inserted at the tag id element
+    
+    //Make sure to have the cachify partial included in the head if
+    //you want to dynamically load resources from javascript, but
+    //want to retrieve cachified versions. Include the resources
+    //under cachify.list
+    ,mapping: {
+        head: ['title',
+               'meta',  'html/ieshim',//'skewer',
+               // 'firebug',
+               'headJsBlock',
+               'linkBlock'
+               ,'cachify'
+              ],
+        
+        "body": ['body', 'jsBlock'
+                 
+                 // ,'html/google_analytics.html'
+                ]
+    }
+};
+
 var exports = {
-    verbose: true
+    fromTemplate: fromTemplate,
+    toTemplate: toTemplate
+    ,verbose: true
     ,printMap: false
     ,prettyPrintHtml: false
     // ,tagIdPostfix: '__' //can be overridden per template
@@ -67,7 +124,7 @@ var exports = {
     //hash or mtime, query or modified filename
     
     ,cachify : develop_mode ? false : {
-    // ,cachify : {
+        // ,cachify : {
         exclude: ['doc', 'docx'] //for instance ['pdf', 'doc']
         ,method: 'sha1' //mtime or any of the hashes returned from crypto.getHashes()
         // (var crypto = require('crypto');
@@ -101,10 +158,10 @@ var exports = {
     //to generate a string to save to the file defined in 'out'.
     ,partials: {
         ids: {
-            main: "place holder for content"
-            ,tagWidget: '<br>tag widget here'
+            tagWidget: '<br>tag widget here'
             ,recentWidget: 'recent widget here'
             ,archiveWidget: '<br>archive widget here'
+            ,pageTitle: 'insert title here'
             // title: '<title>Blog</title>',
             // skewer: develop_mode ? '<script src="http://localhost:9090/skewer"></script>' : ' '
             // ,recaptcha: '<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>'
@@ -140,6 +197,7 @@ var exports = {
                 // ,'vendor/checkboxes.css'
                 
                 ,'main.css'
+                ,'main-edit.css'
             ]
             ,path: 'css'
         }
@@ -157,7 +215,7 @@ var exports = {
                 id: 'headJsBlock',
                 files: [
                 ],
-                path: 'scripts/'
+                path: ''
             },
             {
                 id: 'jsBlock',
@@ -174,7 +232,7 @@ var exports = {
                     // ,'graphics.js',
                     // ,'renderer.js'
                     // ,'main.js'
-                   
+                    
                     // ,'vendor/noconsole.js'
                     //,'vendor/jquery-1.6.2.min.js'
                     //,'vendor/jquery-1.8.3.min.js'
@@ -185,7 +243,7 @@ var exports = {
                     // ,'angular.js'
                     // ,'test.coffee'
                     "bower/jquery/dist/jquery.js"
-                    ,"bower/page/index.js"
+                    // ,"bower/page/index.js"
                     // "vendor/jquery-1.6.2.js"
                     ,'bower/bootstrap/dist/js/bootstrap.js'
                     ,"bower/modernizr/modernizr.js"
@@ -195,7 +253,7 @@ var exports = {
                     // ,"bower/ractive/ractive.js"
                     // ,"bower/vue/dist/vue.js"
                     ,"medium-editor.js"
-                    ,"epiceditor.js"
+                    // ,"epiceditor.js"
                     //The following will be substitud with the list of required
                     //modules, in the proper order, also the module enabler
                     //script will be added before the first module in every
@@ -254,56 +312,30 @@ var exports = {
             //   }
             // },
             { id: 'title', src: 'html/title.html' },
+            
+            { id: "archiveWidgetWrapper",
+              src: "html/archiveWidgetWrapper",
+              mapping: {
+                  widget: 'archiveWidget'
+              }
+            },
+            
+            { id: "tagWidgetWrapper",
+              src: "html/tagWidgetWrapper",
+              mapping: {
+                  widget: 'tagWidget'
+              }
+            },
+            
+            { id: "recentWidgetWrapper",
+              src: "html/recentWidgetWrapper",
+              mapping: {
+                  widget: 'recentWidget'
+              }
+            },
+            fromTemplate,
+            toTemplate
             //Main layout
-            { id: 'body'
-               ,src: 'html/body.html' 
-               // ,tagIdPostfix: '--' //can be overridden per template
-               ,mapping: {
-                   // editbar: 'html/editbar.html'
-                   header: 'html/header.html'
-                   ,leftbar: 'recentWidget'
-                   ,rightbar: ['archiveWidget', 'tagWidget']
-                   // ,leftbar: 'html/leftbar.html'
-                   // ,rightbar: 'html/rightbar.html'
-                   ,bottom: 'html/bottom.html'
-                   // ,main: 'post/sample-post.html'
-                   ,main: 'main'
-                   ,editbar: 'html/editbar.html'
-               }
-             }
-            // ,require('./test')
-            ,{  
-               src: 'html/basicPage.html'
-               ,tagIdPostfix: '' //can be overridden per template
-               ,pathOut: '/'
-               ,out: 'www/index.html' //optional, relative to root
-               
-               //Maps tag ids to partial ids. Tag ids have to be
-               //postfixed with two dashes in the template. Partials
-               //with an extension will be loaded from the partials
-               //folder for this template. Markdown files will be
-               //converted to html. Partials in an array will be
-               //concatenated before inserted at the tag id element
-               
-               //Make sure to have the cachify partial included in the head if
-               //you want to dynamically load resources from javascript, but
-               //want to retrieve cachified versions. Include the resources
-               //under cachify.list
-               ,mapping: {
-                   head: ['title',
-                          'meta',  'html/ieshim',//'skewer',
-                          // 'firebug',
-                          'headJsBlock',
-                          'linkBlock'
-                          ,'cachify'
-                         ],
-                  
-                   "body": ['body', 'jsBlock'
-                            
-                              // ,'html/google_analytics.html'
-                             ]
-               }
-             }
             
         ] 
     }

@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> 
 <html class="no-js" xmlns:ng="http://angularjs.org" lang="en">
   <!--<![endif]-->
-  <head id="head"><title>blog-Latest</title>;<meta charset='utf-8'/><meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/><meta content='' name='description'/><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'/>
+  <head id="head"><title>blog-foobarold2</title>;<meta charset='utf-8'/><meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/><meta content='' name='description'/><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'/>
 <!--partial:html/ieshim.html--><!--[if lte IE 8]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <script>
@@ -19,10 +19,14 @@
     <script src="js/angular-ui-ieshiv.js"></script>
     <![endif]-->						    
 
+<script type="text/javascript" src="/denodify.js"></script>
 
 <link rel="stylesheet" type="text/css" href="/css/bower/normalize.css/normalize.css">
 <link rel="stylesheet" type="text/css" href="/css/bower/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/css/medium-editor.css">
+<link rel="stylesheet" type="text/css" href="/css/medium-default-theme.css">
 <link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="stylesheet" type="text/css" href="/css/main-edit.css">
 
 <script type='text/javascript'>function cachify(path) { return path; }</script></head>
   <body id="body"><!--partial:html/body.html--><!--[if lt IE 7]>
@@ -33,7 +37,14 @@
 
 
   <!-- <div class="row"> -->
-  <div id="editbar--" > </div>
+  <div id="editbar--" ><!--partial:html/editbar.html--><div class="navbar navbar-default navbar-fixed-top col-xs-12" style="padding-top:5px;">
+  <button id="new-button" class="btn btn-info">New</button>
+  <button id="save-button" class="btn btn-info">Save</button>
+  <button id="delete-button" class="btn btn-info">Delete</button>
+  <button id="test-button" class="btn btn-info">Done</button>
+  <button id="render-button" class="btn btn-info">Render</button>
+</div>
+</div>
   <!-- </div> -->
 
   <div class="header row">
@@ -46,31 +57,14 @@
 
 
     <div  class="col-xs-10">
-      <div id="pageTitle--">Latest</div>
-      <div  id="main--" class="editable"><div class="box teaser">
-<h2>foo4-renamed</h2>
-
-Write post here..
-<span class="more"><a href="/post/foo4-renamed.html">More</a></span>
-</div>
-<div class="box teaser">
-<h2>foobar2</h2>
-
-Write post here..asdfasfasdfasdfa
-<span class="more"><a href="/post/foobar2.html">More</a></span>
-</div>
-<div class="box teaser">
-<h2>foobar3</h2>
-
-Write post here..
-<span class="more"><a href="/post/foobar3.html">More</a></span>
-</div><nav id="page-nav">
-  <span class="page-number current">  1  </span>
-  <a class="page-number" href="/page2">  2  </a>
-  <a class="page-number" href="/page3">  3  </a>
-  <a class="page-number" href="/page4">  4  </a>
-  <a class="extend next" href="/page2">  Next »  </a>
-</nav></div>
+      <div id="pageTitle--"><header >
+  <h1 class="title">  foobarold2  </h1>
+  <time datetime="24th of August 2014">  24th of August 2014  </time>
+</header></div>
+      <div  id="main--" class="editable"><!--partial:post/foobar_dQunZN.html--><pre>published: no
+title:foobarold2
+comments: no</pre>
+Write post here..</div>
       <div  id="disqus-embed--"> </div>
       <div  id="disqus-count--"> </div>
     </div>
@@ -130,6 +124,12 @@ Write post here..
 
 <script type="text/javascript" src="/scripts/bower/jquery/dist/jquery.js"></script>
 <script type="text/javascript" src="/scripts/bower/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="/scripts/bower/modernizr/modernizr.js"></script>
+<script type="text/javascript" src="/scripts/bower/bacon/dist/Bacon.min.js"></script>
+<script type="text/javascript" src="/scripts/bower/logthis/logthis.js"></script>
+<script type="text/javascript" src="/scripts/medium-editor.js"></script>
+<script type="text/javascript" src="/scripts/main.js?module=0"></script>
+<script type="text/javascript" src="/scripts/start.js"></script>
 </body>
 </html>	
 	 

@@ -11,7 +11,7 @@ var develop_mode = process.env.DEVELOP;
 var blog = require('bb-blog');
 
 blog.init({
-    paths: { base: 'build' , posts: 'post' },
+    paths: { base: 'build' },
     writable: ['editable', 'post'],
     pagination: 3,
     auth: false
@@ -22,7 +22,7 @@ blog.init({
     ,pages: {
         // *** an list page, just a list in tree form, by year/month
         // archive: { recipe: 'some archive recipe' }
-        archive: true
+        archive: { path: 'archive' }
         // *** a tag page, paginated, teasers
         // links to other pages when more than one page
         // previous, next, page number, last, first page
@@ -30,14 +30,14 @@ blog.init({
         // *** a month page, paginated, teasers
         // next/previous month/year
         // links to other pages when more than one page
-        ,month: true //uses default recipe
+        // ,month: true //uses default recipe
         // previous, next, page number, last, first page
         // *** a year page, paginated, teasers
         // links to other pages when more than one page
         // next/previous monthngs/year
         // previous, next, page number, last, first page
         // ,year: 'some year recipe.js'
-        ,year: true
+        // ,year: true
         // *** a landing page with all posts (paginated)
         ,landing: true
         // ,landing: {
@@ -49,15 +49,18 @@ blog.init({
         // }
         // *** a page with the post
         ,post: {
-            recipe: 'editable-post-recipe.js',
+            recipe: { editable: 'editable-post-recipe.js', nojs: 'default-recipe.js' },
+            // recipe: 'editable-post-recipe.js',
             path: 'post'
             // from: [ 'fromTemplate', 'mapping', 'main'],
             // to: [ 'toTemplate', 'out' ]
         }
     }
     ,recipe: 'default-recipe.js'
+    // ,recipe: { editable: 'recipe.js', nojs: 'recipe.js' }
     ,from: [ 'fromTemplate', 'mapping', 'main']
     ,to: [ 'toTemplate', 'out' ]
+    ,renderMode: 'editable'
 });
 // var basePath = 'build';
 // function blog(req, res) {
@@ -280,7 +283,8 @@ var options = {
     
     //If method and path match the functin will be called with [req, res].
     ,postHandlers: {
-        "/__api/save" : blog.save
+        "/__api/save" : blog.save,
+        "/__api/new" : blog['new']
         
         // "/contactus_form" : sendMail
         // ,"/contactus_form" : testSendMail

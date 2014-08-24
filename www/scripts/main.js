@@ -86,8 +86,29 @@ function removeFile(fileName) {
     
 } 
 
+function newFile(fileName, data, callback) {
+    console.log('newFile!!!');
+    if (!fileName) {
+        console.log('no filename, so not saving', data);
+    }
+    console.log('New file ' + fileName);
+    var request = new XMLHttpRequest();
+    
+    // $http.post('/__api/save?path=' + fileName, data).
+    request.open('POST', '/__api/new?path=' + fileName, true);
+    request.setRequestHeader('Content-Type',
+                             'application/x-www-form-urlencoded; charset=UTF-8');
+    function reqListener () {
+        console.log('response: ', this.responseText);
+        if (callback) callback(this.responseText);
+    }
 
-function saveFile(fileName, data) {
+    request.onload = reqListener;
+    request.send(data);
+    
+} 
+
+function saveFile(fileName, data, callback) {
     if (!fileName) {
         console.log('no filename, so not saving', data);
     }
@@ -100,6 +121,7 @@ function saveFile(fileName, data) {
                              'application/x-www-form-urlencoded; charset=UTF-8');
     function reqListener () {
         console.log('response: ', this.responseText);
+        if (callback) callback(this.responseText);
     }
 
     request.onload = reqListener;
@@ -136,12 +158,17 @@ var newClick = $("#new-button").asEventStream("click");
 newClick.onValue(function(e) {
     log('new');
     var postTitle = prompt('New post title ?');
-    //TODO make sure postTitle is unique!!!!
-    saveFile('post/' + postTitle + '.html',
+    newFile('post/' + postTitle + '.html',
              "<pre>published: no\n" +
-             "title:" + postTitle + "\n\
-comments: no\n\
-delete: no</pre>\nWrite post here..");
+             "title:" + postTitle + "\n" +
+             "comments: no</pre>\nWrite post here..",
+             function(response) {
+                 try {
+                     response = JSON.parse(response);
+                     if (response.success) location.reload();
+                 } catch(e) { console.log(e); };
+                    
+             });
 });
 
 function cleanseOfTags(str) {

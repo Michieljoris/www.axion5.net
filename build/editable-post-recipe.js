@@ -41,7 +41,7 @@ var toTemplate = {
     //want to retrieve cachified versions. Include the resources
     //under cachify.list
     ,mapping: {
-        head: ['title',
+        head: ['meta-page-title',
                'meta',  'html/ieshim',//'skewer',
                // 'firebug',
                'headJsBlock',
@@ -162,6 +162,7 @@ var exports = {
             ,recentWidget: 'recent widget here'
             ,archiveWidget: '<br>archive widget here'
             ,pageTitle: 'insert title here'
+            ,"meta-page-title": '<title>meta-page-title</title>'
             // title: '<title>Blog</title>',
             // skewer: develop_mode ? '<script src="http://localhost:9090/skewer"></script>' : ' '
             // ,recaptcha: '<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>'
@@ -311,7 +312,7 @@ var exports = {
             //       // doc: 'markdown/doc.md'
             //   }
             // },
-            { id: 'title', src: 'html/title.html' },
+            // { id: 'title', src: 'html/title.html' },
             
             { id: "archiveWidgetWrapper",
               src: "html/archiveWidgetWrapper",
