@@ -1,4 +1,32 @@
+* make this my blog
+* setup 
+- edit in emacs org mode (with code samples)
+- either save to local blog installation, or to server on net
+regardless, the www dir needs to git pushed to gitio pages
+https://github.com/Michieljoris/michieljoris.github.io
+- Best to set button on dynamic blog to push to michieljoris.github.io
+- Best have blog running on server, not local, so you can edit anywhere and then
+  push to github, but too much hassle. Because you would have multiple sources
+  of blog articles that need to be synced then. Also emacs you can't use on 
+- rsync to publish to server?
+- use emacs to edit html textbox? in browser? no, probably not
+- markdown?? code highlighting??
+- how about editing online? Because that has to be transformed back into org!
+  Not possible!!! 
+  
+
+* TODO
+** remove hexo-blog from github
+
 * good to know
+** node org-parser and renderer  
+  https://github.com/daitangio/org-mode-parser
+  https://github.com/whacked/org-mode-parser/tree/client-side-rendering
+  https://github.com/whacked/org-mode-parser/tree/client-side-rendering
+**  pandoc
+  http://johnmacfarlane.net/pandoc/
+If you need to convert files from one markup format into another, pandoc is your
+swiss-army knife.
 
 https://github.com/daviferreira/medium-editor
 http://epiceditor.com/
@@ -98,4 +126,4 @@ After successfull signin $scope.signedIn is the user's email address
 // }
 // var epicEditor = new EpicEditor(opts);
 
-// epicEditor.load();
+// epicEditor.load()
