@@ -7,61 +7,9 @@ var VOW = require('dougs_vow');
 
 var develop_mode = process.env.DEVELOP; 
 
-// var htmlBuilder = require('html-builder').build;
 var blog = require('bb-blog');
 
-blog.init({
-    paths: { base: 'build' },
-    writable: ['editable', 'post'],
-    pagination: 3,
-    auth: false
-    ,widgets: {
-        recent: { max: 3, save: true } ,archive: { save: true } ,tag: { save: true, max: 3 }
-    }
-    
-    ,pages: {
-        // *** an list page, just a list in tree form, by year/month
-        // archive: { recipe: 'some archive recipe' }
-        archive: { path: 'archive' }
-        // *** a tag page, paginated, teasers
-        // links to other pages when more than one page
-        // previous, next, page number, last, first page
-        ,tag: { path: 'tag' }
-        // *** a month page, paginated, teasers
-        // next/previous month/year
-        // links to other pages when more than one page
-        // ,month: true //uses default recipe
-        // previous, next, page number, last, first page
-        // *** a year page, paginated, teasers
-        // links to other pages when more than one page
-        // next/previous monthngs/year
-        // previous, next, page number, last, first page
-        // ,year: 'some year recipe.js'
-        // ,year: true
-        // *** a landing page with all posts (paginated)
-        ,landing: true
-        // ,landing: {
-        //     from: [ 'fromTemplate', 'mapping', 'main'],
-        //     to: [ 'toTemplate', 'out' ]
-        // }
-        // ,landing: {
-        //     recipe: 'generic-recipe.js'
-        // }
-        // *** a page with the post
-        ,post: {
-            recipe: { editable: 'editable-post-recipe.js', nojs: 'default-recipe.js' },
-            // recipe: 'editable-post-recipe.js',
-            path: 'post'
-            // from: [ 'fromTemplate', 'mapping', 'main'],
-            // to: [ 'toTemplate', 'out' ]
-        }
-    }
-    ,recipe: 'default-recipe.js'
-    // ,recipe: { editable: 'recipe.js', nojs: 'recipe.js' }
-    ,from: [ 'fromTemplate', 'mapping', 'main']
-    ,to: [ 'toTemplate', 'out' ]
-    ,renderMode: 'editable'
-});
+blog.init(require('./blog-config.js'));
 // var basePath = 'build';
 // function blog(req, res) {
 //     var path = req.url.query.path;

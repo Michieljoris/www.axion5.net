@@ -1,11 +1,11 @@
 {
-  "name": "blog",
+  "name": "blog-example",
   "description": "Clone this project to scaffold a new (npm/node) project.",
-  "homepage": "https://github.com/michieljoris/blog",
+  "homepage": "https://github.com/michieljoris/blog-example",
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/michieljoris/blog.git"
+    "url": "https://github.com/michieljoris/blog-example.git"
   },
   "author": {
     "name": "Michiel van Oosten",
@@ -15,17 +15,16 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "http://github.com/michieljoris/blog/blob/master/LICENSE.txt"
+      "url": "http://github.com/michieljoris/blog-example/blob/master/LICENSE.txt"
     }
   ],
-  "main": "src/blog.js",
   "bin": {},
   "engines": {
     "node": ">= 0.6.x"
   },
   "dependencies": {
-    "bb-server": "git://github.com/michieljoris/bb-server.git",
-    "html-builder": "git://github.com/michieljoris/html-builder.git",
+    "bb-server": "*",
+    "html-builder": "*",
     "fs-extra": "0.8.x",
     "bb-blog": "*",
     "dougs_vow": "*",
@@ -38,5 +37,5 @@
   "scripts": {
     "docs": "node node_modules/.bin/docco src/blog.js"
   },
-  "version": "0.1.5"
+  "version": "0.1.6"
 }

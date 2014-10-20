@@ -1,0 +1,22 @@
+#+TITLE: blog-example
+
+Example implementation of [[html://github.com/michieljoris/bb-blog][bb-blog]] which is blogging extension for [[html://github.com/michieljoris/bb-server][bb-server]] and
+[[http://github.com/michieljoris/html-builder][html-builder]], producing post pages, widgets, landing/latest, archive
+and tag pages. Pagination is added when there are more post teasers than fit on
+a page. Comments from Disqus can be enabled for all or per post. Also a little
+crud api is implemented so the blog could be managed from the site where the
+blog is implemented.
+
+Clone the repo:
+
+: git clone git@github.com:Michieljoris/blog-example.git
+
+Then:
+
+: cd blog-example
+: bin/serve
+
+Open your browser at [[http://localhost:9100][localhost:9100]].
+
+Open the file at server/blog-config.js to configure the blog and restart the
+server. So kill the serve process and again =bin/serve=.
