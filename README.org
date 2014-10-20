@@ -1,6 +1,6 @@
 #+TITLE: blog-example
 
-Example implementation of [[html://github.com/michieljoris/bb-blog][bb-blog]] which is blogging extension for [[html://github.com/michieljoris/bb-server][bb-server]] and
+Example implementation of [[http://github.com/michieljoris/bb-blog][bb-blog]] which is blogging extension for [[html://github.com/michieljoris/bb-server][bb-server]] and
 [[http://github.com/michieljoris/html-builder][html-builder]], producing post pages, widgets, landing/latest, archive
 and tag pages. Pagination is added when there are more post teasers than fit on
 a page. Comments from Disqus can be enabled for all or per post. Also a little
@@ -14,9 +14,18 @@ Clone the repo:
 Then:
 
 : cd blog-example
+: npm install
+: bower install
 : bin/serve
 
 Open your browser at [[http://localhost:9100][localhost:9100]].
 
+Edit a post by clicking on it.
+
+After saving/deleting/updating refresh the page to see the new page. 
+
 Open the file at server/blog-config.js to configure the blog and restart the
 server. So kill the serve process and again =bin/serve=.
+
+The server needs to be restarted when changing recipes/config since bb-blog
+caches the recipes and configuration in memory.

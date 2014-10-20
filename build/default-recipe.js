@@ -7,7 +7,7 @@ var fromTemplate = { id: 'body'
                      ,mapping: {
                          // editbar: 'html/editbar.html'
                          header: 'html/header.html'
-                         ,leftbar: 'recentWidgetWrapper'
+                         ,leftbar: 'unpublishedWidgetWrapper'
                          
                          ,rightbar: ['recentWidgetWrapper', 'tagWidgetWrapper',
                                      'archiveWidgetWrapper']
@@ -159,6 +159,7 @@ var exports = {
             ,tagWidget: '<br>tag widget here'
             ,recentWidget: 'recent widget here'
             ,archiveWidget: '<br>archive widget here'
+            ,unpublishedWidget: '<br>archive widget here'
             ,pageTitle: 'insert page title here'
             ,"meta-page-title": '<title>meta-page-title</title>'
             // title: '<title>Blog</title>',
@@ -309,6 +310,12 @@ var exports = {
             //       // doc: 'markdown/doc.md'
             //   }
             // },
+            { id: "unpublishedWidgetWrapper",
+              src: "html/unpublishedWidgetWrapper",
+              mapping: {
+                  widget: 'unpublishedWidget'
+              }
+            },
             { id: "archiveWidgetWrapper",
               src: "html/archiveWidgetWrapper",
               mapping: {
