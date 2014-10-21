@@ -9,7 +9,9 @@ var fromTemplate = { id: 'body'
                          header: 'html/header.html'
                          ,leftbar: 'unpublishedWidgetWrapper'
                          
-                         ,rightbar: ['recentWidgetWrapper', 'tagWidgetWrapper',
+                         ,rightbar: ['html/search.html', 'html/aboutmeWidget.html',
+                                     'recentWidgetWrapper',
+                                     'tagWidgetWrapper',
                                      'archiveWidgetWrapper']
                          // ,leftbar: 'html/leftbar.html'
                          // ,rightbar: 'html/rightbar.html'
