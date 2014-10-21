@@ -28,7 +28,11 @@
     "fs-extra": "0.8.x",
     "bb-blog": "*",
     "dougs_vow": "*",
-    "logthis": "*"
+    "logthis": "*",
+    "ws": "0.4.*",
+    "filemonitor": "0.1.x",
+    "optimist": "0.4.x",
+    "colors": "*"
   },
   "devDependencies": {
     "docco": "*"
@@ -37,5 +41,5 @@
   "scripts": {
     "docs": "node node_modules/.bin/docco src/blog.js"
   },
-  "version": "0.1.6"
+  "version": "0.1.8"
 }

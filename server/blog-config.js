@@ -37,12 +37,13 @@ module.exports = {
     ,enableCommentsPerPost: true
     //Global comment setting, only effective if previous setting is set to
     //false, set both to false to disable comments alltogether
-    ,comments: true
+    ,comments: false
     
     //A recipe (string) or a list of recipes used to build pages unless
     //overridden for a page in the particular pages prop below.
     // ,recipe: { editable: 'recipe.js', nojs: 'recipe.js' }
-    ,recipe: 'default-recipe.js'
+    // ,recipe: 'default-recipe.js'
+    ,recipe: 'axion-recipe.js'
     //If the previous prop is a list the following prop decides which recipe in
     //the list is used. This should be one of the keys of the previous prop.
     ,renderMode: 'editable'
@@ -80,8 +81,8 @@ module.exports = {
         // List of teasers of posts, listed by tag. 
         tag: { path: 'tag' },
         // A page with a post
-	post: { path: 'post',
-		recipe: { editable: 'editable-post-recipe.js', nojs: 'default-recipe.js' }
+	post: { path: 'post'
+		// ,recipe: { editable: 'editable-post-recipe.js', nojs: 'default-recipe.js' }
 	      },
 	//Any unpublished posts will be added to the unpublished folder, not to
         //the post folder. Only prop that can be set is the path.

@@ -187,6 +187,8 @@ var exports = {
             files:  [
                 'bower/normalize.css/normalize.css'
                 ,'bower/bootstrap/dist/css/bootstrap.css'
+                ,'tweak.css'
+                ,'prettify.css'
                 // ,'medium-editor.css'
                 // ,'medium-default-theme.css'
                 // ,'bower/foundation/css/foundation.css'
@@ -254,6 +256,7 @@ var exports = {
                     // ,"medium-editor.js"
                     // ,"epiceditor.js"
                     //The following will be substitud with the list of required
+                    ,'prettify.js'
                     //modules, in the proper order, also the module enabler
                     //script will be added before the first module in every
                     //block. When this block is concatenated all module files

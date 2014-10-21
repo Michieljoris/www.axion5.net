@@ -109,11 +109,11 @@ module.exports = {
         "fs-extra": "0.8.x"
 	,"bb-blog": "*"
         ,"dougs_vow": "*"
-        ,"logthis": '*'
-	// "dbox": "*",
-        // "nodemailer": "0.5.x",
-        // "dbox": "0.6.x",
-        // "colors": "*",
+        ,"logthis": '*',
+        "ws": "0.4.*",
+	"filemonitor": "0.1.x",
+	"optimist": "0.4.x",
+        "colors": "*"
     },
     // What dependencies are useful only for developers?
     // Installed when we `npm install` in our working directory, but not 

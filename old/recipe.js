@@ -7,7 +7,7 @@ var fromTemplate = { id: 'body'
                      ,mapping: {
                          // editbar: 'html/editbar.html'
                          header: 'html/header.html'
-                         ,leftbar: 'recentWidgetWrapper'
+                         ,leftbar: 'unpublishedWidgetWrapper'
                          
                          ,rightbar: ['recentWidgetWrapper', 'tagWidgetWrapper',
                                      'archiveWidgetWrapper']
@@ -18,8 +18,8 @@ var fromTemplate = { id: 'body'
                          ,pageTitle: "pageTitle"
                          ,main: 'html/post.html'
                          ,editbar: 'html/editbar.html'
-                         // ,"disqus-embed": "html/disqus-embed.html"
-                         // ,"disqus-count": "html/disqus-count.html"
+                         ,"disqus-embed": "html/disqus-embed.html"
+                         ,"disqus-count": "html/disqus-count.html"
                      }
                    };
 
@@ -27,7 +27,7 @@ var toTemplate = {
     src: 'html/basicPage.html'
     ,tagIdPostfix: '' //can be overridden per template
     ,pathOut: '/'
-    ,out: 'www/edit.html' //optional, relative to root
+    ,out: 'www/test.html' //optional, relative to root
     
     //Maps tag ids to partial ids. Tag ids have to be
     //postfixed with two dashes in the template. Partials
@@ -41,7 +41,7 @@ var toTemplate = {
     //want to retrieve cachified versions. Include the resources
     //under cachify.list
     ,mapping: {
-        head: ['title',
+        head: ['meta-page-title',
                'meta',  'html/ieshim',//'skewer',
                // 'firebug',
                'headJsBlock',
@@ -162,6 +162,7 @@ var exports = {
             ,recentWidget: 'recent widget here'
             ,archiveWidget: '<br>archive widget here'
             ,pageTitle: 'insert title here'
+            ,"meta-page-title": '<title>meta-page-title</title>'
             // title: '<title>Blog</title>',
             // skewer: develop_mode ? '<script src="http://localhost:9090/skewer"></script>' : ' '
             // ,recaptcha: '<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>'
@@ -311,8 +312,13 @@ var exports = {
             //       // doc: 'markdown/doc.md'
             //   }
             // },
-            { id: 'title', src: 'html/title.html' },
-            
+            // { id: 'title', src: 'html/title.html' },
+            { id: "unpublishedWidgetWrapper",
+              src: "html/unpublishedWidgetWrapper",
+              mapping: {
+                  widget: 'unpublishedWidget'
+              }
+            },
             { id: "archiveWidgetWrapper",
               src: "html/archiveWidgetWrapper",
               mapping: {
@@ -344,3 +350,5 @@ var exports = {
 
 //TODO update bootstrap
 //TODO use bower or something for vendor libs
+
+

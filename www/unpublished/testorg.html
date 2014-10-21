@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> 
 <html class="no-js" xmlns:ng="http://angularjs.org" lang="en">
   <!--<![endif]-->
-  <head id="head"><title>Blog-The title of the post</title><meta charset='utf-8'/><meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/><meta content='' name='description'/><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'/>
+  <head id="head"><title>Blog-testorg</title><meta charset='utf-8'/><meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/><meta content='' name='description'/><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'/>
 <!--partial:html/ieshim.html--><!--[if lte IE 8]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <script>
@@ -60,6 +60,7 @@
     <div id="leftbar--" class="box col-xs-2"><!--partial:html/unpublishedWidgetWrapper.html--><div class="widget">
   <b>Unpublished</b>
   <div class="unpublished" id="widget--"><ul id="most-recent-partial">
+  <li><a href="/unpublished/testorg.html">testorg</a></li>
   <li><a href="/unpublished/the-title-of-the-post.html">The title of the post</a></li>
 </ul></div>
 </div>
@@ -70,14 +71,113 @@
 
     <div  class="col-xs-8">
       <div id="pageTitle--"><header >
-  <h1 class="title">  The title of the post  </h1>
+  <h1 class="title">  testorg  </h1>
   <time datetime="20th of October 2014">  20th of October 2014  </time>
 </header></div>
-      <div  id="main--" class="editable"><!--partial:post/Some new post.html--><pre>published: no
-title:The title of the post
-comments: no
+      <div  id="main--" class="editable"><h1>Markup Cheat sheet for Org-mode</h1>
+<ul><li><a href="#header-1"><span class="section-number">1</span>Heading 1</a><ul><li><a href="#header-1-1"><span class="section-number">1.1</span>Heading 2</a><ul><li><a href="#header-1-1-1"><span class="section-number">1.1.1</span>Heading 3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#header-2"><span class="section-number">2</span>styling</a></li>
+<li><a href="#header-3"><span class="section-number">3</span>links</a></li>
+<li><a href="#header-4"><span class="section-number">4</span>quotes</a></li>
+<li><a href="#header-5"><span class="section-number">5</span>source code</a></li>
+<li><a href="#header-6"><span class="section-number">6</span>lines</a></li>
+<li><a href="#header-7"><span class="section-number">7</span>tables</a></li>
+<li><a href="#header-8"><span class="section-number">8</span>lists</a><ul><li><a href="#header-8-1"><span class="section-number">8.1</span>numbered  </a></li>
+<li><a href="#header-8-2"><span class="section-number">8.2</span>unnumbered </a></li>
+</ul>
+</li>
+<li><a href="#header-9"><span class="section-number">9</span>comments  </a></li>
+</ul>
 
-</pre><h3>The title of the post</h3><p>Bla bal ablaasdfa asdf asfdf asdfasd fsad fasdf</p><p><br></p></div>
+<pre>comments: false
+published: true
+title: blaorg</pre>
+<h2 id="header-1"><span class="section-number">1</span>Heading 1</h2>
+<h3 id="header-1-1"><span class="section-number">1.1</span>Heading 2</h3>
+<h4 id="header-1-1-1"><span class="section-number">1.1.1</span>Heading 3</h4>
+<pre>* Heading 1
+** Heading 2
+*** Heading 3</pre>
+<h2 id="header-2"><span class="section-number">2</span>styling</h2>
+<b>bold</b> /ital/ <span style="text-decoration:underline;">underline</span>  <code>code</code> ~verbatim~ <pre>*bold* /ital/ _underline_  =code= ~verbatim~ </pre>
+<p>Or add : to beginning of line to ignore org markup</p>
+<h2 id="header-3"><span class="section-number">3</span>links</h2>
+<a href="http://www.google.com">google</a><pre>[[<a href="http://www.google.com][google">http://www.google.com][google</a>]]</pre>
+<img src="http://orgmode.org/worg/images/orgweb/2.jpg" alt="http://orgmode.org/worg/images/orgweb/2.jpg" title="http://orgmode.org/worg/images/orgweb/2.jpg"/><pre>[[<a href="http://orgmode.org/worg/images/orgweb/2.jpg">http://orgmode.org/worg/images/orgweb/2.jpg</a>]]</pre>
+Links to images without description get inserted as is.C-c C-l to insert or edit a link <h2 id="header-4"><span class="section-number">4</span>quotes</h2>
+<blockquote><p>quoted text</p>
+</blockquote>
+<pre>#+begin_quote
+quoted text
+#+end_quote</pre>
+<h2 id="header-5"><span class="section-number">5</span>source code</h2>
+<pre class="prettyprint"><code class="language-javascript">  cliks.onValue(function() {
+      vouchdb.docSave({ msg:&#39;resetpwd&#39;,
+                        pwd: $(&#34;#password1&#34;)[0].value,
+                        uuid: location.search.slice(10),
+                        callback: callback
+                      }, &#39;reception&#39;)
+          .when(
+              function(data) {
+                  console.log(&#39;Posted resetpwd msg&#39;);
+              },
+              function(err) {
+                  console.log(&#39;Error posting resetpwd msg:&#39;, err);
+              }
+          );
+      
+  });</code>
+</pre>
+<pre>#+begin_src javascript
+&#60;source code&#62;
+#+end_src</pre>
+<p>C-c &#39; to edit source code, C-c &#39; to return and update</p>
+<h2 id="header-6"><span class="section-number">6</span>lines</h2>
+-----  horizontal line (5 dashes)<pre>-----  horizontal line (5 dashes)</pre>
+<h2 id="header-7"><span class="section-number">7</span>tables</h2>
+<table><tbody><tr><td> Col1 </td>
+<td> Col 2</td>
+<td> </td>
+</tr>
+<tr><td>------</td>
+<td>------</td>
+<td>  Press </td>
+<td> TAB </td>
+</tr>
+<tr><td> KW   </td>
+<td> Sep  </td>
+<td> </td>
+</tr>
+<tr><td> TW   </td>
+<td> Aug  </td>
+</tr>
+</tbody>
+</table>
+<pre>| Col1 | Col 2| 
+|------|------|  Press | TAB 
+| KW   | Sep  | 
+| TW   | Aug  |</pre>
+<h2 id="header-8"><span class="section-number">8</span>lists</h2>
+<h3 id="header-8-1"><span class="section-number">8.1</span>numbered  </h3>
+<ol><li>number list, use 1. or 1)</li>
+<li>line</li>
+<li>line 3</li>
+</ol>
+<h3 id="header-8-2"><span class="section-number">8.2</span>unnumbered </h3>
+<ul><li>use - or +</li>
+<li>bullet list</li>
+<li>line 2</li>
+</ul>
+<pre>1. number list, alternate 1)
+- bullet list, alternate +</pre>
+<p>alt-enter at end of line to add a new one </p>
+<h2 id="header-9"><span class="section-number">9</span>comments  </h2>
+<pre># comment (not exported)</pre>
+</div>
       <div  id="disqus-embed--"> </div>
       <div  id="disqus-count--"> </div>
     </div>
@@ -86,7 +186,6 @@ comments: no
     <div id="rightbar--" class="box col-xs-2"><!--partial:html/recentWidgetWrapper.html--><div class="widget">
   <b>Recent posts</b>
   <div id="widget--"><ul id="most-recent-partial">
-  <li><a href="/post/blaorg2.html">blaorg2</a></li>
   <li><a href="/post/newpostrenamed.html">newpostrenamed</a></li>
   <li><a href="/post/latest.html">latest</a></li>
 </ul></div>
@@ -104,7 +203,6 @@ comments: no
   <ul>
    <li><a  href="/archive/2014/October" >October</a>
     <ul>
-     <li><a  href="/post/blaorg2.html" >blaorg2</a></li>
      <li><a  href="/post/newpostrenamed.html" >newpostrenamed</a></li>
      <li><a  href="/post/latest.html" >latest</a></li>
     </ul>

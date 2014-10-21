@@ -1,0 +1,138 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" xmlns:ng="http://angularjs.org" lang="en"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" xmlns:ng="http://angularjs.org" lang="en"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" xmlns:ng="http://angularjs.org" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> 
+<html class="no-js" xmlns:ng="http://angularjs.org" lang="en">
+  <!--<![endif]-->
+  <head id="head"><title>blog-Blog manual</title>;<meta charset='utf-8'/><meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/><meta content='' name='description'/><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'/>
+<!--partial:html/ieshim.html--><!--[if lte IE 8]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script>
+      // The ieshiv takes care of our ui.directives, bootstrap module directives and 
+      // AngularJS's ng-view, ng-include, ng-pluralize and ng-switch directives.
+      // However, IF you have custom directives (yours or someone else's) then
+      // enumerate the list of tags in window.myCustomTags
+
+      window.myCustomTags = [ 'yourDirective', 'somebodyElsesDirective' ]; // optional
+    </script>
+    <script src="js/angular-ui-ieshiv.js"></script>
+    <![endif]-->						    
+
+<script type="text/javascript" src="/denodify.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/css/bower/normalize.css/normalize.css">
+<link rel="stylesheet" type="text/css" href="/css/bower/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/css/medium-editor.css">
+<link rel="stylesheet" type="text/css" href="/css/medium-default-theme.css">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="stylesheet" type="text/css" href="/css/main-edit.css">
+
+<script type='text/javascript'>function cachify(path) { return path; }</script></head>
+  <body id="body"><!--partial:html/body.html--><!--[if lt IE 7]>
+    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
+
+<div id="main" class="holder container-fluid">
+
+
+  <!-- <div class="row"> -->
+  <div id="editbar--" ><!--partial:html/editbar.html--><div class="navbar navbar-default navbar-fixed-top col-xs-12" style="padding-top:5px;">
+  <button id="new-button" class="btn btn-info">New</button>
+  <button id="save-button" class="btn btn-info">Save</button>
+  <button id="delete-button" class="btn btn-info">Delete</button>
+  <button id="test-button" class="btn btn-info">Done</button>
+  <button id="render-button" class="btn btn-info">Render</button>
+</div>
+</div>
+  <!-- </div> -->
+
+  <div class="header row">
+    <div id="header--" class="col-xs-12"><!--partial:html/header.html--><h1><a href="/">My blog</a></h1>
+</div>
+  </div>
+
+
+  <div id="body" class="row">
+
+    <div id="leftbar--" class="box col-xs-2"><!--partial:html/unpublishedWidgetWrapper.html--><div class="widget">
+  <b>Unpublished</b>
+  <div class="unpublished" id="widget--"><ul id="most-recent-partial">
+  <li><a href="/unpublished/blog-manual.html">Blog manual</a></li>
+  <li><a href="/unpublished/newpost.html">newpost</a></li>
+  <li><a href="/unpublished/latest.html">latest</a></li>
+  <li><a href="/unpublished/foobarold2.html">foobarold2</a></li>
+  <li><a href="/unpublished/foobarold4.html">foobarold4</a></li>
+  <li><a href="/unpublished/foobarold5.html">foobarold5</a></li>
+  <li><a href="/unpublished/foobarold.html">foobarold</a></li>
+  <li><a href="/unpublished/foobarold.html">foobarold</a></li>
+  <li><a href="/unpublished/foobar3.html">foobar3</a></li>
+  <li><a href="/unpublished/foobar2.html">foobar2</a></li>
+  <li><a href="/unpublished/the-title-of-the-post.html">The title of the post</a></li>
+</ul></div>
+</div>
+
+
+
+</div>
+
+    <div  class="col-xs-8">
+      <div id="pageTitle--"><header >
+  <h1 class="title">  Blog manual  </h1>
+  <time datetime="20th of October 2014">  20th of October 2014  </time>
+</header></div>
+      <div  id="main--" class="editable"><!--partial:post/Blog manual.html--><pre>published: no
+title:Blog manual
+comments: no</pre><p>Blog Manual</p><p>10th of September 2014</p><p>I tried to keep the system as much as possible as what's already in place for editing the rest of the site, which means you can click on any blog post when you're logged in and you can edit them the way edit the rest of the site.</p><p>The blog consists of blog pages and of overview pages. The overview pages list posts by tag, year/month or latest posts. On these overview pages posts are shown in abbreviated form, that is only a teaser is shown with a 'more' link that takes you to the full posts when clicked. When viewing the full post you can edit/delete it.</p><p>Buttons</p><p>On the post pages you have 3 new buttons: new, delete and render.</p><p>New button:</p><p>When you click the new button you will be asked for a title of your new post. This can be changed afterwards, so you're not stuck with the title you enter here. This will refresh the page with your new (empty) post. Write the post and save.</p><p>Delete button:</p><p>This will of course just delete the post.</p><p>Render button:</p><p>Strictly speaking this button shouldn't be necessary to click, however, if you think something is not right or missing click this button to render the whole blog from scratch. After rerendering the landing page with latest posts will be opened (firstdoor.com.au/blog).</p><p>Widgets</p><p>On every blog page there are 3 widgets: recent, tags and archive, plus one hidden widget: unpublished. These widgets are generated automatically from the posts in the blog. </p><p>Recent widget:</p><p>List of most recent blogs, listed by published date. I can adjust the number of recent posts to list. </p><p>Tags widget:</p><p>Listing of the tags used in posts, with the number of posts tagged with a particular tag in brackets after the tag, again we can list more or fewer tags.</p><p>Archive widget:</p><p>Listing of all posts grouped by year and month. If you click on a year or month you will get the posts (teasers) for that year or month.</p><p>Unpublished widget:</p><p>This widget is only shown when logged in. It lists all the posts that have been entered but are not published. These posts are not accessible to the public. Unpublished posts are not listed in the other widgets.</p><p>Post settings:</p><p>Every post can be assigned some data that isn't shown directly to the public but is being used to tag, name and date a post.</p><p>This exra post information is entered at the top of the post, in a special block. If you by accident delete this block you can recreate it by writing the information, highlighting it and click the far right button on the editor toolbar, it looks like this: &lt;&gt;.</p><p>This block is only shown when logged in.</p><p>The following info can be set:</p><p>title: The title of your post</p><p>published: yes or no or true or false or just leave it out all together</p><p>comments: yes or no or true or false or just leave it out all together</p><p>publishedat: some data such as 11/Jan/2014</p><p>tags: tag1,tag2 tag3 tag4 flower dog,etc </p><p>You can capitalize whatever words you like, also as long as the date is readable to you the  system should be able to read it. All entries are optional. If you leave out the title, the post will take on the name the system uses for the post.</p><p>Title</p><p>If you change the title of a post, the url or web address will change as well, so anybody linking to the old web address it will end up with a dead link. You will have to save the post to change the title.</p><p>Published</p><p>Enter yes or true to publish a post, or any value other than no or false. The publish date will set when you change this for the first time from no or false to for example yes. Published posts will also show up in the widgets.  If you would like to explicitly set the published date set the following property:</p><p>Publishedat: </p><p>A date that is used to archive the post. This date is also shown above the post. If not entered the system will use the date that the post was first published by changing the Published propery.</p><p>Comments:</p><p>When true  or yes, or rather any value except for no or false, blog viewers can enter comments to posts. This is outsourced with Disqus. On the Disqus site you can moderate the comments after logging into your Disqus account.</p><p>Tags:</p><p>List of tags attached to the post. Seperate tags with commas or spaces.</p><p>Overview pages</p><p>Posts are listed by tag, year, month or just chronological. The landing page (firstdoor.com.au/blog) list all posts by published date in reverse chronological  order . When there are more than a certain amount of posts, the remaining posts are listed on further subpages. This is also the case for the tag, year and month pages.</p><p>Teasers</p><p><p></p></p><p>If you like to list only part of posts on these overview pages insert a teaser separating line in a post where you would like to see the break. They can be entered clicking on the far right button on the editor's toolbar (&lt;&gt;) and entering -----------. At least 3 dashed are needed, use more if you like.Just like the post settings block this block will no be show to the public.</p></div>
+      <div  id="disqus-embed--"> </div>
+      <div  id="disqus-count--"> </div>
+    </div>
+
+
+    <div id="rightbar--" class="box col-xs-2"><!--partial:html/recentWidgetWrapper.html--><div class="widget">
+  <b>Recent posts</b>
+  <div id="widget--"><ul id="most-recent-partial">
+  <li><a href="/post/foobarold5.html">foobarold5</a></li>
+  <li><a href="/post/foo4-renamed.html">foo4-renamed</a></li>
+</ul></div>
+</div>
+<!--partial:html/tagWidgetWrapper.html--><div class="widget">
+  <b>Tags</b>
+  <div id="widget--"><ul id="by-tag-partial">
+  <li><a href="/tag/one">one</a> (1)</li>
+  <li><a href="/tag/two">two</a> (1)</li>
+</ul></div>
+</div>
+<!--partial:html/archiveWidgetWrapper.html--><div class="widget">
+  <b>Archive</b>
+  <div id="widget--"><ul class="css-treeview" id="archive-partial">
+ <li><a  href="/archive/2014" >2014</a>
+  <ul>
+   <li><a  href="/archive/2014/October" >October</a>
+    <ul>
+     <li><a  href="/post/foobarold5.html" >foobarold5</a></li>
+     <li><a  href="/post/foo4-renamed.html" >foo4-renamed</a></li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul></div>
+</div>
+</div>
+
+  </div>
+
+
+</div>
+
+<script type="text/javascript" src="/scripts/bower/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="/scripts/bower/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="/scripts/bower/modernizr/modernizr.js"></script>
+<script type="text/javascript" src="/scripts/bower/bacon/dist/Bacon.min.js"></script>
+<script type="text/javascript" src="/scripts/bower/logthis/logthis.js"></script>
+<script type="text/javascript" src="/scripts/medium-editor.js"></script>
+<script type="text/javascript" src="/scripts/main.js?module=0"></script>
+<script type="text/javascript" src="/scripts/start.js"></script>
+</body>
+</html>	
+	 

@@ -1,8 +1,8 @@
 var develop_mode = process.env.DEVELOP; 
-// module.exports = {
+var extend = require('extend');
 
 var fromTemplate = { id: 'body'
-                     ,src: 'html/body.html' 
+                     ,src: 'html/body-blog.html' 
                      // ,tagIdPostfix: '--' //can be overridden per template
                      ,mapping: {
                          // editbar: 'html/editbar.html'
@@ -16,8 +16,8 @@ var fromTemplate = { id: 'body'
                          ,bottom: 'html/bottom.html'
                          // ,main: 'post/sample-post.html'
                          ,pageTitle: "pageTitle"
-                         ,main: 'html/post.html'
-                         ,editbar: 'html/editbar.html'
+                         ,main: 'main'
+                         // ,editbar: 'html/editbar.html'
                          ,"disqus-embed": "html/disqus-embed.html"
                          ,"disqus-count": "html/disqus-count.html"
                      }
@@ -55,6 +55,39 @@ var toTemplate = {
                 ]
     }
 };
+var bodyAboutme = extend(true, {}, fromTemplate);
+bodyAboutme.id = 'body-aboutme';
+bodyAboutme.mapping.page = 'pages/aboutme.org';
+delete bodyAboutme.mapping.main;
+delete bodyAboutme.mapping['disqus-embed'];
+delete bodyAboutme.mapping['disqus-count'];
+
+var bodyProjects = extend(true, {}, fromTemplate);
+bodyProjects.id = 'body-projects';
+bodyProjects.mapping.page = 'pages/projects.org';
+delete bodyProjects.mapping.main;
+delete bodyProjects.mapping['disqus-embed'];
+delete bodyProjects.mapping['disqus-count'];
+
+var bodyWebsites = extend(true, {}, fromTemplate);
+bodyWebsites.id = 'body-websites';
+bodyWebsites.mapping.page = 'pages/websites.org';
+delete bodyWebsites.mapping.main;
+delete bodyWebsites.mapping['disqus-embed'];
+delete bodyWebsites.mapping['disqus-count'];
+
+var aboutmePage = extend(true, {}, toTemplate );
+aboutmePage.out = 'www/aboutme.html';
+aboutmePage.mapping.body[0] = 'body-aboutme'; 
+
+var projectsPage = extend(true, {}, toTemplate );
+projectsPage.out = 'www/projects.html';
+projectsPage.mapping.body[0] = 'body-projects'; 
+
+
+var websitesPage = extend(true, {}, toTemplate );
+websitesPage.out = 'www/websites.html';
+websitesPage.mapping.body[0] = 'body-websites'; 
 
 var exports = {
     fromTemplate: fromTemplate,
@@ -188,8 +221,11 @@ var exports = {
             files:  [
                 'bower/normalize.css/normalize.css'
                 ,'bower/bootstrap/dist/css/bootstrap.css'
+                ,'tweak.css'
+                ,'prettify.css'
                 ,'medium-editor.css'
                 ,'medium-default-theme.css'
+                ,'blog.css'
                 // ,'bower/foundation/css/foundation.css'
                 // ,'bower/jquery-ui/jquery-ui.custom.css'
                 // ,'bower/angular-ui/build/angular-ui.css'
@@ -254,6 +290,7 @@ var exports = {
                     // ,"bower/ractive/ractive.js"
                     // ,"bower/vue/dist/vue.js"
                     ,"medium-editor.js"
+                    ,'prettify.js'
                     // ,"epiceditor.js"
                     //The following will be substitud with the list of required
                     //modules, in the proper order, also the module enabler
@@ -341,6 +378,9 @@ var exports = {
             },
             fromTemplate,
             toTemplate
+            ,bodyWebsites, bodyProjects, bodyAboutme
+            ,websitesPage, projectsPage, aboutmePage
+            
             //Main layout
             
         ] 

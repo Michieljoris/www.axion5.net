@@ -8,7 +8,6 @@ var VOW = require('dougs_vow');
 var develop_mode = process.env.DEVELOP; 
 
 var blog = require('bb-blog');
-
 blog.init(require('./blog-config.js'));
 // var basePath = 'build';
 // function blog(req, res) {
@@ -239,7 +238,9 @@ var options = {
         }
     ,getHandlers: {
         "/__api/remove" : blog.remove,
-        "/__api/render" : blog.render 
+        "/__api/render" : function () {
+            blog.init(require('./blog-config.js'));
+        }
         
         // "/__api/test" : bbBlog.list,
         // "/__api/create" : blog.create, 

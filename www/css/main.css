@@ -1,5 +1,5 @@
-body {
-    /* margin-top:40px; */
+#blog-body {
+    margin-top:24px;
 } 
 
 .editable {
@@ -112,3 +112,20 @@ footer{
     padding: 10px 20px;
 }
 
+.blog-post pre:first-of-type {
+display: none;
+}
+
+.section-number {
+    display:none;
+}
+
+.blog-header {
+    display:none;
+}
+
+#site-title {
+    float:right;
+    font-size:26px;
+    color:white;
+}
