@@ -1,14 +1,16 @@
 #+TITLE: www.axion5.net
 Work in progress..
 
-This is the repo of my personal site at www.axion5.net. It is build entirely
-from files in org format. I edit/add/remove these files directly in/to/from the
-build/pages and build/post directories. 
+This is the repo of my personal site at www.axion5.net. It is built from text
+files in org format. I edit/add/remove these files directly in/to/from the
+build/pages and build/post directories.
 
 The site is an mplementation of [[http://github.com/michieljoris/bb-blog][bb-blog]] which is blogging extension for [[html://github.com/michieljoris/bb-server][bb-server]] and
 [[http://github.com/michieljoris/html-builder][html-builder]], producing post pages, widgets, landing/latest, archive
 and tag pages. Pagination is added when there are more post teasers than fit on
 a page. Comments from Disqus can be enabled for all or per post. 
+
+** To build the site:
 
 Clone the repo:
 
@@ -23,8 +25,8 @@ Then:
 
 Open your browser at [[http://localhost:9100][localhost:9100]] to see the site.
 
-If you do a =bin/build= the site will rebuild itself on any changes to the org
-and configuration files.
+To rebuild the site on any changes to the org and configuration files:
+: bin/build
 
 To send to the github [[http://github.com/michieljoris/michieljoris.github.io][michieljoris.github.io]] repo and update the [[http://www.axion5.net][www.axion5.net]]
 site:
