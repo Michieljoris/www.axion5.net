@@ -1,0 +1,15 @@
+**** About me 
+     
+
+Dutch by birth, living in Australia since late youth, classical pianist, but 
+closet programmer since childhood. This site hopefully is able to showcase some 
+of my more useful fabrications and thoughts.
+
+
+All my code is on [[http://github.com/michieljoris][github]]. 
+
+For more info see the [[/aboutme.html][about me]] page, [[http://au.linkedin.com/in/michieljoris/][linkedin]] or 
+[[http://careers.stackoverflow.com/michieljoris][stackoverflow]].
+
+Email me at [[mailto:mail@axion5.net][mail@axion5.net]]
+

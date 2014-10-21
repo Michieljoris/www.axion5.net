@@ -1,0 +1,248 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" xmlns:ng="http://angularjs.org" lang="en"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" xmlns:ng="http://angularjs.org" lang="en"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" xmlns:ng="http://angularjs.org" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> 
+<html class="no-js" xmlns:ng="http://angularjs.org" lang="en">
+  <!--<![endif]-->
+  <head id="head"><title>Blog-my-webstack</title><meta charset='utf-8'/><meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/><meta content='' name='description'/><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'/>
+<!--partial:html/ieshim.html--><!--[if lte IE 8]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script>
+      // The ieshiv takes care of our ui.directives, bootstrap module directives and 
+      // AngularJS's ng-view, ng-include, ng-pluralize and ng-switch directives.
+      // However, IF you have custom directives (yours or someone else's) then
+      // enumerate the list of tags in window.myCustomTags
+
+      window.myCustomTags = [ 'yourDirective', 'somebodyElsesDirective' ]; // optional
+    </script>
+    <script src="js/angular-ui-ieshiv.js"></script>
+    <![endif]-->						    
+
+<script type="text/javascript" src="/denodify.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/css/bower/normalize.css/normalize.css">
+<link rel="stylesheet" type="text/css" href="/css/bower/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/css/tweak.css">
+<link rel="stylesheet" type="text/css" href="/css/prettify.css">
+<link rel="stylesheet" type="text/css" href="/css/blog.css">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="stylesheet" type="text/css" href="/css/main-edit.css">
+
+<script type='text/javascript'>function cachify(path) { return path; }</script></head>
+  <body id="body" ><!--partial:html/body-blog.html--><!--[if lt IE 7]>
+    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
+
+<!-- <div class="row"> -->
+<div id="editbar--" > </div>
+<!-- </div> -->
+
+
+<div class="blog-masthead">
+  <div class="container">
+    <nav class="blog-nav">
+      <a id="menu-blog" class="blog-nav-item" href="/">Blog</a>
+      <a id="menu-projects" class="blog-nav-item" href="/projects.html">Projects</a>
+      <a id="menu-websites" class="blog-nav-item" href="/websites.html">Websites</a>
+      <a id="menu-aboutme" class="blog-nav-item" href="/aboutme.html">About me</a>
+      <a id="site-title" href="/">Axion5</a>
+    </nav>
+  </div>
+</div>
+
+<div id="main" class="container">
+
+  <div class="blog-header">
+    <h1 class="blog-title">Axion5</h1>
+    <p class="lead blog-description">The official example template of creating a blog with Bootstrap.</p>
+  </div>
+
+  <div id="blog-body" class="row">
+
+    <div class="col-sm-9 blog-main">
+
+      <div class="pageTitle" id="pageTitle--"><header >
+  <div class="title blog-post-title">  my-webstack  </div>
+  <time class="blog-post-meta" datetime="21st of October 2014">  21st of October 2014  </time>
+</header></div>
+      <div  id="main--" class="blog-post"><!--partial:post/my-webstack.org--><p>Partly to learn and partly because I like to be in control I wrote my own
+webserver. It started out as a very simple file server but now implements quite
+a few features. It also now cooperates to some degree with another project of
+mine, a simple templating engine.</p>
+<p>I was able to implement a number of ideas across these two projects. One idea is
+that instead of having a build tool such as grunt the server can fullfil this
+role on the fly. Since you don’t really need to minify, transpile, gzip till a
+client browser requests the file, I thought it should be the server’s job, not
+some arbitrary build tool.</p>
+<p>Another idea is that browsers implement already the best mechanism for storing
+resulting files, namely caches. Since we can’t always rely on a browser to cache
+resources, I added a LRU memory and disk cache to the server as well.</p>
+<p>A module called recaster does the actual transforming. Recast uses multiple
+passes and is pluggable. At the moment amongst others sweetjs, typescript,
+coffeescript, minifiers, gzip are implemented. In practice this means you can
+include for instance a script tag for a some_script.coffee in your html file and
+actually have a gzipped, minified and transpiled javascript file sent to your
+browser. Since the file is then cached by the browser and the server this file
+will not have to be recast till you change it. Since the server is able to send
+out files with a cachebusting stamp (never expires) ,if enabled, the server
+won’t even be asked for the file anymore. In develop and in production mode all
+the server is ever sending out is some html file and any changed files.</p>
+<p>Something else I tried to avoid as much as possible is a distinction to the
+developer between production and develop mode. With an approprate environment
+variable set, the server and other tools should just do the right thing in
+different environments. So the server will just not transform or cache files
+when in a develop environment. No need to rebuild the project for production
+mode.</p>
+<p>I like a server to be light and nimble, so I started out with a simple command
+line script, configured with command line options, I tried to stick with this
+idea as much as possible, so the server still starts up instantly on the
+commandline and gives some feedback on what it is doing.</p>
+<p>I like a clear distinction between setting options and modifying or writing
+code. So the server for instance can be configured on the command line, or by
+passing it a configuration file. The server reads these options and adjusts its
+behaviour. You don’t string modules together, or connect functions in some dsl
+like source file. Instead I hard code functionality into the server and
+configure it from the outside. This way the code as a whole stays transparent
+and nimble and light without the overhead of accomodating clever pluggable
+constructs.</p>
+<p>Because the recasting principle is so simple and effective I’ve been able to
+implement and add two handy little ideas. One idea is to inject a reload script
+into served html (just another recast). The reload script I wrote connects to a
+websocket. The server is able to start up a websocket server and can be given
+handlers for particular messages. So I have my html templating engine send a
+message to the server when it finishes building and the server then sends out a
+reload message to all the connected browsers. Very effective. I found all other
+mechanisms unreliable, such as inotify, livereload, browser extensions etc.</p>
+<p>The other idea that recaster let me implement rather easily (in combination with
+html-bulder) is using node modules in the browser. Recast just wraps javascript
+files with the iife on the fly. This is a full implementation, comparable to
+browserify, however unlike browserify files of course don’t get bundled (you can
+concatenate them beforehand though if you like though). Which means you don’t
+need source maps to debug them in the browser. Not much else to say about it,
+the source code is barely 50 lines, other than that you can still write modules
+in other languages than javascript. In other words any transform that works on
+normal javascript files still works on node modules. Because I needed it the
+path module is included by default. The module is called denodify</p>
+<p>Some of the functionality above needs the cooperation of html-builder. For
+instance html-builder is able to cachify resources, that is, it is able to stamp
+script and link tags. It also can include a script with a list of resources,
+cache stamps and a cachify function for any client side scripts to use when
+dynamically requesting resources. Html-builder is able to concatenate js and css
+files and replace multiple script tags with a few. Originally I wrote
+html-builder because I really didn’t want to write script tags into a html
+file. I really didn’t want to write any html at all, other than structural
+html. Now structure exists at multiple levels, from &#60;html&#62;, &#60;head&#62;, &#60;body&#62; to
+the divs or uls of some page or component. Html-builder just fits all these
+partials and parts together to produce html files. Because the script is pretty
+straight forward I am able to add for instance a slideshow easily by adding code
+that writes the html for me to the script and put any customization in
+html-builder’s configuration file, which I called recipe.js.</p>
+<p>The server can be configured to send one specific file unless it’s asked for a
+static resource. A single page (javascript) application can then decide what to
+show the user in response to any user interaction, such as click on a link for
+instance. Google might not always use javascript to look at the served
+page. Google promises to also ask for the same page with an escaped fragment
+query. In this case a phantomjs created version of the page will be sent, after
+being cached of course.</p>
+<p>Web applications often need authentication, so I added the server implementation
+of Persona to the server, with a sample client implementation using
+Angularjs. For this to work sessions need to be enabled.</p>
+<p>I haven’t had a need for real server routing yet, so the configuration for that
+is really simple. Just add a handler for a POST or GET request for a specific
+path. With not so much effort you could write a generic handler that dispatches
+requests depending on the path in the request’s url.</p>
+<p>Bb-server and html-builder are really good at putting together and serving html,
+js and css to a browser. However they don’t build a front-end. The two main
+problems there it seems to me are data binding and data sharing. You don’t want
+to mess with event handlers and html elements and any other dom specific
+minutiae. You want a representation of your ui in your code and the the ui will
+just have to do its thing which is showing the data in an appropriate form and
+shoving data back to the code when the user interfaces. At the same time the
+code needs to be as modular as possible, but still be responsive to these data
+changes. I think all the big frameworks in vogue are trying to solve these two
+problems. Frameworks are by necessitiy opiniated though. They like to enforce a
+preferred way of doing things. I think though that code needs to be free from
+opinions and guide lines and style guides and be the master of proceedings. It
+needs to be its own framework. Code needs to use tools, tools shouldn’t try to
+absorb code. So I don’t want to use these big frameworks (angular, knockout,
+ember etc). Maybe one tool should focus on the data binding and components
+(Reactjs, ractive.js, polymer) and another on message passing (arbiter.js,
+postaljs, pub/sub). With code being modular and a decent interface to a backend
+server/database you should be able to write any app you want, implementing bits
+of frameworks and libraries as you need them.</p>
+</div>
+      <div  id="page--" class="page"> </div>
+      <div  id="disqus-embed--"> </div>
+      <div  id="disqus-count--"> </div>
+
+    </div><!-- /.blog-main -->
+
+    <div id="rightbar--" class="box col-sm-3 col-sm-offset-1 blog-sidebar"><!--partial:html/search.html--><div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:www.axion5.net">
+  </form>
+</div>
+<!--partial:html/aboutmeWidgetWrapper.html--><div class="widget sidebar-module sidebar-module-inset">
+  <div id="widget--"><!--partial:widgets/aboutmeWidget.org--><h5 id="header-0-0-0-1"><span class="section-number">0.0.0.1</span>About me </h5>
+All my code is on <a href="http://github.com/michieljoris">github</a>. For more info see the <a href="/aboutme.html">about me</a> page, <a href="http://au.linkedin.com/in/michieljoris/">linkedin</a> or <a href="http://careers.stackoverflow.com/michieljoris">careers.stackoverflow</a> pages.<p>Email me at <a href="mailto:mail@axion5.net">mail@axion5.net</a></p>
+</div>
+</div>
+<!--partial:html/recentWidgetWrapper.html--><div class="widget sidebar-module">
+  <b>Recent posts</b>
+  <div id="widget--"><ul id="most-recent-partial">
+  <li><a href="/post/post2.html">post2</a></li>
+  <li><a href="/post/markup-cheat-sheet-for-org-mode.html">Markup Cheat sheet for Org-mode</a></li>
+  <li><a href="/post/meteor-docs-and-attached-files.html">Meteor, docs and attached files</a></li>
+</ul></div>
+</div>
+<!--partial:html/tagWidgetWrapper.html--><div class="widget sidebar-module ">
+  <b>Tags</b>
+  <div id="widget--"><ul id="by-tag-partial">
+  <li><a href="/tag/Meteor">Meteor</a> (1)</li>
+</ul></div>
+</div>
+<!--partial:html/archiveWidgetWrapper.html--><div class="widget sidebar-module">
+  <b>Archive</b>
+  <div id="widget--"><ul class="css-treeview" id="archive-partial">
+ <li><a  href="/archive/2014" >2014</a>
+  <ul>
+   <li><a  href="/archive/2014/October" >October</a>
+    <ul>
+     <li><a  href="/post/post2.html" >post2</a></li>
+     <li><a  href="/post/markup-cheat-sheet-for-org-mode.html" >Markup Cheat sheet for Org-mode</a></li>
+     <li><a  href="/post/meteor-docs-and-attached-files.html" >Meteor, docs and attached files</a></li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul></div>
+</div>
+</div><!-- /.blog-sidebar -->
+
+  </div><!-- /.row -->
+
+</div><!-- /.container -->
+
+<div class="blog-footer">
+  <p>Site rendered from org files using 
+<a href="http://github.com/michieljoris/bb-blog">bb-blog</a> and
+    <a href="http://github.com/michieljoris/html-builder">html-builder</a>
+    by <a href="https://github.com/michieljoris">@michieljoris</a>.</p>
+  <p>
+    <a href="#">Back to top</a>
+  </p>
+</div>
+
+<script type="text/javascript" src="/scripts/bower/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="/scripts/bower/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="/scripts/bower/modernizr/modernizr.js"></script>
+<script type="text/javascript" src="/scripts/bower/bacon/dist/Bacon.min.js"></script>
+<script type="text/javascript" src="/scripts/bower/logthis/logthis.js"></script>
+<script type="text/javascript" src="/scripts/prettify.js"></script>
+<script type="text/javascript" src="/scripts/main.js?module=0"></script>
+<script type="text/javascript" src="/scripts/start.js"></script>
+</body>
+</html>	
+	 

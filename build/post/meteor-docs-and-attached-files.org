@@ -1,43 +1,63 @@
 #+TITLE: Meteor, docs and attached files
-: comments: false
+: comments: true
 : published: true
 : title: Meteor, docs and attached files
+: tags: Meteor, database
+: publishedat: 2/June/2014
 
 You can store files directly in MongoDB documents, however there is a limit of
-16MB and the Meteor DDP protocol might not be up to the task (reference..)
+16MB and the Meteor DDP protocol might not be up to the task. 
+
+What follows is a description with code examples of how to do this a different
+way while still enforcing access rights.
+
+: ----------------------
+
 
 There are two atmosphere packages that attempt to fill the gap:
+
 
 1. CollectionFS
 1. fileCollection
 
 Both are extensively documentend, with the latter one being the lighter one.
+
 They either use the MongoDB GridFS or store files externally on S3 or the
 server’s file system. They both tie in with the MongoDB style of organising
 data, extending functionality of collections, by having special ‘file’
-collections.  These ‘file’ documents can then be referenced from other
-documents. With these packages come API’s and systems for security,
-manipulation, filtering, UI helpers etc.  My eyes drooped and my mind wandered
-every time I tried to read through the documentation for these packages. It
-seemed a bit overdone, at least for my purposes.  I have used CouchDB somewhat,
-and files are called attachments in that corner of the database world. The API
-is simple, just ‘attach’ them, and CouchDB takes care of storing them. Access
-rights are tied to the document they are attached to.  I tried to implement
-something similar for Meteor.  Instead of storing the files in MongoDB, they are
-stored on and read from the server’s hard disk through a separate static file
-server. Files are attached by path and name to a document, as an array of file
-objects. Each object can contain as much meta data as you like, but at least the
-path and name.  To access a file from the file server an access key needs to
-accompany the request for the file. This access key is generated (and encrypted)
-server side by Meteor when the document is published that has the reference to
-the file. The access key contains two references, one to the currently logged in
-user’s hashed log in token, and one to md5 hash of the contents of the file.
-Because transform (reference..) doesn’t work on the server side I am using added
-and friends to modify the relevant docs when published: Draft of attaching
-access keys to files in Meteor.publish
+collections.
 
+These ‘file’ documents can then be referenced from other documents. With these
+packages come API’s and systems for security, manipulation, filtering, UI
+helpers etc.
+
+My eyes drooped and my mind wandered every time I tried to read through the
+documentation for these packages. It seemed a bit overdone, at least for my
+purposes.
+
+I have used CouchDB somewhat, and files are called attachments in that corner of
+the database world. The API is simple, just ‘attach’ them, and CouchDB takes
+care of storing them. Access rights are tied to the document they are attached
+to.
+
+I tried to implement something similar for Meteor.
+
+Instead of storing the files in MongoDB, they are stored on and read from the
+server’s hard disk through a separate static file server. Files are attached by
+path and name to a document, as an array of file objects. Each object can
+contain as much meta data as you like, but at least the path and name.
+
+To access a file from the file server an access key needs to accompany the
+request for the file. This access key is generated (and encrypted) server side
+by Meteor when the document is published that has the reference to the file. The
+access key contains two references, one to the currently logged in user’s hashed
+log in token, and one to md5 hash of the contents of the file.
+
+Because transform (reference..) doesn’t work on the server side I am using added
+and friends to modify the relevant docs when published:
 
 #+begin_src javascript
+//Draft of server side authorizing of request
 module.exports = function(req) {
     if (req.url.pathname.indexOf('/public') === 0) return VOW.kept(); 
     var vow = VOW.make();
@@ -108,16 +128,16 @@ retrieving of file attachments.
 
 For my own and future reference here is the code for uploading files:
 
-Custom styleable upload link
 
 #+begin_src html
+<!--Custom styleable upload link-->
 <input type="file" id="fileElem" multiple accept="*" style="display:none" onchange="handleFiles(this.files)">
 <a href="#" id="fileSelect">Select files</a>
 #+end_src
 
-Use HTML5 filereader to read and ajax post the file
 
 #+begin_src javascript
+//Use HTML5 filereader to read and ajax post the file.
 function saveFile(fileName, data) {
     if (!fileName) {
         console.log('no filename, so not saving', data);

@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> 
 <html class="no-js" xmlns:ng="http://angularjs.org" lang="en">
   <!--<![endif]-->
-  <head id="head"><title>Blog-October 2014</title><meta charset='utf-8'/><meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/><meta content='' name='description'/><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'/>
+  <head id="head"><title>Blog-About this site</title><meta charset='utf-8'/><meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/><meta content='' name='description'/><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'/>
 <!--partial:html/ieshim.html--><!--[if lte IE 8]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <script>
@@ -62,18 +62,14 @@
 
     <div class="col-sm-9 blog-main">
 
-      <div class="pageTitle" id="pageTitle--">October 2014</div>
-      <div  id="main--" class="blog-post"><div class="box teaser">
-<div class="blog-post-title"><span class="teaser-title-icon glyphicon glyphicon-bookmark"></span><a href="/post/markup-cheat-sheet-for-org-mode.html">Markup Cheat sheet for Org-mode</a></div>
-
-<p>A cheatsheet of often used org markup used on this site with examples of
-rendered html followed by the markup used.</p>
-
-<span class="more-blog"><a href="/post/markup-cheat-sheet-for-org-mode.html">More</a></span>
-</div>
-<div class="box teaser">
-<div class="blog-post-title"><span class="teaser-title-icon glyphicon glyphicon-bookmark"></span><a href="/post/about-this-site.html">About this site</a></div>
-
+      <div class="pageTitle" id="pageTitle--"><header >
+  <div class="title blog-post-title">  About this site  </div>
+  <time class="blog-post-meta" datetime="21st of October 2014">  21st of October 2014  </time>
+</header></div>
+      <div  id="main--" class="blog-post"><!--partial:post/about-this-site.org--><pre>comments: false
+published: true
+title: About this site
+tags: </pre>
 <p>This site is built using my own software since I was tired of jumping through
 the hoops using blogging engines such as Hexo, Jekyll and Octopress. There was
 always some problem, mainly because I forgot how to add posts or modify the site
@@ -82,9 +78,24 @@ how to easily set it up on a new computer, or there other problems such as code
 highlighting etc. This might have something to do with me not always reading
 the manual too carefully, however in any case at long last I managed to put
 something together myself that I think will suit me for a while.</p>
-
-<span class="more-blog"><a href="/post/about-this-site.html">More</a></span>
-</div></div>
+<pre>------------------</pre>
+<p>One repo on github for building, cloning, syncing all the source code,
+including the posts, pages and layout. Setting up the site on a new computer is
+as easy as cloning the repo, doing an npm install, bower install and a
+bin/serve.</p>
+<p>Adding or updating posts and pages is as easy as editing the files in the
+build/post and build/pages directories. These files are all in org mode, so I
+can use my org-mode formatting skills to layout any text, and not worry about
+knowing/remembering yet another markup language such as markdown. Org-mode
+allows me to have headings, lists, stylings, links, quotes, tables, lines and
+hidden comments. </p>
+<p>Posts can have meta data at the top of the file, enabling or setting properties
+like title, published, tags and comments. On save the whole site rerenders
+itself from scratch (with some caching though). Refresh the page and my site
+is locally updated.</p>
+<p>Updating the site on the net is done by just pushing the www directory to the
+michieljoris.io.github repo.</p>
+</div>
       <div  id="page--" class="page"> </div>
       <div  id="disqus-embed--"> </div>
       <div  id="disqus-count--"> </div>

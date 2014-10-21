@@ -1,0 +1,39 @@
+#+TITLE: About this site
+: comments: false
+: published: true
+: title: About this site
+: tags: 
+
+This site is built using my own software since I was tired of jumping through
+the hoops using blogging engines such as Hexo, Jekyll and Octopress. There was
+always some problem, mainly because I forgot how to add posts or modify the site
+everytime I thought of adding to the site. I forgot how to deploy, or I forgot
+how to easily set it up on a new computer, or there other problems such as code
+highlighting etc. This might have something to do with me not always reading
+the manual too carefully, however in any case at long last I managed to put
+something together myself that I think will suit me for a while.
+
+: ------------------
+
+One repo on github for building, cloning, syncing all the source code,
+including the posts, pages and layout. Setting up the site on a new computer is
+as easy as cloning the repo, doing an npm install, bower install and a
+bin/serve.
+
+Adding or updating posts and pages is as easy as editing the files in the
+build/post and build/pages directories. These files are all in org mode, so I
+can use my org-mode formatting skills to layout any text, and not worry about
+knowing/remembering yet another markup language such as markdown. Org-mode
+allows me to have headings, lists, stylings, links, quotes, tables, lines and
+hidden comments. 
+
+Posts can have meta data at the top of the file, enabling or setting properties
+like title, published, tags and comments. On save the whole site rerenders
+itself from scratch (with some caching though). Refresh the page and my site
+is locally updated.
+
+Updating the site on the net is done by just pushing the www directory to the
+michieljoris.io.github repo.
+
+
+

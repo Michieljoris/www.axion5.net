@@ -9,7 +9,8 @@ var fromTemplate = { id: 'body'
                          header: 'html/header.html'
                          ,leftbar: 'unpublishedWidgetWrapper'
                          
-                         ,rightbar: ['html/search.html', 'html/aboutmeWidget.html',
+                         ,rightbar: ['html/search.html',
+                                     'aboutmeWidgetWrapper',
                                      'recentWidgetWrapper',
                                      'tagWidgetWrapper',
                                      'archiveWidgetWrapper']
@@ -20,8 +21,8 @@ var fromTemplate = { id: 'body'
                          ,pageTitle: "pageTitle"
                          ,main: 'main'
                          // ,editbar: 'html/editbar.html'
-                         ,"disqus-embed": "html/disqus-embed.html"
-                         ,"disqus-count": "html/disqus-count.html"
+                         // ,"disqus-embed": "html/disqus-embed.html"
+                         // ,"disqus-count": "html/disqus-count.html"
                      }
                    };
 
@@ -60,6 +61,7 @@ var toTemplate = {
 var bodyAboutme = extend(true, {}, fromTemplate);
 bodyAboutme.id = 'body-aboutme';
 bodyAboutme.mapping.page = 'pages/aboutme.org';
+bodyAboutme.mapping.pageTitle = 'aboutmePageTitle';
 delete bodyAboutme.mapping.main;
 delete bodyAboutme.mapping['disqus-embed'];
 delete bodyAboutme.mapping['disqus-count'];
@@ -67,6 +69,7 @@ delete bodyAboutme.mapping['disqus-count'];
 var bodyProjects = extend(true, {}, fromTemplate);
 bodyProjects.id = 'body-projects';
 bodyProjects.mapping.page = 'pages/projects.org';
+bodyProjects.mapping.pageTitle = 'projectsPageTitle';
 delete bodyProjects.mapping.main;
 delete bodyProjects.mapping['disqus-embed'];
 delete bodyProjects.mapping['disqus-count'];
@@ -74,6 +77,7 @@ delete bodyProjects.mapping['disqus-count'];
 var bodyWebsites = extend(true, {}, fromTemplate);
 bodyWebsites.id = 'body-websites';
 bodyWebsites.mapping.page = 'pages/websites.org';
+bodyWebsites.mapping.pageTitle = 'websitesPageTitle';
 delete bodyWebsites.mapping.main;
 delete bodyWebsites.mapping['disqus-embed'];
 delete bodyWebsites.mapping['disqus-count'];
@@ -197,6 +201,9 @@ var exports = {
             ,recentWidget: 'recent widget here'
             ,archiveWidget: '<br>archive widget here'
             ,pageTitle: 'insert title here'
+            ,aboutmePageTitle: 'About me'
+            ,projectsPageTitle: 'Projects'
+            ,websitesPageTitle: 'Websites'
             ,"meta-page-title": '<title>meta-page-title</title>'
             // title: '<title>Blog</title>',
             // skewer: develop_mode ? '<script src="http://localhost:9090/skewer"></script>' : ' '
@@ -225,8 +232,8 @@ var exports = {
                 ,'bower/bootstrap/dist/css/bootstrap.css'
                 ,'tweak.css'
                 ,'prettify.css'
-                ,'medium-editor.css'
-                ,'medium-default-theme.css'
+                // ,'medium-editor.css'
+                // ,'medium-default-theme.css'
                 ,'blog.css'
                 // ,'bower/foundation/css/foundation.css'
                 // ,'bower/jquery-ui/jquery-ui.custom.css'
@@ -291,7 +298,7 @@ var exports = {
                     ,"bower/logthis/logthis.js"
                     // ,"bower/ractive/ractive.js"
                     // ,"bower/vue/dist/vue.js"
-                    ,"medium-editor.js"
+                    // ,"medium-editor.js"
                     ,'prettify.js'
                     // ,"epiceditor.js"
                     //The following will be substitud with the list of required
@@ -376,6 +383,12 @@ var exports = {
               src: "html/recentWidgetWrapper",
               mapping: {
                   widget: 'recentWidget'
+              }
+            },
+            { id: "aboutmeWidgetWrapper",
+              src: "html/aboutmeWidgetWrapper",
+              mapping: {
+                  widget: 'widgets/aboutmeWidget.org'
               }
             },
             fromTemplate,

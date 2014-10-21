@@ -3,6 +3,11 @@
 : published: true
 : title: Markup Cheat sheet for Org-mode
 
+A cheatsheet of often used org markup used on this site with examples of
+rendered html followed by the markup used.
+
+: ---------------------
+
 * Heading 1
 ** Heading 2
 *** Heading 3
@@ -21,8 +26,8 @@ Or add : to beginning of line to ignore org markup
  [[http://www.google.com][google]]
 : [[http://www.google.com][google]]
  
-[[http://orgmode.org/worg/images/orgweb/2.jpg]]
-: [[http://orgmode.org/worg/images/orgweb/2.jpg]]
+[[http://orgmode.org/img/org-mode-unicorn-logo.png]]
+: [[http://orgmode.org/img/org-mode-unicorn-logo.png]]
 Links to images without description get inserted as is.
  
 C-c C-l to insert or edit a link 

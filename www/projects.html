@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> 
 <html class="no-js" xmlns:ng="http://angularjs.org" lang="en">
   <!--<![endif]-->
-  <head id="head"><title>Blog-Meteor, docs and attached files</title><meta charset='utf-8'/><meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/><meta content='' name='description'/><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'/>
+  <head id="head"><title>Blog-About this site</title><meta charset='utf-8'/><meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/><meta content='' name='description'/><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'/>
 <!--partial:html/ieshim.html--><!--[if lte IE 8]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <script>
@@ -25,14 +25,12 @@
 <link rel="stylesheet" type="text/css" href="/css/bower/bootstrap/dist/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="/css/tweak.css">
 <link rel="stylesheet" type="text/css" href="/css/prettify.css">
-<link rel="stylesheet" type="text/css" href="/css/medium-editor.css">
-<link rel="stylesheet" type="text/css" href="/css/medium-default-theme.css">
 <link rel="stylesheet" type="text/css" href="/css/blog.css">
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <link rel="stylesheet" type="text/css" href="/css/main-edit.css">
 
 <script type='text/javascript'>function cachify(path) { return path; }</script></head>
-  <body id="body" onload="prettyPrint()"><!--partial:html/body-blog.html--><!--[if lt IE 7]>
+  <body id="body" ><!--partial:html/body-blog.html--><!--[if lt IE 7]>
     <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
 
@@ -44,10 +42,10 @@
 <div class="blog-masthead">
   <div class="container">
     <nav class="blog-nav">
-      <a class="blog-nav-item active" href="/">Home</a>
-      <a class="blog-nav-item" href="/projects.html">Projects</a>
-      <a class="blog-nav-item" href="/websites.html">Websites</a>
-      <a class="blog-nav-item" href="/aboutme.html">About me</a>
+      <a id="menu-blog" class="blog-nav-item" href="/">Blog</a>
+      <a id="menu-projects" class="blog-nav-item" href="/projects.html">Projects</a>
+      <a id="menu-websites" class="blog-nav-item" href="/websites.html">Websites</a>
+      <a id="menu-aboutme" class="blog-nav-item" href="/aboutme.html">About me</a>
       <a id="site-title" href="/">Axion5</a>
     </nav>
   </div>
@@ -62,14 +60,100 @@
 
   <div id="blog-body" class="row">
 
-    <div class="col-sm-8 blog-main">
+    <div class="col-sm-9 blog-main">
 
-      <div id="pageTitle--"><header >
-  <h1 class="title blog-post-title">  Meteor, docs and attached files  </h1>
-  <time class="blog-post-meta" datetime="21st of October 2014">  21st of October 2014  </time>
-</header></div>
+      <div class="pageTitle" id="pageTitle--">Projects</div>
       <div  id="main--" class="blog-post"> </div>
-      <div  id="page--" class="page"><!--partial:pages/projects.org--></div>
+      <div  id="page--" class="page"><!--partial:pages/projects.org--><p><a href="http://github.com/michieljoris/bb-server">bb-server</a></p>
+<p>Starting out as cobbled together one page node server, it grew over the past
+year to a more featured server. Totally rewritten and refactored a couple of
+times, it now can function as a https server, and a socket server as
+well. Customized logging, caching in memory and disk, and on the fly
+transpiling, minifying and compressing of assets and more have turned it into a
+more production ready server.</p>
+<p>At the same time it still starts up with a single word command, all the features
+are then disabled by default. A lot of features can still be enabled on that
+same command line, but for an easier and more complete configuration a config
+file can be used. No plugin system, since it is easier to just write it into the
+server than designing one, except for the transpilers, compressors etc, more can
+easily be added by using little api.</p>
+<p>Mostly a learning experience for me, however I do use it for some of my sites.</p>
+<p><a href="http://github.com/michieljoris/http-builder">html-builder</a></p>
+<p>A simple html build system using templates of sort. Using flatiron plates to
+fish out markers from the html soup and a javascript object to knit it all
+together again. But again, because I wrote it myself I can adapt it easily to
+whatever I need it to be, and you learn a lot while writing and adapting
+it. dbeditor</p>
+<p>Dbeditor allows you to connect to your dropbox, browse the contents and then
+edit text files using a markdown or wysiwyg editor.</p>
+<p><a href="//github.com/michieljoris/cachejs">cachejs</a></p>
+<p>Implementation of both LRU and ARC cache. Used in bb-server. It includes a
+heavily commented arc_cache.js file. The Adaptive Replacement Cache algorithm is
+supposed be efficient. I think I understand how it works, but whether I could
+have written it I don’t know. It seems clever.</p>
+<p><a href="//github.com/michieljoris/quilt">quilt</a></p>
+<p>A word play on futon, the database manager that comes with CouchDB. I thought it
+was not as useful as it could be, so I wrote my own version. It allows you to
+edit the various design docs in the manager. It also simplifies editing and
+enabling replications, and a number of other enhancements. As usual I start out
+with big plans for an app, and implement the bulk of it, but there definitly
+still things that could be worked on and expanded on.</p>
+<p>The other half of this app is a wizard to make it very easy for people to
+install and cors enable a CouchDB database for use with an other web app,
+roster. It then initializes the database depending on who they are and what
+their preferences are, setting up the right replications and permissions.</p>
+<p><a href="//github.com/michieljoris/validate_doc_update">validate_doc_update</a></p>
+<p>Used for the roster web app to easily manage read -and- write permissions. I
+didn’t want to write a different validate_doc_update document for every use
+case, so I made a generic one that can be controlled via a little dsl, embedded
+in the read permissions. See the github repo for more info.</p>
+<p><a href="//github.com/michieljoris/roster">roster</a></p>
+<p>I’ve been doing shift work to make ends meet for a number of years. I got tired
+of filling in time sheets, I never seemed to do that without at least one
+mistake or correction, so I made a little Excel worksheet for my own use. This
+time sheet was picked up by other staff and management and it had to be adapted
+to other work places. In the end Excel worksheet just got to complicated so I
+made this web app.</p>
+<p>It is built using Smartclient for the interface and is served by CouchDB where
+the data is stored as a couchapp. At the moment it sits on a Linode
+server. Users are authenticated and can be assigned roles. The user database is
+synced between databases. I wrote a long spiel about the security aspects of the
+app here.</p>
+<p>The app can be run offline because it uses application cache. The app itself can
+be synced to a local database, and so can the data the app runs against. The app
+can also be run against an in-browser database using an implemention of a
+browser version of CouchDB: pouchdb.</p>
+<p>I tried to keep the UI as simple as possible, no menus, only 5 little
+buttons. The user can build up their own UI to some extent by dragging and
+dropping, this gets persisted accross sessions, and even accross databases.</p>
+<p>The thing is designed really to be backend agnostic and extendable by plugin
+views, even plugin types. But at the moment it works against CouchDB and has
+only the following types (and their editors): shift, location, person, settings,
+user and the following views of data: table, calendar and time sheet. The design
+of the app is such that it is quite easy to add more views of the data, like a
+graph for instance.</p>
+<p>From the repo’s README:</p>
+<p>To help people set up a CouchDB instance I wrote quilt, it configures and sets
+up all the necessary replications for them. It is also a generic CouchDB manager
+a la futon.</p>
+<p>The idea is to have a decentralized but hierarchical group of CouchDB instances
+against which the app can work, see my blurb on security.</p>
+<p>In the end staff can view their upcoming shifts online, bosses can manipulate
+them, and management can have an overview and collate all the data easily.</p>
+<p>SmartClient is a bit cumbersome and it would be nice to rewrite the app using no
+frameworks. Especially the calendar gets a bit sluggish.</p>
+<p>The app itself is used by a few people at the organisation I wrote it for. I had</p>
+<p>a meeting/presentation with management, but things can move a bit slow at these
+organizations. Or maybe I am just not the best salesman..</p>
+<p><a href="//github.com/michieljoris/bootstrapjs">bootstrapjs</a></p>
+<p>To keep the roster app modular I wrote my version of requirejs. Not AMD
+compatible, but same idea and functionality. See the repo for more info. I had
+ideas of having it concatenate all the files in the right order for production
+use. However browserify and the use of transpiled languages (clojure!) make it
+all this a bit obsolete. Let alone that javascript itself will have modules in
+es6 it seems. But it was fun to write, basically doing a depth first search to
+resolve the dependencies, with detection of cyclic dependencies.</p>
+</div>
       <div  id="disqus-embed--"> </div>
       <div  id="disqus-count--"> </div>
 
@@ -81,30 +165,34 @@
     <input type="hidden" name="q" value="site:www.axion5.net">
   </form>
 </div>
-<!--partial:html/aboutmeWidget.html--><div class="widget sidebar-module sidebar-module-inset">
-  <b>About me</b></br> I put this site together as a place to showcase the
-  various websites and projects I've done, and to perhaps publish what I think
-  might be useful for others to read.  If you are interested in contracting me
-  to build a website for you, please head over to websites where I've listed the
-  sites I've done so far and a little info on how it was done.  On the projects
-  page I've listed a few of my more elaborate or interesting software projects
-  I've done so far. The source code for these and others is up on github.  If
-  you're interested in me personally please check out the about page. For more
-  detailed background on me please checkout either linkedin or
-  careers.stackoverflow.  Contact me at mail@axion5.net
+<!--partial:html/aboutmeWidgetWrapper.html--><div align="justify" class="widget sidebar-module sidebar-module-inset">
+  <div id="widget--"><!--partial:widgets/aboutmeWidget.org--><h5 id="header-0-0-0-1"><span class="section-number">0.0.0.1</span>About me </h5>
+<p>Dutch by birth, living in Australia since late youth, classical pianist, but 
+closet programmer since childhood. This site hopefully is able to showcase some 
+of my more useful fabrications and thoughts.</p>
+<p>All my code is on <a href="http://github.com/michieljoris">github</a>. </p>
+<p>For more info see the <a href="/aboutme.html">about me</a> page, <a href="http://au.linkedin.com/in/michieljoris/">linkedin</a> or 
+<a href="http://careers.stackoverflow.com/michieljoris">stackoverflow</a>.</p>
+<p>Email me at <a href="mailto:mail@axion5.net">mail@axion5.net</a></p>
 </div>
+</div>
+
 <!--partial:html/recentWidgetWrapper.html--><div class="widget sidebar-module">
   <b>Recent posts</b>
   <div id="widget--"><ul id="most-recent-partial">
-  <li><a href="/post/post2.html">post2</a></li>
   <li><a href="/post/markup-cheat-sheet-for-org-mode.html">Markup Cheat sheet for Org-mode</a></li>
+  <li><a href="/post/my-webstack.html">My webstack</a></li>
   <li><a href="/post/meteor-docs-and-attached-files.html">Meteor, docs and attached files</a></li>
+  <li><a href="/post/about-this-site.html">About this site</a></li>
 </ul></div>
 </div>
 <!--partial:html/tagWidgetWrapper.html--><div class="widget sidebar-module ">
   <b>Tags</b>
   <div id="widget--"><ul id="by-tag-partial">
-
+  <li><a href="/tag/Meteor">Meteor</a> (1)</li>
+  <li><a href="/tag/database">database</a> (1)</li>
+  <li><a href="/tag/server">server</a> (1)</li>
+  <li><a href="/tag/javascript">javascript</a> (1)</li>
 </ul></div>
 </div>
 <!--partial:html/archiveWidgetWrapper.html--><div class="widget sidebar-module">
@@ -112,11 +200,20 @@
   <div id="widget--"><ul class="css-treeview" id="archive-partial">
  <li><a  href="/archive/2014" >2014</a>
   <ul>
+   <li><a  href="/archive/2014/April" >April</a>
+    <ul>
+     <li><a  href="/post/my-webstack.html" >My webstack</a></li>
+    </ul>
+   </li>
+   <li><a  href="/archive/2014/June" >June</a>
+    <ul>
+     <li><a  href="/post/meteor-docs-and-attached-files.html" >Meteor, docs and attached files</a></li>
+    </ul>
+   </li>
    <li><a  href="/archive/2014/October" >October</a>
     <ul>
-     <li><a  href="/post/post2.html" >post2</a></li>
      <li><a  href="/post/markup-cheat-sheet-for-org-mode.html" >Markup Cheat sheet for Org-mode</a></li>
-     <li><a  href="/post/meteor-docs-and-attached-files.html" >Meteor, docs and attached files</a></li>
+     <li><a  href="/post/about-this-site.html" >About this site</a></li>
     </ul>
    </li>
   </ul>
@@ -144,7 +241,6 @@
 <script type="text/javascript" src="/scripts/bower/modernizr/modernizr.js"></script>
 <script type="text/javascript" src="/scripts/bower/bacon/dist/Bacon.min.js"></script>
 <script type="text/javascript" src="/scripts/bower/logthis/logthis.js"></script>
-<script type="text/javascript" src="/scripts/medium-editor.js"></script>
 <script type="text/javascript" src="/scripts/prettify.js"></script>
 <script type="text/javascript" src="/scripts/main.js?module=0"></script>
 <script type="text/javascript" src="/scripts/start.js"></script>

@@ -1,7 +1,0 @@
-#+TITLE:Post 2!!!! 
-: comments: false
-: published: true
-: title: post2
-And some text
-
-Some modification

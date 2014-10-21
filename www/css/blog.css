@@ -100,21 +100,26 @@ h6, .h6 {
  */
 
 .blog-main {
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.5;
+  
+  -webkit-box-shadow: 1px 2px 3px #ddd;
+  box-shadow: 1px 2px 3px #ddd;
+  background: #fff;
 }
 
 /* Sidebar modules for boxing content */
 .sidebar-module {
   padding: 0px 0px 0px 10px;
-  margin: 0 -15px 0px;
+  /* margin: 0 -15px 0px; */
 }
 .sidebar-module-inset {
   padding: 15px;
   background-color: #f5f5f5;
-  border-radius: 4px;
+  border-radius: 10px;
   margin-top:10px;
   font-size: 12px;
+  margin-bottom:13px;
 }
 .sidebar-module-inset p:last-child,
 .sidebar-module-inset ul:last-child,
@@ -142,11 +147,11 @@ h6, .h6 {
  */
 
 .blog-post {
-  margin-bottom: 60px;
+  /* margin-bottom: 60px; */
 }
 .blog-post-title {
   margin-bottom: 5px;
-  font-size: 40px;
+  font-size: 16px;
 }
 .blog-post-meta {
   margin-bottom: 20px;
@@ -159,11 +164,12 @@ h6, .h6 {
  */
 
 .blog-footer {
-  padding: 40px 0;
+  padding: 5px 0;
   color: #999;
   text-align: center;
   background-color: #f9f9f9;
   border-top: 1px solid #e5e5e5;
+  margin-top:40px;
 }
 .blog-footer p:last-child {
   margin-bottom: 0;

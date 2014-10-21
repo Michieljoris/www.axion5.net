@@ -25,14 +25,12 @@
 <link rel="stylesheet" type="text/css" href="/css/bower/bootstrap/dist/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="/css/tweak.css">
 <link rel="stylesheet" type="text/css" href="/css/prettify.css">
-<link rel="stylesheet" type="text/css" href="/css/medium-editor.css">
-<link rel="stylesheet" type="text/css" href="/css/medium-default-theme.css">
 <link rel="stylesheet" type="text/css" href="/css/blog.css">
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <link rel="stylesheet" type="text/css" href="/css/main-edit.css">
 
 <script type='text/javascript'>function cachify(path) { return path; }</script></head>
-  <body id="body" onload="prettyPrint()"><!--partial:html/body-blog.html--><!--[if lt IE 7]>
+  <body id="body" ><!--partial:html/body-blog.html--><!--[if lt IE 7]>
     <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
 
@@ -44,10 +42,10 @@
 <div class="blog-masthead">
   <div class="container">
     <nav class="blog-nav">
-      <a class="blog-nav-item active" href="/">Home</a>
-      <a class="blog-nav-item" href="/projects.html">Projects</a>
-      <a class="blog-nav-item" href="/websites.html">Websites</a>
-      <a class="blog-nav-item" href="/aboutme.html">About me</a>
+      <a id="menu-blog" class="blog-nav-item" href="/">Blog</a>
+      <a id="menu-projects" class="blog-nav-item" href="/projects.html">Projects</a>
+      <a id="menu-websites" class="blog-nav-item" href="/websites.html">Websites</a>
+      <a id="menu-aboutme" class="blog-nav-item" href="/aboutme.html">About me</a>
       <a id="site-title" href="/">Axion5</a>
     </nav>
   </div>
@@ -62,10 +60,10 @@
 
   <div id="blog-body" class="row">
 
-    <div class="col-sm-8 blog-main">
+    <div class="col-sm-9 blog-main">
 
-      <div id="pageTitle--"><header >
-  <h1 class="title blog-post-title">  post2  </h1>
+      <div class="pageTitle" id="pageTitle--"><header >
+  <div class="title blog-post-title">  post2  </div>
   <time class="blog-post-meta" datetime="21st of October 2014">  21st of October 2014  </time>
 </header></div>
       <div  id="main--" class="blog-post"><!--partial:post/post2.org--><pre>comments: false
@@ -85,30 +83,26 @@ And some text<p>Some modification</p>
     <input type="hidden" name="q" value="site:www.axion5.net">
   </form>
 </div>
-<!--partial:html/aboutmeWidget.html--><div class="widget sidebar-module sidebar-module-inset">
-  <b>About me</b></br> I put this site together as a place to showcase the
-  various websites and projects I've done, and to perhaps publish what I think
-  might be useful for others to read.  If you are interested in contracting me
-  to build a website for you, please head over to websites where I've listed the
-  sites I've done so far and a little info on how it was done.  On the projects
-  page I've listed a few of my more elaborate or interesting software projects
-  I've done so far. The source code for these and others is up on github.  If
-  you're interested in me personally please check out the about page. For more
-  detailed background on me please checkout either linkedin or
-  careers.stackoverflow.  Contact me at mail@axion5.net
+<!--partial:html/aboutmeWidgetWrapper.html--><div class="widget sidebar-module sidebar-module-inset">
+  <div id="widget--"><!--partial:widgets/aboutmeWidget.org--><h5 id="header-0-0-0-1"><span class="section-number">0.0.0.1</span>About me </h5>
+All my code is on <a href="http://github.com/michieljoris">github</a>. For more info see the <a href="/aboutme.html">about me</a> page, <a href="http://au.linkedin.com/in/michieljoris/">linkedin</a> or <a href="http://careers.stackoverflow.com/michieljoris">careers.stackoverflow</a> pages.<p>Email me at <a href="mailto:mail@axion5.net">mail@axion5.net</a></p>
+</div>
 </div>
 <!--partial:html/recentWidgetWrapper.html--><div class="widget sidebar-module">
   <b>Recent posts</b>
   <div id="widget--"><ul id="most-recent-partial">
   <li><a href="/post/post2.html">post2</a></li>
   <li><a href="/post/markup-cheat-sheet-for-org-mode.html">Markup Cheat sheet for Org-mode</a></li>
+  <li><a href="/post/my-webstack.html">My webstack</a></li>
   <li><a href="/post/meteor-docs-and-attached-files.html">Meteor, docs and attached files</a></li>
 </ul></div>
 </div>
 <!--partial:html/tagWidgetWrapper.html--><div class="widget sidebar-module ">
   <b>Tags</b>
   <div id="widget--"><ul id="by-tag-partial">
-
+  <li><a href="/tag/Meteor">Meteor</a> (1)</li>
+  <li><a href="/tag/server">server</a> (1)</li>
+  <li><a href="/tag/javascript">javascript</a> (1)</li>
 </ul></div>
 </div>
 <!--partial:html/archiveWidgetWrapper.html--><div class="widget sidebar-module">
@@ -120,6 +114,7 @@ And some text<p>Some modification</p>
     <ul>
      <li><a  href="/post/post2.html" >post2</a></li>
      <li><a  href="/post/markup-cheat-sheet-for-org-mode.html" >Markup Cheat sheet for Org-mode</a></li>
+     <li><a  href="/post/my-webstack.html" >My webstack</a></li>
      <li><a  href="/post/meteor-docs-and-attached-files.html" >Meteor, docs and attached files</a></li>
     </ul>
    </li>
@@ -148,7 +143,6 @@ And some text<p>Some modification</p>
 <script type="text/javascript" src="/scripts/bower/modernizr/modernizr.js"></script>
 <script type="text/javascript" src="/scripts/bower/bacon/dist/Bacon.min.js"></script>
 <script type="text/javascript" src="/scripts/bower/logthis/logthis.js"></script>
-<script type="text/javascript" src="/scripts/medium-editor.js"></script>
 <script type="text/javascript" src="/scripts/prettify.js"></script>
 <script type="text/javascript" src="/scripts/main.js?module=0"></script>
 <script type="text/javascript" src="/scripts/start.js"></script>

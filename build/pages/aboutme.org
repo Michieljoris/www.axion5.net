@@ -1,4 +1,27 @@
-Hello from aboutme.org!!!
+#+About me
 
-* This is heading one
-: and in abox
+Living in Brisbane with my wife and two daughters, but hoping to move to Amsterdam.
+ 
+
+Dutch by birth.
+
+
+Classical pianist.
+
+Piano teacher since 12 years or so.
+
+Loving the weather and space in Australia but missing the culture of where
+I come from.
+
+Enjoy speed skating and wind surfing as sports, sailing as a hobby.
+
+Love creating things on a computer.
+
+What else is there to say?
+
+Contact me at [[mailto:mail@axion5.net][mail@axion5.net]]
+
+
+All my code is on [[http://github.com/michieljoris][github]]. 
+
+Or checkout [[http://au.linkedin.com/in/michieljoris/][linkedin]] or [[http://careers.stackoverflow.com/michieljoris][stackoverflow]].

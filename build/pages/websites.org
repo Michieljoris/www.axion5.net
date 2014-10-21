@@ -1,1 +1,56 @@
-This is from websites.org
+#+Projects
+
+I am a programmer not a designer, however I try to make a site look as pleasing
+as possible. My starting point is a usually a template, which I tweak and adapt
+till it comes accross as some kind of unit, the exception so far has been the
+greenglass site, which is actually bit more of a one page app then a traditional
+website. 
+
+----------------------
+[[http://www.julangart.com][www.julangart.com]]
+
+#+CAPTION: Julangart
+#+ATTR_HTML: max-width=100%
+[[/images/julangart.jpg][http://www.julangart.com]]
+
+Built with Drupal and hosted very cheaply at nearlyfreespeech. The end user can
+build their own galleries and add them to the site. Fully responsive, so mobile
+ready.
+----------------------
+[[http://www.firstdoor.com.au][www.firstdoor.com.au]]
+[[/images/firstdoor.jpg][http://www.firstdoor.com.au]]
+
+Built with angularjs and bootstrap and running off a home spun nodejs
+server. The site is built out of html fragments put together by my
+html-builder. Mobile ready. Served from nodejitsu originally, but now from a
+Linode server. End user is able to edit any body text inline after logging
+in. The site automatically rebuilds itself after. Similarly the end user can
+edit a list of videos. They get grouped automatically and listed on the
+resources page. A bit similar to a blogging engine. In fact a blog has been
+added recently, again with online and inline editing and removing of
+posts.
+
+-------------------
+[[http://www.greenglass-terrariums.com][greenglass-terrariums.com]]
+[[/images/green_glass_terrariums.jpg][www.greenglass-terrariums.com]]
+
+A true one page app using angularjs and nodejs. The idea was to make a site that
+resembles a gallery as closely as possible. You can make a selection of the kind
+of terrarium by clicking the select button. The site uses isotope for the auto
+rearranging images. End user is able to upload images from an ipad to
+dropbox. By visiting the sync page the server pulls these images from there. The
+end user is then able to add tags such as price and size to all images. The end
+user has to log into the site to enable the editing features. The server is
+again my own bb-server), running on AWS at the moment but will migrate to a
+Linode server.
+
+--------------------
+[[http://www.mamre.org.au][www.mamre.org.au]]
+[[/images/mamre.jpg][http://www.mamre.org.au]]
+Drupal site running on Linode.
+
+--------------
+[[http://www.pavetheway.org.au][www.pavetheway.org.au]]
+[[/images/ptw.jpg][http://www.pavetheway.org.au]]
+Another Drupal site running on Linode
+
