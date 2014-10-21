@@ -22,12 +22,9 @@
     "modernizr": "~2.7.2",
     "normalize.css": "~3.0.0",
     "jquery": "*",
-    "page": "*",
-    "bacon": "*",
-    "mori": "*",
     "bootstrap": "*"
   },
   "devDependencies": {},
   "private": false,
-  "version": "0.0.6"
+  "version": "0.0.7"
 }

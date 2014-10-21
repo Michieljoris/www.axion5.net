@@ -98,10 +98,10 @@ module.exports = {
         "normalize.css": "~3.0.0",
         // "arbor": "*",
         "jquery": "*",
-        "page": "*",
+        // "page": "*",
         
-        "bacon": "*",
-        "mori": "*",
+        // "bacon": "*",
+        // "mori": "*",
         "bootstrap": "*"
         
         

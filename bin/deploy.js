@@ -1,5 +1,8 @@
 var git  = require( 'gift');
 
+//clone or pull/fetch michieljoris.io.github to ~/tmp
+//cp 
+
 function sync(repoPath, cb) {
     var repo = git(repoPath);
     console.log("Processing:", repo.path);

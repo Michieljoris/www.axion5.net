@@ -243,7 +243,7 @@ var exports = {
                 // ,'vendor/checkboxes.css'
                 
                 ,'main.css'
-                ,'main-edit.css'
+                // ,'main-edit.css'
             ]
             ,path: 'css'
         }
@@ -293,7 +293,7 @@ var exports = {
                     // "vendor/jquery-1.6.2.js"
                     ,'bower/bootstrap/dist/js/bootstrap.js'
                     ,"bower/modernizr/modernizr.js"
-                    ,"bower/bacon/dist/Bacon.min.js"
+                    // ,"bower/bacon/dist/Bacon.min.js"
                     // ,"bower/mori/mori.js"
                     ,"bower/logthis/logthis.js"
                     // ,"bower/ractive/ractive.js"
@@ -322,9 +322,9 @@ var exports = {
                     //and bb-server needs to know a requested script is a module
                     //because it needs to denodify.wrap it.
                     // ,'modules/mymodule.nm.js'
-                    
-                    ,['main.js']
-                    ,"start.js"
+                    ,'main.js'
+                    // ,['main.js']
+                    // ,"start.js"
                     
                 ],
                 path: 'scripts'
