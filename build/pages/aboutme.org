@@ -1,6 +1,6 @@
 #+About me
 
-Living in Brisbane with my wife and two daughters, but hoping to move to Amsterdam.
+Living in Brisbane, Australia with my wife and two daughters, but hoping to move to Amsterdam.
  
 
 Dutch by birth.
@@ -17,7 +17,6 @@ Enjoy speed skating and wind surfing as sports, sailing as a hobby.
 
 Love creating things on a computer.
 
-What else is there to say?
 
 Contact me at [[mailto:mail@axion5.net][mail@axion5.net]]
 
