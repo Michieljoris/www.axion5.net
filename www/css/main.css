@@ -155,3 +155,7 @@ display: none;
     height: auto;
     border: none;
 }
+
+.blog-post pre:nth-of-type(2) {
+    display: none;
+}

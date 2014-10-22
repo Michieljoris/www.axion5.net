@@ -15,12 +15,12 @@ window.onload = function() {
 
         active.classList.add('active');
 
-    var teaserBreaks = document.querySelectorAll('#main-- pre');
-    teaserBreaks = Array.prototype.slice.apply(teaserBreaks);
-    teaserBreaks = teaserBreaks.filter(function(teaserBreak) {
-        return teaserBreak.innerHTML.indexOf('-----') !== -1;
-    });
-    log('break:', teaserBreaks);
-    if (teaserBreaks.length)
-        teaserBreaks[0].setAttribute('style', 'display:none');
+    // var teaserBreaks = document.querySelectorAll('#main-- pre');
+    // teaserBreaks = Array.prototype.slice.apply(teaserBreaks);
+    // teaserBreaks = teaserBreaks.filter(function(teaserBreak) {
+    //     return teaserBreak.innerHTML.indexOf('-----') !== -1;
+    // });
+    // log('break:', teaserBreaks);
+    // if (teaserBreaks.length)
+    //     teaserBreaks[0].setAttribute('style', 'display:none');
 };

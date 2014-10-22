@@ -11,6 +11,7 @@ You can store files directly in MongoDB documents, however there is a limit of
 What follows is a description with code examples of how to do this a different
 way while still enforcing access rights.
 
+#+HTML bla=1
 : ----------------------
 
 
