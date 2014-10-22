@@ -54,7 +54,7 @@ var toTemplate = {
         
         "body": ['body', 'jsBlock'
                  
-                 // ,'html/google_analytics.html'
+                 ,'html/google_analytics.html'
                 ]
     }
 };
