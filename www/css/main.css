@@ -7,9 +7,9 @@
 }
 
 ul {
-    margin-left:0px;
-    padding-left:0px;
-    list-style:none;
+    /* margin-left:0px; */
+    /* padding-left:0px; */
+    /* list-style:none; */
 }
 
 #archive-partial ul {
@@ -158,4 +158,13 @@ display: none;
 
 .blog-post pre:nth-of-type(2) {
     display: none;
+}
+
+td {
+    padding:4px;
+    border:1px solid black;
+}
+
+table {
+    margin-bottom: 20px;
 }

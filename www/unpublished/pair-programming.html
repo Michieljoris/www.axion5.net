@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> 
 <html class="no-js" xmlns:ng="http://angularjs.org" lang="en">
   <!--<![endif]-->
-  <head id="head"><title>Axion5-Meteor, docs and attached files</title><meta charset='utf-8'/><meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/><meta content='' name='description'/><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'/>
+  <head id="head"><title>Axion5-Pair programming</title><meta charset='utf-8'/><meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/><meta content='' name='description'/><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'/>
 <!--partial:html/ieshim.html--><!--[if lte IE 8]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <script>
@@ -71,148 +71,58 @@
     <div class="col-sm-9 blog-main">
 
       <div class="pageTitle" id="pageTitle--"><header >
-  <div class="title blog-post-title">  Meteor, docs and attached files  </div>
-  <time class="blog-post-meta" datetime="2nd of June 2014">  2nd of June 2014  </time>
+  <div class="title blog-post-title">  Pair programming  </div>
+  <time class="blog-post-meta" datetime="24th of October 2014">  24th of October 2014  </time>
 </header></div>
-      <div  id="main--" class="blog-post"><!--partial:post/meteor-docs-and-attached-files.org--><pre>comments: true
-published: true
-title: Meteor, docs and attached files
-tags: Meteor, database
-publishedat: 2/June/2014</pre>
-<p>You can store files directly in MongoDB documents, however there is a limit of
-16MB and the Meteor DDP protocol might not be up to the task. </p>
-<p>What follows is a description with code examples of how to do this a different
-way while still enforcing access rights.</p>
-<pre>----------------------</pre>
-<p>There are two atmosphere packages that attempt to fill the gap:</p>
-<ol><li>CollectionFS</li>
-<li>fileCollection</li>
-</ol>
-<p>Both are extensively documentend, with the latter one being the lighter one.</p>
-<p>They either use the MongoDB GridFS or store files externally on S3 or the
-server’s file system. They both tie in with the MongoDB style of organising
-data, extending functionality of collections, by having special ‘file’
-collections.</p>
-<p>These ‘file’ documents can then be referenced from other documents. With these
-packages come API’s and systems for security, manipulation, filtering, UI
-helpers etc.</p>
-<p>My eyes drooped and my mind wandered every time I tried to read through the
-documentation for these packages. It seemed a bit overdone, at least for my
-purposes.</p>
-<p>I have used CouchDB somewhat, and files are called attachments in that corner of
-the database world. The API is simple, just ‘attach’ them, and CouchDB takes
-care of storing them. Access rights are tied to the document they are attached
-to.</p>
-<p>I tried to implement something similar for Meteor.</p>
-<p>Instead of storing the files in MongoDB, they are stored on and read from the
-server’s hard disk through a separate static file server. Files are attached by
-path and name to a document, as an array of file objects. Each object can
-contain as much meta data as you like, but at least the path and name.</p>
-<p>To access a file from the file server an access key needs to accompany the
-request for the file. This access key is generated (and encrypted) server side
-by Meteor when the document is published that has the reference to the file. The
-access key contains two references, one to the currently logged in user’s hashed
-log in token, and one to md5 hash of the contents of the file.</p>
-<p>Because transform (reference..) doesn’t work on the server side I am using added
-and friends to modify the relevant docs when published:</p>
-<pre class="prettyprint"><code class="language-javascript">//Draft of server side authorizing of request
-module.exports = function(req) {
-    if (req.url.pathname.indexOf(&#39;/public&#39;) === 0) return VOW.kept(); 
-    var vow = VOW.make();
-    
-    var query = req.url.search;
-    var decrypted = decrypt(query.slice(1), pwd);
-    var data;
-    if (decrypted.error) 
-        vow.break({ forbidden: true, srcPath: req.url.pathname });
-    else {
-        try {
-            data = JSON.parse(decrypted.decrypted);
-        } catch(e) {
-            vow.break({ forbidden: true, srcPath: req.url.pathname });
-        }
-        var hashedToken = data.l;
-        retrieveUser(hashedToken).when(
-            function(user) {
-                console.log(&#34;file retrieval of &#34; + req.url.pathname  + &#39; by &#39; , user.emails);
-                vow.keep();
-                
-            },
-            function(err) {
-                console.log(err);
-                vow.break({ forbidden: true, srcPath: req.url.pathname });
-            }
-        );
-    }
-    return vow.promise;
-  
-};</code>
-</pre>
-<p>Requests come in the form of:</p>
-<p><a href="http://files.server.com/path/to/somefile?KJSDFS93450FJDKSFJKDJFLSFS8908">http://files.server.com/path/to/somefile?KJSDFS93450FJDKSFJKDJFLSFS8908</a></p>
-<p>With the part after the question mark being the access key.</p>
-<p>When a user uploads a file, the md5 of the file can be calculated client side
-(by a library such as SparkMD5 for instance), and saved with the document. You
-could then forbid updating the md5 of any attachments server side perhaps, or
-attach them server side when the documents gets saved.</p>
-<p>Users could reuse an access key for a different path on the file server, in the
-same session (with the same login token) only if the file on that different path
-has the same md5 checksum, in other words, it’s the same file.</p>
-<p>Additional access rights to documents and thus to files can be granted to users
-within the same session, however when you take away access rights the documents
-will be ‘denied’, but the files will still be accessible. However when the
-logged in user logs out and then in again (new loginToken) the files will be
-disallowed as well. You could perhaps force to log everybody out
-Meteor.logoutOtherClients, or somehow issue everybody with new login tokens.</p>
-<p>Another caveat is that once a user copies or retrieves the url to a file, this
-url will work in any browser, on any computer as long as the user is logged
-in. It might be possible to work around this by setting a cookie (to the
-loginToken for example) in the tab and browser where the user is logged into the
-app. The file server can check whether the loginToken in the decrypted access
-key is the same as the cookie received with the request.</p>
-<p>The system is rather simple, and only needs a slight modification to an
-otherwise open static file server (I used my own bb-server), and a small
-adaption of publish functions for documents that can refer to files. You also
-have to write the user interface part of listing, uploading, deleting,
-retrieving of file attachments.</p>
-<p>For my own and future reference here is the code for uploading files:</p>
-<pre class="prettyprint"><code class="language-html">&#60;!--Custom styleable upload link--&#62;
-&#60;input type=&#34;file&#34; id=&#34;fileElem&#34; multiple accept=&#34;*&#34; style=&#34;display:none&#34; onchange=&#34;handleFiles(this.files)&#34;&#62;
-&#60;a href=&#34;#&#34; id=&#34;fileSelect&#34;&#62;Select files&#60;/a&#62;</code>
-</pre>
-<pre class="prettyprint"><code class="language-javascript">//Use HTML5 filereader to read and ajax post the file.
-function saveFile(fileName, data) {
-    if (!fileName) {
-        console.log(&#39;no filename, so not saving&#39;, data);
-    }
-    console.log(&#39;Saving file &#39; + fileName);
-    HTTP.call(&#39;POST&#39;, FILEHOST + &#39;/?path=&#39; + fileName, {
-        content: data
-    }, function(error, result) {
-        console.log(&#39;error: &#39;, error, &#39;\nresult: &#39;, result);
-	if (error) {
-            console.log(&#39;Failed to save on the server &#39;, data.error);
-            alert(&#39;Warning: this file did not save to the server!!&#39;);
-	}
-	else console.log(&#34;Success. Data saved to:&#34;, fileName);
-    });
-} 
-
-handleFiles = function handleFiles(files) {
-    // console.log(files);
-    var fileList = files; /* now you can work with the file list */
-    var reader = new FileReader();
-    reader.onload = function(data) {
-        //post to bb-server 
-	//TODO calculate MD5 of every file
-	//TODO add multiple file upload support
-        saveFile(fileList[0].name, reader.result);
-    };
-    // console.log(fileList[0]);
-    reader.readAsText(fileList[0]);
-};
-server, database, Meteor</code>
-</pre>
+      <div  id="main--" class="blog-post"><!--partial:post/pair-programming.org--><pre>comments: true
+published: false
+title: Pair programming
+tags: job</pre>
+<p></p>
+Without making any judgement on the benifits or disadvantages of pair programming in terms of productivity, I want to make a case that the motivation to promote pair programming starts from false premises, and is coming from the wrong people.<table><tbody><tr><td> &#60;80&#62;                                                                             </td>
+<td> &#60;80&#62;                                                                             </td>
+</tr>
+<tr><td> Sole programmers                                                                 </td>
+<td> Pair programmers                                                                 </td>
+</tr>
+<tr><td> Sole workers are a black box, uncontrollable, opaque.                            </td>
+<td> Pair are workers transparent, controllable (through the other worker);           </td>
+</tr>
+<tr><td> Quality control needs to wait for the end result to make an assesment.           </td>
+<td> Quality can be monitored throughout the process.                                 </td>
+</tr>
+<tr><td> Quality can be anything from very low to very high.                              </td>
+<td> Pair programming weeds out low quality workers/work, garantuees minium quality. Averages output, not very bad, not excellent. </td>
+</tr>
+<tr><td> Makes the individual programmer vital and necessary for the product.             </td>
+<td> Makes programmers replaceble since they are not solely responsible for the output. </td>
+</tr>
+<tr><td> Needs trust in and reliance on skills of worker by the manager.                  </td>
+<td> Manager knows programmers are monitoring each other.                             </td>
+</tr>
+<tr><td> Extroverts get restless being quiet. This is understood by managers who are, or need to by by nature of the job extroverts. </td>
+<td> Forces an introvert to show their inherent weak side and prevents them from leveraging their difference. This alienates then from managers. </td>
+</tr>
+<tr><td> Some people are suited to programming because it is one of the few professions where it is ok or even expected to be alone, and work in silence and in solitary. If programming was a social activity it would deter a certain class of people who otherwise might be very good problem solvers. </td>
+<td> Pair programming can be very detrimental to a certain type of people, social interaction, any social interaction can be very draining, exhausting. Not too be avoided necessarily but needing to be managed and limited to some degree, just for personal psychological reasons. In other words not suitable for introverts, especially when enforced. </td>
+</tr>
+<tr><td> Work is done thinking, contemplating, designing. Typing the code is almost an afterthought, for this reason does not look productive. </td>
+<td> Pair programmers certainly look very productive, even when they aren&#39;t, they can be observed as working, since they are required to sit behind a screen and keyboard, so they&#39;re supposed to type and talk. This looks busy. This is satisfying for a manager. </td>
+</tr>
+<tr><td> Productivity is dependent on the will of the individual programmer, creativity knows no bounds: the mind is a limitless universe. </td>
+<td> Productivity is encouraged (peer pressure). Creativity by nature discouraged, since you need to always convince the other first of truly original ideas. </td>
+</tr>
+</tbody>
+</table>
+<p>A number of observations and remarks:</p>
+<ul><li>A ordinary but rational manager will always favor pair programming, for the above reasons.</li>
+<li>Odds are that productivity will be increased, as in functionality implemented, bugs squashed.</li>
+<li>Some people are not capable of enforced, continuous pair programming for psychological reasons. Since programming can very well be a solitary activity, they think/hope they can leverage their perceived weakness.</li>
+<li>In traditional business productivity equals money. More cars, means more money as long as the advertising department does its job.  </li>
+<li>Programmers should perhaps have no managers, but should manage themselves. Unlike almost any other profession they have all the tools to their disposal to do this. And if lacking, they can add to the tools, they can them build them themselves. I would guess that almost anything that in ordinary professions needs a specialist can be taken on, can be automated by a programmer. Programming motherfucker!!!</li>
+<li>Control must be very important to managers, since they are willing to spend money for the productivity of one for the price of two! Roughly speaking, in an ideal world, where all programmers are equal.</li>
+<li>But communication, collaboration, brain storming, demonstration, instruction, distribution of work, coordination is inherent to all software writing. You write software to be used. If you want it to continue to be used you write it so at the very least you yourself can read it again later. You hope always that other programmers will at some point see what a solid solution you have found and coded. Nobody can code the world alone. By necessity software is mostly built out on modules built by other people. These modules need to communicate, the people who wrote them need to communicated with. These modules need coordination. A bigger design needs to be decided on. New ideas need to be communicated. Technologies taught. Functionality demonstrated. Work distributed. Etc etc. To say that programming is anti+social activity is ridiculous. But it is fundamentally a creative activity. Innovation is essential for progress in the sector as a whole. Creation requires digging deep. Digging deep is difficult in a social context. </li>
+</ul>
 </div>
       <div  id="page--" class="page"> </div>
       <div  id="disqus-embed--"><!--partial:html/disqus-embed.html--><div id="disqus_thread"></div>

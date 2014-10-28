@@ -1,0 +1,70 @@
+#+TITLE: Pair programming
+: comments: true
+: published: false
+: title: Pair programming
+: tags: job
+
+   
+Without making any judgement on the benifits or disadvantages of pair
+programming in terms of productivity, I want to make a case that the current
+popular fad of pair programming starts from false premises, is promoted by the
+wrong people, is re-enforcing a stereoype and is prejudiced in its approach
+to programmers.
+
+| <80>                                                                             | <80>                                                                             |
+| Sole programmers                                                                 | Pair programmers                                                                 |
+| Sole workers are a black box, uncontrollable, opaque.                            | Pair are workers transparent, controllable (through the other worker);           |
+| Quality control needs to wait for the end result to make an assesment.           | Quality can be monitored throughout the process.                                 |
+| Quality can be anything from very low to very high.                              | Pair programming weeds out low quality workers/work, garantuees minium quality. Averages output, not very bad, not excellent. |
+| Makes the individual programmer vital and necessary for the product.             | Makes programmers replaceble since they are not solely responsible for the output. |
+| Needs trust in and reliance on skills of worker by the manager.                  | Manager knows programmers are monitoring each other.                             |
+| Extroverts get restless being quiet. This is understood by managers who are, or need to by by nature of the job extroverts. | Forces an introvert to show their inherent weak side and prevents them from leveraging their difference. This alienates then from managers. |
+| Some people are suited to programming because it is one of the few professions where it is ok or even expected to be alone, and work in silence and in solitary. If programming was a social activity it would deter a certain class of people who otherwise might be very good problem solvers. | Pair programming can be very detrimental to a certain type of people, social interaction, any social interaction can be very draining, exhausting. Not too be avoided necessarily but needing to be managed and limited to some degree, just for personal psychological reasons. In other words not suitable for introverts, especially when enforced. |
+| Work is done thinking, contemplating, designing. Typing the code is almost an afterthought, for this reason does not look productive. | Pair programmers certainly look very productive, even when they aren't, they can be observed as working, since they are required to sit behind a screen and keyboard, so they're supposed to type and talk. This looks busy. This is satisfying for a manager. |
+| Productivity is dependent on the will of the individual programmer, creativity knows no bounds: the mind is a limitless universe. | Productivity is encouraged (peer pressure). Creativity by nature discouraged, since you need to always convince the other first of truly original ideas. |
+
+
+
+A number of observations and remarks:
+
++ A ordinary but rational manager will always favor pair programming, for the above reasons.
++ Odds are that productivity will be increased, as in functionality implemented, bugs squashed.
++ Some people are not capable of enforced, continuous pair programming for psychological reasons. Since programming can very well be a solitary activity, they think/hope they can leverage their perceived weakness.
++ In traditional business productivity equals money. More cars, means more money as long as the advertising department does its job.  
++ Programmers should perhaps have no managers, but should manage themselves. Unlike almost any other profession they have all the tools to their disposal to do this. And if lacking, they can add to the tools, they can them build them themselves. I would guess that almost anything that in ordinary professions needs a specialist can be taken on, can be automated by a programmer. Programming motherfucker!!!
++ Control must be very important to managers, since they are willing to spend money for the productivity of one for the price of two! Roughly speaking, in an ideal world, where all programmers are equal.
++ But communication, collaboration, brain storming, demonstration, instruction,
+  distribution of work, coordination is inherent to all software writing. You
+  write software to be used. If you want it to continue to be used you write it
+  so at the very least you yourself can read it again later. You hope always
+  that other programmers will at some point see what a solid solution you have
+  found and coded. Nobody can code the world alone. By necessity software is
+  mostly built out on modules built by other people. These modules need to
+  communicate, the people who wrote them need to communicated with. These
+  modules need coordination. A bigger design needs to be decided on. New ideas
+  need to be communicated. Technologies taught. Functionality demonstrated. Work
+  distributed. Etc etc. To say that programming is anti+social activity is
+  ridiculous. But it is fundamentally a creative activity. Innovation is
+  essential for progress in the sector as a whole. Creation requires digging
+  deep. Digging deep is difficult in a social context. 
+  
+  
+The premise of pair programming is that it is necessary to increase programmer's
+productivity. They are considered to be lazy, to make mistakes, they are
+forgetful and are not able to see the big picture. They need an extra brain to
+compensate for their mental limitations. Maybe they do, however I would say what
+we need is not more, or even better software, but more clever software. We need
+originality, innovation, not only less bugs. This is what needs to be promoted
+and facilitated, even if it is at the cost of some more bugs.
+
+If pair programming is at any time a useful tool it should never be promoted or
+pushed by managers, only by the programmers themselves. Manager's motivations
+can by their nature not be trusted to be non-biased. Manager's live by
+different standards and expectations.
+ 
+A programmer has the image of a lonely introvert. Pair programming is supposed
+to remedy that person's defect. In fact programming is one of the most social
+human activities you can think of. You interact with this mountain of people
+that came before you. You interact with a flood of people that are writing
+functionality you use yourself again. What you write almost always is to
+benefit other people, as many as possible. 

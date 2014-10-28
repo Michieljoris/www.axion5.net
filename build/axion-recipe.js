@@ -50,11 +50,11 @@ var toTemplate = {
                'headJsBlock',
                'linkBlock'
                ,'cachify'
+               ,'html/google_analytics.html'
               ],
         
         "body": ['body', 'jsBlock'
                  
-                 ,'html/google_analytics.html'
                 ]
     }
 };

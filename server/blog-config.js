@@ -4,6 +4,7 @@
 //module and passing different values. Any values not defined are taken from
 //this set of defaults
 module.exports = {
+    siteTitle: 'Axion5',
     paths: {
         //Base path to directory with source files for html-builder:
         base: 'build',
