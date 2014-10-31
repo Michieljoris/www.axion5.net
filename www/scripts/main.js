@@ -4,7 +4,8 @@ window.onload = function() {
     // logthis._enable();
     // logthis['main.js']._enable();
 
-    prettyPrint();   
+    // prettyPrint();   
+    hljs.initHighlightingOnLoad();
     var active;
     try {
         active = $('#menu-' + location.pathname.slice(1, location.pathname.length-5))[0];

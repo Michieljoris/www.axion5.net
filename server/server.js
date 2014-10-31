@@ -102,7 +102,7 @@ var options = {
     // the url matches a path on the server relative to the
     // root. Assign an array of paths to limit listing to the listed
     // paths (relative to the root) eg. ['/lib']. Defaults to true. 
-    ,dir: false
+    ,dir: true
     
     // If index.html is found in an allowable directory it is sent
     // over instead of the directory listing. Assign a string to look

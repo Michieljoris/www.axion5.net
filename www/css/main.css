@@ -168,3 +168,12 @@ td {
 table {
     margin-bottom: 20px;
 }
+
+blockquote {
+    font-size: 13px;
+}
+
+pre.prettyprint {
+    padding:0px;
+    word-break: break-word;
+}

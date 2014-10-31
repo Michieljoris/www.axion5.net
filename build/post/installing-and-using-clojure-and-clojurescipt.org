@@ -1,0 +1,620 @@
+#+TITLE: Installing and using Clojure and ClojureScript with Emacs
+: comments: false
+: published: false
+: title: Installing and using Clojure and ClojureScript with Emacs
+: tags: Emacs Clojure ClojureScript install
+
+Clojure is wonderful, being able to use ClojureScript in the browser even more so, however setting up a development environment is a pain in the ass. On top of this what's considered best practice is still changing from almost month to month.
+
+Because of this I intend to document here as accurately as I can the process for getting a working environment in Emacs for both Clojure and ClojureScript. This is going to be a working document where I will update the procedure I use myself on an ongoing basis. In general I will be noting instructions to install the most recent verions of software and scripts. Mostly this is a description of how, not so much of why, but I'll try to include links to more info where relevant.
+
+Much of the following is freely copied and modified from other tutorials on the net. A list of resources is at the bottom of the page. 
+
+: -------------
+** Clojure
+ Clojure needs Java installed. So =java -version= should return something like:
+ 
+: java version "1.8.0_11"
+: Java(TM) SE Runtime Environment (build 1.8.0_11-b12)
+: Java HotSpot(TM) 64-Bit Server VM (build 25.11-b03, mixed mode)
+ 
+Minimum required version is 1.6, see [[http://clojure.org/getting_started?responseToken%3Ddfb93f0a2a572fc0c51e2373226b731e][here]].
+
+In a freshly installed ubuntu 14.4 :
+
+: sudo apt-get update 
+: # to make sure apt-add-repository is installed:
+: sudo apt-get install software-properties-common 
+: sudo add-apt-repository ppa:webupd8team/java
+: sudo apt-get update
+: sudo apt-get install oracle-java8-installer 
+
+You do not need to install Clojure as such, it's just a [[http://central.maven.org/maven2/org/clojure/clojure/1.6.0/][jar]] file. To take care of compiling Clojure programs and general project management there is [[http://leiningen.org/][leiningen]].
+
+** Leiningen
+
+From [[http://en.wikipedia.org/wiki/Leiningen_(software)][wikipedia]] :
+
+#+begin_quote
+
+Leiningen is a build automation and dependency management tool for the simple
+configuration of software projects written in the Clojure programming language.
+
+Leiningen's features can be extended via a plugin system, and it is supplied
+with a command line interface that can initiate a number of actions, which
+include:
+
++ The generation of a simple Clojure project skeleton
++ Packaging of project code and dependencies into an 'Uberjar' .jar file
++ Start an interactive REPL that has the classpath correctly set to load project
+  dependencies
++ Ahead-of-time (AOT) compilation,
++ Dependency resolution (with automatic library downloading)
+  
+#+end_quote
+
+And of course it runs your Clojure program if it's not a library. However, running a Clojure program involves automatically booting up a JVM first. Since this can take a few seconds Clojure programs are more easily tested and developed using a repl in a JVM booted and kept running for this purpose. This enables an instant feedback loop to the developer.
+
+To install Leiningen download the [[https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein][lein]] script 
+: wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein 
+
+Place it on your $PATH where your shell can find it (eg. ~/bin)
+: sudo cp lein ~/bin
+
+Set it to be executable 
+: chmod a+x ~/bin/lein 
+
+Run it and it will download the self-install package
+: lein 
+: > ....
+: > Downloading Leiningen to /home/michieljoris/.lein/self-installs/leiningen-2.5.0-standalone.jar now...
+: > ....
+
+Following is a list of most used options:
+
+#+begin_example
+Leiningen is a tool for working with Clojure projects.
+Several tasks are available:
+version             Print version for Leiningen and the current JVM.
+upgrade             Upgrade Leiningen to specified version or latest stable.
+new                 Generate project scaffolding based on a template.
+run                 Run a -main function with optional command-line arguments.
+uberjar             Package up the project files and dependencies into a jar file.
+repl                Start a repl session either with the current project or standalone.
+search              Search remote maven repositories for matching jars.
+
+clean               Remove all files from project's target-path.
+deps                Download all dependencies.
+
+Run `lein help $TASK` for details.
+
+#+end_example
+
+
+# change              Rewrite project.clj by applying a function.
+# check               Check syntax and warn on reflection.
+# classpath           Print the classpath of the current project.
+# compile             Compile Clojure source into .class files.
+# deploy              Build and deploy jar to remote repository.
+# do                  Higher-order task to perform other tasks in succession.
+# help                Display a list of tasks or help for a given task.
+# install             Install the current project to the local repository.
+# jar                 Package up all the project's files into a jar file.
+# javac               Compile Java source files.
+# plugin              DEPRECATED. Please use the :user profile instead.
+# release             Perform :release-tasks.
+# retest              Run only the test namespaces which failed last time around.
+# show-profiles       List all available profiles or display one if given an argument.
+# test                Run the project's tests.
+# trampoline          Run a task without nesting the project's JVM inside Leiningen's.
+# update-in           Perform arbitrary transformations on your project map.
+# vcs                 Interact with the version control system.
+# with-profile        Apply the given task with the profile(s) specified.
+
+# pom                 Write a pom.xml file to disk for Maven interoperability.
+
+
+# Global Options:
+#   -o             Run a task offline.
+#   -U             Run a task after forcing update of snapshots.
+#   -h, --help     Print this help or help for a specific task.
+#   -v, --version  Print Leiningen's version.
+
+# See also: readme, faq, tutorial, news, sample, profiles, deploying, gpg,
+# mixed-source, templates, and copying.
+
+
+Generate a simple Clojure project skeleton:
+
+: lein new app some-app-name
+
+#+begin_example
+| .gitignore
+| doc
+| | intro.md
+| LICENSE
+| project.clj
+| resources
+| README.md
+| src
+| | some_app_name
+| | | core.clj
+| test
+| | some_app_name
+| | | core_test.clj
+#+end_example
+
+: cd some-app-name
+: lein run
+
+Lein will retrieve some dependencies as specified in project.clj, compile the project and then print:
+
+: Hello, World!
+
+Run it again:
+
+: lein run
+
+and it'll only have to start the jvm and compile and then prints the same.
+
+Build a standalone jar:
+: lein uberjar
+
+And then run it with:
+: java -jar target/uberjar/some-app-name-0.1.0-SNAPSHOT-standalone.jar 
+
+Run a repl in the project:
+: lein repl
+
+And then at the prompt:
+: some-app-name.core=> (-main)
+: Hello, World!
+: nil
+: some-app-name.core=> (exit)
+: Bye for now!
+
+Search for a clojar with:
+: lein search clojar-name
+
+This will take some time the first time. 
+
+A very useful tutorial on leiningen is [[https://github.com/technomancy/leiningen/blob/stable/doc/TUTORIAL.md][here]]. Some interesting sections are [[https://github.com/technomancy/leiningen/blob/stable/doc/TUTORIAL.md#checkout-dependencies][checkouts]] (similar to npm link) and [[https://github.com/technomancy/leiningen/blob/stable/doc/TUTORIAL.md#profiles][profiles]].
+
+Leiningen is configured by the project.clj file in your project directory. For an annotated reference of all of the options that may be set in a project.clj file see [[https://github.com/technomancy/leiningen/blob/stable/sample.project.clj][here.]] A sample project.clj follows as used in the rest of this post, uncomment the relevant sections as needed.
+
+#+BEGIN_SRC clojure
+(defproject sample-app "0.1.0-SNAPSHOT"
+  :description "FIXME: write description"
+  :url "http://example.com/FIXME"
+  :license {:name "Eclipse Public License"
+            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  ;; Warns users of earlier versions of Leiningen. Set this if your project
+  ;; relies on features only found in newer Leiningen versions.
+  :min-lein-version "2.0.0"
+  :dependencies [[org.clojure/clojure "1.6.0"]
+                 [org.clojure/clojurescript "0.0-2371"]
+                 [com.cemerick/piggieback "0.1.3"]
+                 [weasel "0.4.2"]
+                 [figwheel "0.1.5-SNAPSHOT"] 
+                 ]
+  ;; Plugins are code that runs in Leiningen itself and usually
+  ;; provide new tasks or hooks.
+  :plugins [
+            [lein-cljsbuild "1.0.3"]
+            [lein-figwheel "0.1.5-SNAPSHOT"]
+            ;; [cider/cider-nrepl "0.8.0-SNAPSHOT"]
+            ]
+
+  ;; Profiles
+  ;; Each active profile gets merged into the project map. The :dev
+  ;; and :user profiles are active by default, but the latter should be
+  ;; looked up in ~/.lein/profiles.clj rather than set in project.clj.
+  ;; Use the with-profiles higher-order task to run a task with a
+  ;; different set of active profiles.
+  ;; See `lein help profiles` for a detailed explanation.
+  ;; :profiles {:uberjar {:aot :all}}
+
+  ;;; Entry Point
+  ;; The -main function in this namespace will be run at launch
+  ;; (either via `lein run` or from an uberjar). It should be variadic:
+  ;;
+  ;; (ns my.service.runner
+  ;; (:gen-class))
+  ;;
+  ;; (defn -main
+  ;; "Application entry point"
+  ;; [& args]
+  ;; (comment Do app initialization here))
+  ;;
+  ;; :main my.service.runner
+  
+  ;;; Filesystem Paths
+  ;; If you'd rather use a different directory structure, you can set these.
+  ;; Paths that contain "inputs" are string vectors, "outputs" are strings.
+  :source-paths ["src"]
+  ;; :java-source-paths ["src/main/java"] ; Java source is stored separately.
+  ;; :test-paths ["test" "src/test/clojure"]
+  ;; :resource-paths ["src/main/resource"] ; Non-code files included in classpath/jar.
+  ;; All generated files will be placed in :target-path. In order to avoid
+  ;; cross-profile contamination (for instance, uberjar classes interfering
+  ;; with development), it's recommended to include %s in in your custom
+  ;; :target-path, which will splice in names of the currently active profiles.
+  ;; :target-path "target/%s/"
+  ;; Directory in which to place AOT-compiled files. Including %s will
+  ;; splice the :target-path into this value.
+  ;; :compile-path "%s/classy-files"
+  ;; Directory in which to extract native components from inside dependencies.
+  ;; Including %s will splice the :target-path into this value. Note that this
+  ;; is not where to *look* for existing native libraries; use :jvm-opts with
+  ;; -Djava.library.path=... instead for that.
+  ;; :native-path "%s/bits-n-stuff"
+  ;; Directories under which `lein clean` removes files.
+  ;; Specified by keyword or keyword-chain to get-in path in this defproject.
+  ;; Both a single path and a collection of paths are accepted as each.
+  ;; For example, if the other parts of project are like:
+  ;; :target-path "target"
+  ;; :compile-path "classes"
+  ;; :foobar-paths ["foo" "bar"]
+  ;; :baz-config {:qux-path "qux"}
+  ;; :clean-targets below lets `lein clean` remove files under "target",
+  ;; "classes", "foo", "bar", "qux", and "out".
+  ;; By default, will protect paths outside the project root and within standard
+  ;; lein source directories ("src", "test", "resources", "doc", "project.clj").
+  ;; However, this protection can be overridden with metadata on the :clean-targets
+  ;; vector - ^{:protect false}
+  ;; :clean-targets [:target-path :compile-path :foobar-paths
+  ;;                 [:baz-config :qux-path] "out"]
+  ;; Workaround for http://dev.clojure.org/jira/browse/CLJ-322 by deleting
+  ;; compilation artifacts for namespaces that come from dependencies.
+  ;; :clean-non-project-classes true
+  ;; Paths to include on the classpath from each project in the
+  ;; checkouts/ directory. (See the FAQ in the Readme for more details
+  ;; about checkout dependencies.) Set this to be a vector of
+  ;; functions that take the target project as argument. Defaults to
+  ;; [:source-paths :compile-path :resource-paths], but you could use
+  ;; the following to share code from the test suite:
+  ;; :checkout-deps-shares [:source-paths :test-paths
+  ;;                        ~(fn [p] (str (:root p) "/lib/dev/*"))]
+
+  
+  ;; All generated files will be placed in :target-path. In order to avoid
+  ;; cross-profile contamination (for instance, uberjar classes interfering
+  ;; with development), it's recommended to include %s in in your custom
+  ;; :target-path, which will splice in names of the currently active profiles.
+
+  ;; Options to change the way the REPL behaves.
+  :repl-options { ;; Specify the string to print when prompting for input.
+                 ;; defaults to something like (fn [ns] (str *ns* "=> "))
+                 :prompt (fn [ns] (str "your command for <" ns ">, master? " ))
+                 ;; What to print when the repl session starts.
+                 :welcome (println "Welcome to the magical world of the repl!")
+                 ;; Specify the ns to start the REPL in (overrides :main in
+                 ;; this case only)
+                 :init-ns foo.bar
+                 ;; This expression will run when first opening a REPL, in the
+                 ;; namespace from :init-ns or :main if specified.
+                 :init (println "here we are in" *ns*)
+                 ;; Print stack traces on exceptions (highly recommended, but
+                 ;; currently overwrites *1, *2, etc).
+                 :caught clj-stacktrace.repl/pst+
+                 ;; Skip's the default requires and printed help message.
+                 :skip-default-init false
+                 ;; Customize the socket the repl task listens on and
+                 ;; attaches to.
+                 :host "0.0.0.0"
+                 :port 4001
+                 ;;for more options see the sample project.clj
+                 :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
+  
+
+  :figwheel {
+             :http-server-root "public" ;; this will be in resources/
+             :server-port 3449          ;; default
+
+             ;; CSS reloading (optional)
+             ;; :css-dirs has no default value 
+             ;; if :css-dirs is set figwheel will detect css file changes and
+             ;; send them to the browser
+             :css-dirs ["resources/public/css"]
+
+             ;; Server Ring Handler (optional)
+             ;; if you want to embed a ring handler into the figwheel http-kit
+             ;; server
+             ;; :ring-handler example.server/handler 
+             } 
+  
+  
+  :cljsbuild {
+              :builds [{
+                        :id "dev"
+                        ;; The path to the top-level ClojureScript source directory:
+                        :source-paths ["src-cljs"]
+                        ;; The standard ClojureScript compiler options:
+                        ;; (See the ClojureScript compiler documentation for details.)
+                        :compiler {
+                                   ;; The path to the JavaScript file that will be output.
+                                   ;; Defaults to "target/cljsbuild-main.js".
+                                   :output-to "resources/public/js/main.js"
+                                   ;; See
+                                   ;; https://github.com/clojure/clojurescript/wiki/Source-maps
+                                   ;; Sets the output directory for temporary
+                                   ;; files used during compilation. Must be
+                                   ;; unique among all :builds. Defaults to
+                                   ;; "target/cljsbuild-compiler-X" (where X is
+                                   ;; a unique integer).
+                                   :output-dir "resources/public/js"
+                                   ;; Defaults to :whitespace.
+                                   ;; :source-map "resources/public/js/main.js.map"
+                                   :source-map true
+                                   ;; The optimization level. May be :whitespace, :simple, or :advanced.
+                                   ;; :optimizations :whitespace
+                                   ;; :optimizations :simple
+                                   ;; :optimizations :advanced
+                                   :optimizations :none
+                                   
+                                   ;; Configure externs files for external libraries.
+                                   ;; Defaults to the empty vector [].
+                                   ;; For this entry, and those below, you can find a very good explanation at:
+                                   ;; http://lukevanderhart.com/2011/09/30/using-javascript-and-clojurescript.html
+                                   ;; :externs ["jquery-externs.js"]
+                                   ;; Adds dependencies on external libraries. Note that files in these directories will be
+                                   ;; watched and a rebuild will occur if they are modified.
+                                   ;; Defaults to the empty vector [].
+                                   ;; :libs ["closure/library/third_party/closure"]
+                                   ;; Adds dependencies on foreign libraries. Be sure that the url returns a HTTP Code 200
+                                   ;; Defaults to the empty vector [].
+                                   ;; :foreign-libs [{:file "http://example.com/remote.js"
+                                   ;;                 :provides ["my.example"]}]
+                                   ;; Prepends the contents of the given files to each output file.
+                                   ;; Defaults to the empty vector [].
+                                   ;; :preamble ["license.js"]
+                                   ;; Configure the input and output languages for the closure library.
+                                   ;; May be :ecmascript3, ecmascript5, or ecmascript5-strict.
+                                   ;; Defaults to ecmascript3.
+                                   ;; :language-in :ecmascript5
+                                   ;; :language-out :ecmascript5
+                                   ;; :pretty-print true
+                                   }
+                        }]
+              }
+  
+  )
+
+#+END_SRC
+
+** ClojureScript
+   ClojureScript is compiled by Clojure code.  
+** Emacs
+Use [[https://github.com/clojure-emacs/cider][cider]] for Clojure programming, install using package manager.
+
+To load the necessary info, otherwise package-install doesn't work: 
+: M-x list-packages
+or:
+: M-x package-refresh-contents
+  
+Then:
+: M-x package-install [RET] cider [RET]
+
+Also make sure clojure-mode is installed:
+: M-x package-install [RET] clojure-mode [RET]
+
+** Clojure repl in Emacs
+Cider needs nrepl installed for your project, so first, check version of cider:
+: M-x cider-version
+> CIDER 0.8.0-snapshot
+
+Make sure that in ~/.lein/profiles.clj is the following:
+: {:user {:plugins [[cider/cider-nrepl "0.8.0-SNAPSHOT"]]}}
+
+or per project add to =project.clj=
+: :plugins [[cider/cider-nrepl "0.8.0-SNAPSHOT"]]
+
+and that the versions match. Snapshot should be in capitals here.
+
+Open a file from your Clojure or ClojureScript project and start a repl with:
+: M-x cider-jack-in
+
+If you get the following error when starting the cider-jack-in repl:
+: error in process filter: let: Symbol's value as variable is void: clojure--prettify-symbols-alist
+: error in process filter: Symbol's value as variable is void: clojure--prettify-symbols-alist
+
+add this to the Emacs init files;
+: (defconst clojure--prettify-symbols-alist
+:   '(("fn"  . ?λ)))
+
+This shouldn't be because this is defined in clojure-mode.el however somehow it
+isn't evaluated for me.
+
+You can also start a repl in the project's directory (using bash) with:
+: lein run
+: nREPL server started on port 56155 on host 127.0.0.1 - nrepl://127.0.0.1:56155
+: ....
+
+, take note of host and port and then to connect to it in Emacs: 
+: M-x cider-connect [RET] localhost [RET] 56155
+
+Some cider keyboard shortcuts:
+: C-c C-z to switch to the repl from a clj buffer:
+: C-M-x to evaluate top form. Output goes to repl
+: C-c M-n	Switch to namespace of the current buffer
+: C-x C-e	Evaluate the expression immediately preceding point
+: C-c C-k	Compile current buffer
+: C-, to save and load buffer into repl (custom shortcut)
+: C-c C-f	Evaluate the top level form under point and pretty-print the result in a popup buffer.
+: C-c C-b	Interrupt any pending evaluations.
+: C-c C-d d Display doc string for the symbol at point. If invoked with a prefix argument, or no symbol is found at point, prompt for a symbol.
+
+In the repl:
+: C-j	Open a new line and indent.
+: C-c M-o	Clear the entire REPL buffer, leaving only a prompt.
+: C-c C-o	Remove the output of the previous evaluation from the REPL buffer.
+: C-c C-u	Kill all text from the prompt to the current point.
+: C-c C-b C-c C-c	Interrupt any pending evaluations.
+: C-up C-down	Goto to previous/next input in history.
+: M-p M-n	Search the previous/next item in history using the current input as search pattern. If M-p/M-n is typed two times in a row, the second invocation uses the same search pattern (even if the current input has changed).
+: M-s M-r	Search forward/reverse through command history with regex.
+: C-c C-n C-c C-p	Move between the current and previous prompts in the REPL buffer. Pressing RET on a line with old input copies that line to the newest prompt.
+: TAB	Complete symbol at point.
+: C-c C-d d	Display doc string for the symbol at point. If invoked with a prefix argument, or no symbol is found at point, prompt for a symbol
+: C-c M-n	Select a namespace and switch to it.
+
+You can connect to multiple nREPL servers using M-x cider-jack-in multiple times. To close the current nREPL connection, use M-x nrepl-close. M-x cider-quit closes all connections. 
+
+Many more shortcuts at the [[https://github.com/clojure-emacs/cider][cider]] site, as well as info on configuring cider.
+
+** ClojureScript repl in Emacs
+
+   
+   
+   
+Before explaining how to start a ClojureScript repl in Emacs it is instructional to see how it's done from the shell command line.
+
+First off, a ClojureScript repl always builds on and is started in a Clojure repl. So first thing to do is to start a Clojure repl:
+: lein repl
+
+From here we can connect to a JavaScript execution environment.  Clojure and ClojureScript 
+Then, from the ClojureScript [[https://github.com/clojure/clojurescript/wiki/The-REPL-and-Evaluation-Environments][wiki]]:
+  
+#+BEGIN_QUOTE
+The basic usage of the REPL is always the same:
+
+    require cljs.repl
+    require the namespace which implements the desired evaluation environment
+    create a new evaluation environment
+    start the REPL with the created environment
+
+Using the REPL will also feel the same in each environment; forms are entered, results are printed and side-effects happen where they make the most sense.
+#+END_QUOTE  
+  
+   https://github.com/emezeske/lein-cljsbuild 
+ 
+** Project setup
+** Fig-wheel
+** Paredit
+When editing Clojure in Emacs use paredit. Some shortcuts:
+: M-(	paredit-wrap-round, surround expression after point in parentheses
+: C-→	Slurp; move closing parenthesis to the right to include next expression
+: C-←	Barf; move closing parenthesis to the left to exclude last expression
+: C-M-f, C-M-b	Move to the opening/closing parenthesis
+
+** Links
+*** Books
+Two books I've found useful:    
++ [[http://www.amazon.com/Clojure-Programming-Chas-Emerick/dp/1449394701/ref%3Dsr_1_1/186-5337347-5323310?ie%3DUTF8&qid%3D1414693506&sr%3D8-1&keywords%3Dclojure][Clojure Programming]]
++ [[http://www.amazon.com/Programming-Clojure-Stuart-Halloway/dp/1934356867/ref%3Dsr_1_4/186-5337347-5323310?ie%3DUTF8&qid%3D1414693506&sr%3D8-4&keywords%3Dclojure][Programming Clojure]]
+There's also a book on ClojureScript:
++ [[http://www.amazon.com/ClojureScript-Up-Running-Stuart-Sierra/dp/1449327435/ref%3Dsr_1_1/186-5337347-5323310?ie%3DUTF8&qid%3D1414693967&sr%3D8-1&keywords%3Dclojurescript][ClojureScript Up and Running]]
+  
+*** General web tutorials and docs on Clojure:
++ http://learnxinyminutes.com/docs/clojure/ | Learn clojure in Y Minutes
++ http://www.braveclojure.com/ | Learn to Program the World's Most Bodacious Language with Clojure for the Brave and True
++ http://java.ociweb.com/mark/clojure/article.html | Clojure - Functional Programming for the JVM
++ http://clojuredocs.org/quickref | Clojure Quick Reference | ClojureDocs - Community-Powered Clojure Documentation and Examples
++ https://github.com/clojure/clojurescript | clojure/clojurescript · GitHub
+  
+*** Leiningen  
++ http://leiningen.org/ | Leiningen
++ https://github.com/technomancy/leiningen/blob/stable/doc/TUTORIAL.md | leiningen/TUTORIAL.md at stable · technomancy/leiningen · GitHub
++ https://github.com/emezeske/lein-cljsbuild | emezeske/lein-cljsbuild · GitHub
++ https://github.com/technomancy/leiningen/wiki/Faster | Faster startup time
+*** Emacs
++ http://clojure-doc.org/articles/tutorials/emacs.html 
+*** Repl 
++ https://github.com/clojure-emacs/cider  | Clojure environment for Emacs
++ https://github.com/clojure/clojurescript/wiki/The-REPL-and-Evaluation-Environments | The REPL and Evaluation Environments · clojure/clojurescript Wiki · GitHub
++ https://github.com/cemerick/piggieback | cemerick/piggieback · GitHub
++ https://github.com/cemerick/austin#project-repls | cemerick/austin · GitHub
++ https://github.com/tomjakubowski/weasel | tomjakubowski/weasel · GitHub
+*** Other  
++ https://github.com/bhauman/lein-figwheel | bhauman/lein-figwheel · GitHub
++ http://rigsomelight.com/2014/05/01/interactive-programming-flappy-bird-clojurescript.html | Interactive Programming in ClojureScript
+
+*** React  
++ http://facebook.github.io/react/ | A JavaScript library for building user interfaces | React
++ https://github.com/swannodette/om | swannodette/om · GitHub
++ http://clojure-doc.org/articles/tutorials/emacs.html | Clojure with Emacs | Clojure Documentation | Clojure Docs
++ https://github.com/holmsand/reagent | holmsand/reagent · GitHub
++ https://github.com/levand/quiescent | levand/quiescent · GitHub
+  
+*** Starter projects:    
++ https://github.com/plexus/chestnut | plexus/chestnut · GitHub
++ http://blog.michielborkent.nl/blog/2014/09/25/figwheel-keep-Om-turning/ | Figwheel Keep Om Turning! - Through the cracks of immutability
+  
+
+    
+    
+* Scratch 
+  
+  have to add It's very possible the Mamre sites have not been attacked. I don't see anything unusual, but I can't be sure, apparently no on can be sure in this case.
+  
+    <script type="text/javascript">
+      var CLOSURE_NO_DEPS = true;
+    </script>
+    when running without optimizations.
+  https://groups.google.com/forum/#!msg/clojure/_WkdBGPhI-Q/AEElfvi2XnQJ
+  
+  
+ : :source-map true must specify a file in the same directory as :output-to "resources/public/js/main.js" if optimization setting applied
+  
+ When using optimizations other than none, =:source-map= needs to point to a
+ file in the same directory as =:output-to=. This slows down compilation
+ greatly. When setting =:optimizations= keyword to "none" the =:source-map= tag
+ can be set to true. Compilation is also much faster with recompiling in auto
+ mode taking a fraction of a second.
+ 
+ lein cljsbuild auto is very slow when source-map is a path and not just true 
+
+
+ 
+#+begin_quote 
+
+ Source maps also work with :optimizations set to :none. In this case
+ the :source-map value doesn't control file names. So long as the value is
+ truth-y (cf. the leiningen example above), an individual source map file will
+ be generated for every ClojureScript source file.
+
+ It's important to note there are some source map option restrictions when using
+ an :optimizations setting other than :none. In these
+ cases :output-to, :output-dir, and :source-map must all share the exact same
+ parent directory.
+#+end_quote 
+ 
+ClojureScript repl:
+;; Compile this project to JavaScript
+(use 'cljs.closure)
+(def opts {:output-to "samples/repl/main.js"
+:output-dir "samples/repl/out"})
+(build "samples/repl/src" opts)
+;; Start REPL
+
+
+#+BEGIN_SRC clojure
+  ;;This runs in the browser (as javascript):
+  (ns sample-app.core
+    (:require [clojure.browser.repl :as repl]))
+  ;; This connects to the repl server started in the lein repl:
+  (repl/connect "http://localhost:8090/repl") ; <<< port 8090
+  
+  ;; Execute in repl (started with lein repl):
+  (do (require '[cljs.repl :as repl])
+      (require '[cljs.repl.browser :as browser])
+      (def env (browser/repl-env :port 8090)) ; <<< port 8090
+      (repl/repl env)) ;;starts cljs repl and connects to browser 
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  ;;This runs in the browser (as javascript):
+  (ns sample-app.core
+    (:require [clojure.browser.repl :as repl]))
+  ;; This connects to the repl server started in the lein repl:
+  (repl/connect "http://localhost:8090/repl") ; <<< port 8090
+  
+  ;; Execute in nrepl (started with cider-jack-in):
+  (do (require '[cemerick.piggieback :as repl])
+      (require '[cemerick-austin as browser])
+      (def env (browser/repl-env :port 8090)) ; <<< port 8090
+      (repl/cljs-repl env)) ;;starts cljs repl and connects to browser 
+#+END_SRC
+
+(cemerick.piggieback/cljs-repl :repl-env (cemerick.austin/exec-env))
+ (cemerick.austin.repls/exec)

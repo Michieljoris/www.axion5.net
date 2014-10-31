@@ -54,7 +54,7 @@ var toTemplate = {
               ],
         
         "body": ['body', 'jsBlock'
-                 
+                 ,'highlightjs' //, 'highlightcss'
                 ]
     }
 };
@@ -205,6 +205,10 @@ var exports = {
             ,projectsPageTitle: 'Projects'
             ,websitesPageTitle: 'Websites'
             ,"meta-page-title": '<title>meta-page-title</title>'
+            ,"highlightjs": '<script>hljs.initHighlightingOnLoad();</script>'
+            // ,"highlightcss": '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/default.min.css">'
+            // ,"highlightjs" : '<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>'
+
             // title: '<title>Blog</title>',
             // skewer: develop_mode ? '<script src="http://localhost:9090/skewer"></script>' : ' '
             // ,recaptcha: '<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>'
@@ -231,7 +235,9 @@ var exports = {
                 'bower/normalize.css/normalize.css'
                 ,'bower/bootstrap/dist/css/bootstrap.css'
                 ,'tweak.css'
-                ,'prettify.css'
+                
+                ,"highlightjs/hybrid.css"
+                // ,'prettify.css'
                 // ,'medium-editor.css'
                 // ,'medium-default-theme.css'
                 ,'blog.css'
@@ -299,7 +305,10 @@ var exports = {
                     // ,"bower/ractive/ractive.js"
                     // ,"bower/vue/dist/vue.js"
                     // ,"medium-editor.js"
-                    ,'prettify.js'
+                    // ,'prettify.js'
+                    
+                    ,"highlight.pack.js"
+                        // <script>hljs.initHighlightingOnLoad();</script>
                     // ,"epiceditor.js"
                     //The following will be substitud with the list of required
                     //modules, in the proper order, also the module enabler

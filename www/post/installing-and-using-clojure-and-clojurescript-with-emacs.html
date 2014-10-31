@@ -1,0 +1,358 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" xmlns:ng="http://angularjs.org" lang="en"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" xmlns:ng="http://angularjs.org" lang="en"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" xmlns:ng="http://angularjs.org" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> 
+<html class="no-js" xmlns:ng="http://angularjs.org" lang="en">
+  <!--<![endif]-->
+  <head id="head"><title>Axion5-Installing and using Clojure and ClojureScript with Emacs</title><meta charset='utf-8'/><meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/><meta content='' name='description'/><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'/>
+<!--partial:html/ieshim.html--><!--[if lte IE 8]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script>
+      // The ieshiv takes care of our ui.directives, bootstrap module directives and 
+      // AngularJS's ng-view, ng-include, ng-pluralize and ng-switch directives.
+      // However, IF you have custom directives (yours or someone else's) then
+      // enumerate the list of tags in window.myCustomTags
+
+      window.myCustomTags = [ 'yourDirective', 'somebodyElsesDirective' ]; // optional
+    </script>
+    <script src="js/angular-ui-ieshiv.js"></script>
+    <![endif]-->						    
+
+
+<link rel="stylesheet" type="text/css" href="/css/bower/normalize.css/normalize.css">
+<link rel="stylesheet" type="text/css" href="/css/bower/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/css/tweak.css">
+<link rel="stylesheet" type="text/css" href="/css/prettify.css">
+<link rel="stylesheet" type="text/css" href="/css/blog.css">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+
+<script type='text/javascript'>function cachify(path) { return path; }</script><!--partial:html/google_analytics.html--><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-27130001-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+  <body id="body" ><!--partial:html/body-blog.html--><!--[if lt IE 7]>
+    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
+
+<!-- <div class="row"> -->
+<div id="editbar--" > </div>
+<!-- </div> -->
+
+
+<div class="blog-masthead">
+  <div class="container">
+    <nav class="blog-nav">
+      <a id="menu-blog" class="blog-nav-item" href="/">Blog</a>
+      <a id="menu-projects" class="blog-nav-item" href="/projects.html">Projects</a>
+      <a id="menu-websites" class="blog-nav-item" href="/websites.html">Websites</a>
+      <a id="menu-aboutme" class="blog-nav-item" href="/aboutme.html">About me</a>
+      <a id="site-title" href="/">Axion5</a>
+    </nav>
+  </div>
+</div>
+
+<div id="main" class="container">
+
+  <div class="blog-header">
+    <h1 class="blog-title">Axion5</h1>
+    <p class="lead blog-description">The official example template of creating a blog with Bootstrap.</p>
+  </div>
+
+  <div align="justify" id="blog-body" class="row">
+
+    <div class="col-sm-9 blog-main">
+
+      <div class="pageTitle" id="pageTitle--"><header >
+  <div class="title blog-post-title">  Installing and using Clojure and ClojureScript with Emacs  </div>
+  <time class="blog-post-meta" datetime="29th of October 2014">  29th of October 2014  </time>
+</header></div>
+      <div  id="main--" class="blog-post"><!--partial:post/installing-and-using-clojure-and-clojurescipt.org--><pre>comments: false
+published: true
+title: Installing and using Clojure and ClojureScript with Emacs
+tags: Emacs Clojure ClojureScript install</pre>
+<p>Clojure is wonderful, being able to use ClojureScript in the browser even more
+so, however setting up a development environment is a pain in the ass. On top of
+this what&#39;s considered best practice is still changing from almost month to
+month.</p>
+<p>Because of this I intend to document here as accurately as I can the process for
+getting a working environment in Emacs for both Clojure and ClojureScript. This
+is going to be a working document where I will update the procedure I use myself
+on an ongoing basis.</p>
+<p>Much of the following is freely copied and modified from other tutorials on the
+net. A list of resources is at the bottom of the page.</p>
+<pre>-------------</pre>
+<h3 id="header-0-1"><span class="section-number">0.1</span>Installing Clojure</h3>
+Clojure needs Java installed. So <code>java -version</code> should return something like:<pre>java version &#34;1.8.0_11&#34;
+Java(TM) SE Runtime Environment (build 1.8.0_11-b12)
+Java HotSpot(TM) 64-Bit Server VM (build 25.11-b03, mixed mode)</pre>
+Minimum required version is 1.6, see <a href="http://clojure.org/getting_started?responseToken%3Ddfb93f0a2a572fc0c51e2373226b731e">here</a>.<p>In a freshly installed ubuntu 14.4 :</p>
+<pre>sudo apt-get update 
+# to make sure apt-add-repository is installed:
+sudo apt-get install software-properties-common 
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer </pre>
+<hr/>
+Next step is to install <a href="http://leiningen.org/">leiningen</a>.<p>Download the <a href="https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein">lein</a> script </p>
+<pre>wget <a href="https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein">https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein</a> </pre>
+<p>Place it on your $PATH where your shell can find it (eg. ~/bin)</p>
+<pre>sudo cp lein ~/bin</pre>
+<p>Set it to be executable </p>
+<pre>chmod a+x ~/bin/lein </pre>
+<p>Run it and it will download the self-install package</p>
+<pre>lein 
+&#62; ....
+&#62; Downloading Leiningen to /home/michieljoris/.lein/self-installs/leiningen-2.5.0-standalone.jar now...
+&#62; ....</pre>
+<pre class="prettyprint"><code class="language-javascript">Leiningen is a tool for working with Clojure projects.
+Several tasks are available:
+version             Print version for Leiningen and the current JVM.
+upgrade             Upgrade Leiningen to specified version or latest stable.
+new                 Generate project scaffolding based on a template.
+run                 Run a -main function with optional command-line arguments.
+uberjar             Package up the project files and dependencies into a jar file.
+repl                Start a repl session either with the current project or standalone.
+search              Search remote maven repositories for matching jars.
+
+clean               Remove all files from project&#39;s target-path.
+deps                Download all dependencies.
+
+change              Rewrite project.clj by applying a function.
+check               Check syntax and warn on reflection.
+classpath           Print the classpath of the current project.
+compile             Compile Clojure source into .class files.
+deploy              Build and deploy jar to remote repository.
+do                  Higher-order task to perform other tasks in succession.
+help                Display a list of tasks or help for a given task.
+install             Install the current project to the local repository.
+jar                 Package up all the project&#39;s files into a jar file.
+javac               Compile Java source files.
+plugin              DEPRECATED. Please use the :user profile instead.
+release             Perform :release-tasks.
+retest              Run only the test namespaces which failed last time around.
+show-profiles       List all available profiles or display one if given an argument.
+test                Run the project&#39;s tests.
+trampoline          Run a task without nesting the project&#39;s JVM inside Leiningen&#39;s.
+update-in           Perform arbitrary transformations on your project map.
+vcs                 Interact with the version control system.
+with-profile        Apply the given task with the profile(s) specified.
+
+pom                 Write a pom.xml file to disk for Maven interoperability.
+
+Run `lein help $TASK` for details.
+
+Global Options:
+  -o             Run a task offline.
+  -U             Run a task after forcing update of snapshots.
+  -h, --help     Print this help or help for a specific task.
+  -v, --version  Print Leiningen&#39;s version.
+
+See also: readme, faq, tutorial, news, sample, profiles, deploying, gpg,
+mixed-source, templates, and copying.</code>
+</pre>
+<p>From <a href="http://en.wikipedia.org/wiki/Leiningen_(software)">wikipedia</a> :</p>
+<blockquote><p>Leiningen is a build automation and dependency management tool for the simple
+configuration of software projects written in the Clojure programming language.</p>
+<p>Leiningen&#39;s features can be extended via a plugin system, and it is supplied
+with a command line interface that can initiate a number of actions, which
+include:</p>
+<ul><li>The generation of a simple Clojure project skeleton</li>
+<li>Packaging of project code and dependencies into an &#39;Uberjar&#39; .jar file</li>
+<li>Start an interactive REPL that has the classpath correctly set to load projectdependencies</li>
+<li>Ahead-of-time (AOT) compilation,</li>
+<li>Dependency resolution (with automatic library downloading)</li>
+</ul>
+</blockquote>
+<p>Generate a simple Clojure project skeleton:</p>
+<pre>lein new app some-app-name</pre>
+<pre class="prettyprint"><code class="language-unknown">| .gitignore
+| doc
+| | intro.md
+| LICENSE
+| project.clj
+| resources
+| README.md
+| src
+| | some_app_name
+| | | core.clj
+| test
+| | some_app_name
+| | | core_test.clj</code>
+</pre>
+<pre>cd some-app-name
+lein run</pre>
+<p>Lein will retrieve some dependencies and then print:</p>
+<pre>Hello, World!</pre>
+<p>Run it again:</p>
+<pre>lein</pre>
+<p>and it&#39;ll only have to start the jvm and then print the same.</p>
+<p>Build a standalone jar:</p>
+<pre>lein uberjar</pre>
+<p>And then run it with:</p>
+<pre>java -jar target/uberjar/some-app-name-0.1.0-SNAPSHOT-standalone.jar </pre>
+<p>Run a repl in the project:</p>
+<pre>lein repl</pre>
+<p>And then at the prompt:</p>
+<pre>some-app-name.core=&#62; (-main)
+Hello, World!
+nil
+some-app-name.core=&#62; (exit)
+Bye for now!</pre>
+<p>Search for a clojar with:</p>
+<pre>lein search clojar-name</pre>
+<p>This will take some time first time. </p>
+<p>A quick tutorial on leiningen is <a href="https://github.com/technomancy/leiningen/blob/stable/doc/TUTORIAL.md">here</a>.</p>
+<h2 id="header-1"><span class="section-number">1</span>Setting up Emacs</h2>
+To load the necessary info, otherwise package-install doesn&#39;t work: <pre>M-x list-packages</pre>
+Install <a href="https://github.com/clojure-emacs/cider">cider</a> package:<pre>M-x package-install &#60;RET&#62; cider &#60;RET&#62;</pre>
+<p>Also make sure clojure-mode is installed:</p>
+<pre>M-x package-install &#60;RET&#62; clojure-mode &#60;RET&#62;</pre>
+<p>Check version:</p>
+<pre>M-x cider-version</pre>
+&#62; CIDER 0.8.0-snapshot<p>Make sure that in ~/.lein/profiles.clj is the following:</p>
+<pre>{:user {:plugins [[cider/cider-nrepl &#34;0.8.0-SNAPSHOT&#34;]]}}</pre>
+<p>and that the versions match. Apparently snapshot should be in capitals.</p>
+<p>To avoid the following error when starting the cider-jack-in repl:</p>
+<pre>error in process filter: let: Symbol&#39;s value as variable is void: clojure--prettify-symbols-alist
+error in process filter: Symbol&#39;s value as variable is void: clojure--prettify-symbols-alist</pre>
+<p>add this to the Emacs init files;</p>
+<pre>(defconst clojure--prettify-symbols-alist
+  &#39;((&#34;fn&#34;  . ?λ)))</pre>
+<p>This shouldn&#39;t be because this is defined in clojure-mode.el however somehow it
+isn&#39;t evaluated for me.</p>
+<p>Start the repl:</p>
+<pre>M-x cider-jack-in</pre>
+<p>Or start a repl in the project&#39;s directory with:</p>
+<pre>lein run
+nREPL server started on port 56155 on host 127.0.0.1 - nrepl://127.0.0.1:56155
+....</pre>
+<p>Take note of host and port and then:</p>
+<pre>M-x cider-connect [RET] localhost [RET] 56155</pre>
+<p>Keyboard shortcuts:</p>
+<pre>C-c C-z to switch to the repl from a clj buffer:
+C-M-x to evaluate top form. Output goes to repl
+C-c M-n	Switch to namespace of the current buffer
+C-x C-e	Evaluate the expression immediately preceding point
+C-c C-k	Compile current buffer
+C-, to save and load buffer into repl (custom shortcut)
+C-c C-f	Evaluate the top level form under point and pretty-print the result in a popup buffer.
+C-c C-b	Interrupt any pending evaluations.
+C-c C-d d Display doc string for the symbol at point. If invoked with a prefix argument, or no symbol is found at point, prompt for a symbol.</pre>
+<p>Many more shortcuts at the <a href="https://github.com/clojure-emacs/cider">cider</a> site.</p>
+<p>You can connect to multiple nREPL servers using M-x cider-jack-in multiple
+times. To close the current nREPL connection, use M-x nrepl-close. M-x
+cider-quit closes all connections.</p>
+<p>Paredit:</p>
+<pre>M-(	paredit-wrap-round, surround expression after point in parentheses
+C-→	Slurp; move closing parenthesis to the right to include next expression
+C-←	Barf; move closing parenthesis to the left to exclude last expression
+C-M-f, C-M-b	Move to the opening/closing parenthesis</pre>
+<h3 id="header-1-1"><span class="section-number">1.1</span>ClojureScript repl </h3>
+<h3 id="header-1-2"><span class="section-number">1.2</span>Fig-wheel</h3>
+<h3 id="header-1-3"><span class="section-number">1.3</span>Links and resources</h3>
+<ul><li><a href="http://www.braveclojure.com">http://www.braveclojure.com</a></li>
+</ul>
+Mike Dirk Anton Dawou  mike.dawud@provide.nlIn de Meeren</div>
+      <div  id="page--" class="page"> </div>
+      <div  id="disqus-embed--"> </div>
+      <div  id="disqus-count--"> </div>
+
+    </div><!-- /.blog-main -->
+
+    <div id="rightbar--" class="box col-sm-3 col-sm-offset-1 blog-sidebar"><!--partial:html/search.html--><div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:www.axion5.net">
+  </form>
+</div>
+<!--partial:html/aboutmeWidgetWrapper.html--><div align="justify" class="widget sidebar-module sidebar-module-inset">
+  <div id="widget--"><!--partial:widgets/aboutmeWidget.org--><h5 id="header-0-0-0-1"><span class="section-number">0.0.0.1</span>About me </h5>
+<p>Dutch by birth, living in Australia since late youth, classical pianist, but 
+closet programmer since childhood. This site hopefully is able to showcase some 
+of my more useful fabrications and thoughts.</p>
+<p>All my code is on <a href="http://github.com/michieljoris">github</a>. </p>
+<p>For more info see the <a href="/aboutme.html">about me</a> page, <a href="http://au.linkedin.com/in/michieljoris/">linkedin</a> or 
+<a href="http://careers.stackoverflow.com/michieljoris">stackoverflow</a>.</p>
+<p>Email me at <a href="mailto:mail@axion5.net">mail@axion5.net</a></p>
+</div>
+</div>
+
+<!--partial:html/recentWidgetWrapper.html--><div class="widget sidebar-module">
+  <b>Recent posts</b>
+  <div id="widget--"><ul id="most-recent-partial">
+  <li><a href="/post/markup-cheat-sheet-for-org-mode.html">Markup Cheat sheet for Org-mode</a></li>
+  <li><a href="/post/my-webstack.html">My webstack</a></li>
+  <li><a href="/post/meteor-docs-and-attached-files.html">Meteor, docs and attached files</a></li>
+  <li><a href="/post/installing-and-using-clojure-and-clojurescript-with-emacs.html">Installing and using Clojure and ClojureScript with Emacs</a></li>
+  <li><a href="/post/about-this-site.html">About this site</a></li>
+</ul></div>
+</div>
+<!--partial:html/tagWidgetWrapper.html--><div class="widget sidebar-module ">
+  <b>Tags</b>
+  <div id="widget--"><ul id="by-tag-partial">
+  <li><a href="/tag/Emacs">Emacs</a> (1)</li>
+  <li><a href="/tag/Clojure">Clojure</a> (1)</li>
+  <li><a href="/tag/ClojureScript">ClojureScript</a> (1)</li>
+  <li><a href="/tag/install">install</a> (1)</li>
+  <li><a href="/tag/Meteor">Meteor</a> (1)</li>
+</ul></div>
+</div>
+<!--partial:html/archiveWidgetWrapper.html--><div class="widget sidebar-module">
+  <b>Archive</b>
+  <div id="widget--"><ul class="css-treeview" id="archive-partial">
+ <li><a  href="/archive/2014" >2014</a>
+  <ul>
+   <li><a  href="/archive/2014/April" >April</a>
+    <ul>
+     <li><a  href="/post/my-webstack.html" >My webstack</a></li>
+    </ul>
+   </li>
+   <li><a  href="/archive/2014/June" >June</a>
+    <ul>
+     <li><a  href="/post/meteor-docs-and-attached-files.html" >Meteor, docs and attached files</a></li>
+    </ul>
+   </li>
+   <li><a  href="/archive/2014/October" >October</a>
+    <ul>
+     <li><a  href="/post/markup-cheat-sheet-for-org-mode.html" >Markup Cheat sheet for Org-mode</a></li>
+     <li><a  href="/post/installing-and-using-clojure-and-clojurescript-with-emacs.html" >Installing and using Clojure and ClojureScript with Emacs</a></li>
+     <li><a  href="/post/about-this-site.html" >About this site</a></li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul></div>
+</div>
+</div><!-- /.blog-sidebar -->
+
+  </div><!-- /.row -->
+
+</div><!-- /.container -->
+
+<div class="blog-footer">
+  <p>Site rendered from org files using 
+<a href="http://github.com/michieljoris/bb-blog">bb-blog</a> and
+    <a href="http://github.com/michieljoris/html-builder">html-builder</a>
+    by <a href="https://github.com/michieljoris">@michieljoris</a>.</p>
+  <p>
+    <a href="#">Back to top</a>
+  </p>
+</div>
+
+<script type="text/javascript" src="/scripts/bower/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="/scripts/bower/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="/scripts/bower/modernizr/modernizr.js"></script>
+<script type="text/javascript" src="/scripts/bower/logthis/logthis.js"></script>
+<script type="text/javascript" src="/scripts/prettify.js"></script>
+<script type="text/javascript" src="/scripts/main.js"></script>
+</body>
+</html>	
+	 
