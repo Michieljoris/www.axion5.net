@@ -383,7 +383,52 @@ Leiningen is configured by the project.clj file in your project directory. For a
 #+END_SRC
 
 ** ClojureScript
-   ClojureScript is compiled by Clojure code.  
+The preferred setup seems to be to compile ClojureScript by Clojure code in a Clojure/Leinigen project. 
+   
+To do this you add a task to Leinigen in your project.clj in your Clojure project created with:
+: lein new app some-app-name
+
+Add the following to dependencies:
+: [org.clojure/clojurescript "0.0-2371"]
+
+And this to plugins:
+:  [lein-cljsbuild "1.0.3"]
+
+And add the configuration for the task/plug as a root key:
+#+BEGIN_SRC clojure
+  :cljsbuild {
+         :builds [{
+                    :id "dev"
+                    :source-paths ["src-cljs"]
+                    :compiler {
+                               :output-to "resources/public/js/main.js"
+                               :output-dir "resources/public/js"
+                               :source-map true
+                               :optimizations :none
+                               }
+                 }]
+              }
+#+END_SRC
+
+For more options and an example see the sample project.clj above or [[https://github.com/technomancy/leiningen/blob/stable/sample.project.clj][here]].
+
+You can then compile all ClojureScript files in the [projectdir]/src-cljs by executing:
+: lein cljsbuild once dev
+
+If you want to recompile when .cljs files change then have Leinigen watch the source directories:
+: lein cljsbuild auto dev
+
+If there is only one build =dev= is optional.
+
+Take note:
+#+begin_quote 
+ Source maps also work with :optimizations set to :none. In this case the :source-map value doesn't control file names. So long as the value is truth-y (cf. the leiningen example above), an individual source map file will be generated for every ClojureScript source file.
+
+It's important to note there are some source map option restrictions when using an :optimizations setting other than :none. In these cases :output-to, :output-dir, and :source-map must all share the exact same parent directory.
+#+end_quote 
+
+Setting optimizations to something other than none slows down compilation greatly. Also make sure =source-map= is set to true in this case, not a string. Compilation is quite fast with recompiling in auto mode taking a fraction of a second when a file changes. 
+
 ** Emacs
 Use [[https://github.com/clojure-emacs/cider][cider]] for Clojure programming, install using package manager.
 
@@ -462,22 +507,17 @@ You can connect to multiple nREPL servers using M-x cider-jack-in multiple times
 
 Many more shortcuts at the [[https://github.com/clojure-emacs/cider][cider]] site, as well as info on configuring cider.
 
-** ClojureScript repl in Emacs
+** ClojureScript repl
 
-   
-   
-   
 Before explaining how to start a ClojureScript repl in Emacs it is instructional to see how it's done from the shell command line.
 
 First off, a ClojureScript repl always builds on and is started in a Clojure repl. So first thing to do is to start a Clojure repl:
 : lein repl
-
-From here we can connect to a JavaScript execution environment.  Clojure and ClojureScript 
-Then, from the ClojureScript [[https://github.com/clojure/clojurescript/wiki/The-REPL-and-Evaluation-Environments][wiki]]:
+It is also possible to connect the ClojureScript repl to a Rhino JavaScript environment. The procedure is ery 
+From here we can connect to a JavaScript execution environment. The Clojure and ClojureScript libraries come with support for a ClojureScript repl. Rrom the ClojureScript [[https://github.com/clojure/clojurescript/wiki/The-REPL-and-Evaluation-Environments][wiki]]:
   
 #+BEGIN_QUOTE
-The basic usage of the REPL is always the same:
-
+The basic usage of the (ClojureScript) REPL is always the same:
     require cljs.repl
     require the namespace which implements the desired evaluation environment
     create a new evaluation environment
@@ -485,10 +525,129 @@ The basic usage of the REPL is always the same:
 
 Using the REPL will also feel the same in each environment; forms are entered, results are printed and side-effects happen where they make the most sense.
 #+END_QUOTE  
-  
-   https://github.com/emezeske/lein-cljsbuild 
- 
-** Project setup
+
+So in practical terms, copy and paste the following into a Clojure repl:
+
+#+BEGIN_SRC clojure
+  (do (require '[cljs.repl :as repl])
+      (require '[cljs.repl.rhino :as rhino]) ;; require the rhino implementation of IJavaScriptEnv
+      (def env (rhino/repl-env)) ;; create a new environment
+      (repl/repl env)_ ;; start the REPL
+#+END_SRC
+
+This connects to a generic JavasScript environment namely Rhino.
+
+If you want to connect to a browser's JavaScript runtime enter the followiing into a Lein repl:
+#+BEGIN_SRC clojure
+  ;; Execute in repl (started with lein repl):
+  (do (require '[cljs.repl :as repl])
+      (require '[cljs.repl.browser :as browser])
+      (def env (browser/repl-env :port 8090)) ; <<< port 8090
+      (repl/repl env)) ;;starts cljs repl and connects to browser 
+#+END_SRC
+
+This will open a cljs prompt, but it will not be responsive. What you've done in face is start a server in the Clojure runtime that listens on port 8090. You will need a JavaScript runtime to connect to this and start interacting with the repl and evaluate JavaScript code.  
+
+Create a webpage, for example, index.html that contains the following html:
+#+BEGIN_SRC html
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Browser-connected REPL</title>
+  </head>
+  <body>
+    <div id="content">
+      <script type="text/javascript" src="out/goog/base.js"></script>
+      <script type="text/javascript" src="js/main.js"></script>
+      <script type="text/javascript">
+        goog.require('foo');
+      </script>
+    </div>
+  </body>
+</html>
+#+END_SRC
+
+View the page in a browser. It includes and loads the JavaScript compiled from the following ClojureScript code. In our case the compiled JavaScript code is in "resources/public/js/main.js". It is compiled from the ClojureScript source in src-cljs/sample-app/core.cljs:
+#+BEGIN_SRC clojure
+  ;;This runs in the browser (as javascript):
+  (ns sample-app.core
+    (:require [clojure.browser.repl :as repl]))
+  ;; This connects to the repl server started in the lein repl:
+  (repl/connect "http://localhost:8090/repl") ; <<< port 8090
+#+END_SRC  
+
+Now the ClojureScript repl should be responsive and able to evaluate ClojureScript code in the browser's JavaScript environment. Try (. js/console (log "Hello!!!"))
+
+** ClojureScript repl in Emacs: piggieback, Austin and weasel
+   The whole process described in the previous section does not work in Emacs since the "ClojureScript REPL requires/assumes that it is running in a terminal environment". [[https://github.com/cemerick/piggieback][Piggieback]] to the rescue! Check out its docs for more info on why it's needed in Emacs/nREPL sessions and what it does to enable the ClojureScript repl on top of nREPL.
+
+To use piggieback we only need to add one more dependency to our project:
+: [com.cemerick/piggieback "0.1.3"]
+
+and add an option to the root key =:repl-options= in project.clj
+: :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
+
+To start a Rhino ClojureScript in Emacs after doing =cider-jack-in= (which starts the nREPL) enter this into the repl:
+: (cemerick.piggieback/cljs-repl)
+
+This should get you a cljs prompt.
+
+If instead you enter the following into the Emacs nREPL:
+#+BEGIN_SRC clojure
+(require 'cljs.repl.browser)
+(cemerick.piggieback/cljs-repl
+  :repl-env (cljs.repl.browser/repl-env :port 8090))
+#+END_SRC
+
+and you refresh or open a browser with the same index.html as above that loads the same ClojureScript code as above you will again be connected to the browser's JavaScript runtime, but now from an nREPL session. Make sure to access index.html through a server, not through the file system.
+
+Ignore the suggestion in the piggieback docs to use [[https://github.com/cemerick/austin][Austin]] instead. It does build on piggieback and adds features but but also ties in a Clojure server. It's easier to just start with plain piggieback first. Austin hopelessly confused me at first.
+
+Austin starts two servers within a Clojure nREPL session. One to serve the index.html file and one to (reverse-) serve the ClojureScript repl for the browser to connect to. Because they share the same Clojure repl environment the html server can insert the same port and session number into the index.html file as the port and session that the repl server is configured with. They just share an atom. These port and session numbers are randomly chosen. This way you can of course start multiple sessions and repls and they won't clash. You also don't have to manually setup and choose the port number of the repl server and then insert it into the ClojureScript loaded in the index.html file.
+
+The third option for enabling a ClojureScript repl that connects to a browser within an nREPL session is to use [[https://github.com/tomjakubowski/weasel][weasel]]. Weasel does not use long polling (like piggieback and Austin) to connect from the browser to the ClojureScript repl server but websockets. It still needs piggieback though so leave the set up described for piggieback in place but add one more dependency to project.clj:
+: [weasel "0.4.2"]
+
+Start a ClojureScript repl by entering the following into a Clojure nREPL session (such as created for example by =cider-jack-in= in Emacs):
+#+BEGIN_SRC clojure
+  (require 'weasel.repl.websocket)
+  (cemerick.piggieback/cljs-repl
+   :repl-env (weasel.repl.websocket/repl-env
+              :ip "0.0.0.0" :port 8090))
+#+END_SRC
+
+This will not work because the ClojureScript loaded by the index.html file needs to be a bit modified:
+#+BEGIN_SRC clojure
+(ns my.cljs.core
+  (:require [weasel.repl :as ws-repl]))
+
+(ws-repl/connect "ws://localhost:8090")
+
+#+END_SRC
+
+Alternatively:
+#+BEGIN_SRC clojure
+(ns my.cljs.core
+  (:require [weasel.repl :as ws-repl]))
+
+(ws-repl/connect "ws://localhost:9001"
+   :verbose true
+   :print #{:repl :console}
+   :on-error #(print "Error! " %))
+#+END_SRC
+
+Explanation of the options:
+#+BEGIN_EXAMPLE
+verbose ; boolean, defaults to true
+:print ; :repl to print only to the repl,
+       ; :console to print only to the console
+       ; #{:repl :console} to print to both
+       ; or any variadic function to handle printing differently.
+       ; defaults to :repl
+:on-open, :on-error, :on-close ; fns for handling websocket lifecycle events.
+                               ; default for all is nil
+#+END_EXAMPLE
+
 ** Fig-wheel
 ** Paredit
 When editing Clojure in Emacs use paredit. Some shortcuts:
@@ -543,78 +702,3 @@ There's also a book on ClojureScript:
 
     
     
-* Scratch 
-  
-  have to add It's very possible the Mamre sites have not been attacked. I don't see anything unusual, but I can't be sure, apparently no on can be sure in this case.
-  
-    <script type="text/javascript">
-      var CLOSURE_NO_DEPS = true;
-    </script>
-    when running without optimizations.
-  https://groups.google.com/forum/#!msg/clojure/_WkdBGPhI-Q/AEElfvi2XnQJ
-  
-  
- : :source-map true must specify a file in the same directory as :output-to "resources/public/js/main.js" if optimization setting applied
-  
- When using optimizations other than none, =:source-map= needs to point to a
- file in the same directory as =:output-to=. This slows down compilation
- greatly. When setting =:optimizations= keyword to "none" the =:source-map= tag
- can be set to true. Compilation is also much faster with recompiling in auto
- mode taking a fraction of a second.
- 
- lein cljsbuild auto is very slow when source-map is a path and not just true 
-
-
- 
-#+begin_quote 
-
- Source maps also work with :optimizations set to :none. In this case
- the :source-map value doesn't control file names. So long as the value is
- truth-y (cf. the leiningen example above), an individual source map file will
- be generated for every ClojureScript source file.
-
- It's important to note there are some source map option restrictions when using
- an :optimizations setting other than :none. In these
- cases :output-to, :output-dir, and :source-map must all share the exact same
- parent directory.
-#+end_quote 
- 
-ClojureScript repl:
-;; Compile this project to JavaScript
-(use 'cljs.closure)
-(def opts {:output-to "samples/repl/main.js"
-:output-dir "samples/repl/out"})
-(build "samples/repl/src" opts)
-;; Start REPL
-
-
-#+BEGIN_SRC clojure
-  ;;This runs in the browser (as javascript):
-  (ns sample-app.core
-    (:require [clojure.browser.repl :as repl]))
-  ;; This connects to the repl server started in the lein repl:
-  (repl/connect "http://localhost:8090/repl") ; <<< port 8090
-  
-  ;; Execute in repl (started with lein repl):
-  (do (require '[cljs.repl :as repl])
-      (require '[cljs.repl.browser :as browser])
-      (def env (browser/repl-env :port 8090)) ; <<< port 8090
-      (repl/repl env)) ;;starts cljs repl and connects to browser 
-#+END_SRC
-
-#+BEGIN_SRC clojure
-  ;;This runs in the browser (as javascript):
-  (ns sample-app.core
-    (:require [clojure.browser.repl :as repl]))
-  ;; This connects to the repl server started in the lein repl:
-  (repl/connect "http://localhost:8090/repl") ; <<< port 8090
-  
-  ;; Execute in nrepl (started with cider-jack-in):
-  (do (require '[cemerick.piggieback :as repl])
-      (require '[cemerick-austin as browser])
-      (def env (browser/repl-env :port 8090)) ; <<< port 8090
-      (repl/cljs-repl env)) ;;starts cljs repl and connects to browser 
-#+END_SRC
-
-(cemerick.piggieback/cljs-repl :repl-env (cemerick.austin/exec-env))
- (cemerick.austin.repls/exec)

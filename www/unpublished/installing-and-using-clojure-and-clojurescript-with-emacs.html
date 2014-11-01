@@ -374,7 +374,49 @@ Bye for now!</pre>
 </code>
 </pre>
 <h3 id="header-0-3"><span class="section-number">0.3</span>ClojureScript</h3>
-ClojureScript is compiled by Clojure code.  <h3 id="header-0-4"><span class="section-number">0.4</span>Emacs</h3>
+The preferred setup seems to be to compile ClojureScript by Clojure code in a Clojure/Leinigen project. To do this you add a task to Leinigen in your project.clj in your Clojure project created with:<pre>lein new app some-app-name</pre>
+<p>Add the following to dependencies:</p>
+<pre>[org.clojure/clojurescript &#34;0.0-2371&#34;]</pre>
+<p>And this to plugins:</p>
+<pre> [lein-cljsbuild &#34;1.0.3&#34;]</pre>
+<p>And the configuration for the task as a root key:</p>
+<pre class="prettyprint"><code class="language-clojure">  :cljsbuild {
+              :builds [{
+                        :id &#34;dev&#34;
+                        :source-paths [&#34;src-cljs&#34;]
+                        :compiler {
+                                   :output-to &#34;resources/public/js/main.js&#34;
+                                   :output-dir &#34;resources/public/js&#34;
+                                   :source-map true
+                                   :optimizations :none
+                                   }
+                        }]
+              }</code>
+</pre>
+<p>For more options see the sample project.clj above or <a href="https://github.com/technomancy/leiningen/blob/stable/sample.project.clj">here</a>.</p>
+<p>You can then compile all ClojureScript files in the [projectdir]/src-cljs by executing:</p>
+<pre>lein cljsbuild once dev</pre>
+<p>If you want to recompile when .cljs files change have Leinigen watch the source directories:</p>
+<pre>lein cljsbuild auto dev</pre>
+<p>If there is only build <code>dev</code> is optional.</p>
+<p>When using optimizations other than none, <code>:source-map</code> needs to point to a
+file in the same directory as <code>:output-to</code>. This slows down compilation
+greatly. When setting <code>:optimizations</code> keyword to &#34;none&#34; the <code>:source-map</code> tag
+can be set to true. Compilation is also much faster with recompiling in auto
+mode taking a fraction of a second.
+
+lein cljsbuild auto is very slow when source-map is a path and not just true </p>
+<p></p>
+<blockquote><p>Source maps also work with :optimizations set to :none. In this case
+the :source-map value doesn&#39;t control file names. So long as the value is
+truth-y (cf. the leiningen example above), an individual source map file will
+be generated for every ClojureScript source file.</p>
+<p>It&#39;s important to note there are some source map option restrictions when using
+an :optimizations setting other than :none. In these
+cases :output-to, :output-dir, and :source-map must all share the exact same
+parent directory.</p>
+</blockquote>
+<h3 id="header-0-4"><span class="section-number">0.4</span>Emacs</h3>
 Use <a href="https://github.com/clojure-emacs/cider">cider</a> for Clojure programming, install using package manager.<p>To load the necessary info, otherwise package-install doesn&#39;t work: </p>
 <pre>M-x list-packages</pre>
 or:<pre>M-x package-refresh-contents</pre>
@@ -500,17 +542,7 @@ There&#39;s also a book on ClojureScript:<ul><li><a href="http://www.amazon.com/
 </li>
 </ul>
 <h2 id="header-1"><span class="section-number">1</span>Scratch </h2>
-have to add It&#39;s very possible the Mamre sites have not been attacked. I don&#39;t see anything unusual, but I can&#39;t be sure, apparently no on can be sure in this case.&#60;script type=&#34;text/javascript&#34;&#62;var CLOSURE_NO_DEPS = true;&#60;/script&#62;when running without optimizations.<a href="https://groups.google.com/forum/#!msg/clojure/_WkdBGPhI-Q/AEElfvi2XnQJ">https://groups.google.com/forum/#!msg/clojure/_WkdBGPhI-Q/AEElfvi2XnQJ</a><pre>:source-map true must specify a file in the same directory as :output-to &#34;resources/public/js/main.js&#34; if optimization setting applied</pre>
-When using optimizations other than none, <code>:source-map</code> needs to point to afile in the same directory as <code>:output-to</code>. This slows down compilationgreatly. When setting <code>:optimizations</code> keyword to &#34;none&#34; the <code>:source-map</code> tagcan be set to true. Compilation is also much faster with recompiling in automode taking a fraction of a second.lein cljsbuild auto is very slow when source-map is a path and not just true <p></p>
-<blockquote><p>Source maps also work with :optimizations set to :none. In this case
-the :source-map value doesn&#39;t control file names. So long as the value is
-truth-y (cf. the leiningen example above), an individual source map file will
-be generated for every ClojureScript source file.</p>
-<p>It&#39;s important to note there are some source map option restrictions when using
-an :optimizations setting other than :none. In these
-cases :output-to, :output-dir, and :source-map must all share the exact same
-parent directory.</p>
-</blockquote>
+&#60;script type=&#34;text/javascript&#34;&#62;var CLOSURE_NO_DEPS = true;&#60;/script&#62;when running without optimizations.<a href="https://groups.google.com/forum/#!msg/clojure/_WkdBGPhI-Q/AEElfvi2XnQJ">https://groups.google.com/forum/#!msg/clojure/_WkdBGPhI-Q/AEElfvi2XnQJ</a><pre>:source-map true must specify a file in the same directory as :output-to &#34;resources/public/js/main.js&#34; if optimization setting applied</pre>
 ClojureScript repl:;; Compile this project to JavaScript(use &#39;cljs.closure)(def opts {:output-to &#34;samples/repl/main.js&#34;:output-dir &#34;samples/repl/out&#34;})(build &#34;samples/repl/src&#34; opts);; Start REPL<pre class="prettyprint"><code class="language-clojure">  ;;This runs in the browser (as javascript):
   (ns sample-app.core
     (:require [clojure.browser.repl :as repl]))
