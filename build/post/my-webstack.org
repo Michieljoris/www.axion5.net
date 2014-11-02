@@ -1,4 +1,6 @@
 #+TITLE: My webstack
+#+OPTIONS: toc:0
+
 : comments: true
 : published: true
 : title: My webstack

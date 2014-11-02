@@ -177,3 +177,16 @@ pre.prettyprint {
     padding:0px;
     word-break: break-word;
 }
+
+#toc ul {
+    padding-left:10px;
+
+}
+
+#toc li {
+    list-style: disc;
+}
+
+#toc>ul>li {
+    list-style:none;
+}

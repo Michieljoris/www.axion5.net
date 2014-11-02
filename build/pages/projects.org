@@ -1,3 +1,5 @@
+#+OPTIONS: toc:0
+
 #+Projects
 
 [[http://github.com/michieljoris/bb-server][bb-server]]

@@ -1,4 +1,6 @@
 #+TITLE: Pair programming
+#+OPTIONS: toc:0
+
 : comments: true
 : published: false
 : title: Pair programming

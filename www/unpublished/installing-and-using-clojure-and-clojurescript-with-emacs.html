@@ -72,21 +72,47 @@
 
       <div class="pageTitle" id="pageTitle--"><header >
   <div class="title blog-post-title">  Installing and using Clojure and ClojureScript with Emacs  </div>
-  <time class="blog-post-meta" datetime="31st of October 2014">  31st of October 2014  </time>
+  <time class="blog-post-meta" datetime="2nd of November 2014">  2nd of November 2014  </time>
 </header></div>
-      <div  id="main--" class="blog-post"><!--partial:post/installing-and-using-clojure-and-clojurescipt.org--><pre>comments: false
+      <div  id="main--" class="blog-post"><!--partial:post/installing-and-using-clojure-and-clojurescipt.org--><div id="toc"><ul><li><a href="#header-"><span class="section-number"></span></a><ul><li><a href="#header-0-1"><span class="section-number">0.1</span>Clojure</a></li>
+<li><a href="#header-0-2"><span class="section-number">0.2</span>Leiningen</a></li>
+<li><a href="#header-0-3"><span class="section-number">0.3</span>ClojureScript</a></li>
+<li><a href="#header-0-4"><span class="section-number">0.4</span>Emacs</a></li>
+<li><a href="#header-0-5"><span class="section-number">0.5</span>Clojure repl in Emacs</a></li>
+<li><a href="#header-0-6"><span class="section-number">0.6</span>ClojureScript repl</a></li>
+<li><a href="#header-0-7"><span class="section-number">0.7</span>ClojureScript repl in Emacs: piggieback, Austin and weasel</a></li>
+<li><a href="#header-0-8"><span class="section-number">0.8</span>Figwheel</a></li>
+<li><a href="#header-0-9"><span class="section-number">0.9</span>React/Om/Reagent</a></li>
+<li><a href="#header-0-10"><span class="section-number">0.10</span>Workflow</a></li>
+<li><a href="#header-0-11"><span class="section-number">0.11</span>Paredit</a></li>
+<li><a href="#header-0-12"><span class="section-number">0.12</span>Links</a><ul><li><a href="#header-0-12-1"><span class="section-number">0.12.1</span>Books</a></li>
+<li><a href="#header-0-12-2"><span class="section-number">0.12.2</span>General web tutorials and docs on Clojure:</a></li>
+<li><a href="#header-0-12-3"><span class="section-number">0.12.3</span>Leiningen  </a></li>
+<li><a href="#header-0-12-4"><span class="section-number">0.12.4</span>Emacs</a></li>
+<li><a href="#header-0-12-5"><span class="section-number">0.12.5</span>Repl </a></li>
+<li><a href="#header-0-12-6"><span class="section-number">0.12.6</span>Other  </a></li>
+<li><a href="#header-0-12-7"><span class="section-number">0.12.7</span>React  </a></li>
+<li><a href="#header-0-12-8"><span class="section-number">0.12.8</span>Starter projects:    </a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div><pre>comments: false
 published: false
 title: Installing and using Clojure and ClojureScript with Emacs
 tags: Emacs Clojure ClojureScript install</pre>
 <p>Clojure is wonderful, being able to use ClojureScript in the browser even more so, however setting up a development environment is a pain in the ass. On top of this what&#39;s considered best practice is still changing from almost month to month.</p>
 <p>Because of this I intend to document here as accurately as I can the process for getting a working environment in Emacs for both Clojure and ClojureScript. This is going to be a working document where I will update the procedure I use myself on an ongoing basis. In general I will be noting instructions to install the most recent verions of software and scripts. Mostly this is a description of how, not so much of why, but I&#39;ll try to include links to more info where relevant.</p>
 <p>Much of the following is freely copied and modified from other tutorials on the net. A list of resources is at the bottom of the page. </p>
+<p>For a working setup and example of all that follows below clone the <a href="https://github.com/Michieljoris/sample-app">sample-app</a>.</p>
 <pre>-------------</pre>
 <h3 id="header-0-1"><span class="section-number">0.1</span>Clojure</h3>
 Clojure needs Java installed. So <code>java -version</code> should return something like:<pre>java version &#34;1.8.0_11&#34;
 Java(TM) SE Runtime Environment (build 1.8.0_11-b12)
 Java HotSpot(TM) 64-Bit Server VM (build 25.11-b03, mixed mode)</pre>
-Minimum required version is 1.6, see <a href="http://clojure.org/getting_started?responseToken%3Ddfb93f0a2a572fc0c51e2373226b731e">here</a>.<p>In a freshly installed ubuntu 14.4 :</p>
+<p>Minimum required version is 1.6, see <a href="http://clojure.org/getting_started?responseToken%3Ddfb93f0a2a572fc0c51e2373226b731e">here</a>. </p>
+<p>In a freshly installed ubuntu 14.4 :</p>
 <pre>sudo apt-get update 
 # to make sure apt-add-repository is installed:
 sudo apt-get install software-properties-common 
@@ -108,7 +134,7 @@ include:</p>
 <li>Dependency resolution (with automatic library downloading)</li>
 </ul>
 </blockquote>
-<p>And of course it runs your Clojure program if it&#39;s not a library. However, running a Clojure program involves automatically booting up a JVM first. Since this can take a few seconds Clojure programs are more easily tested and developed using a repl in a JVM booted and kept running for this purpose. This enables an instant feedback loop to the developer.</p>
+<p>And of course it runs your Clojure program if it&#39;s not a library. However, running a Clojure program involves automatically booting up a JVM first. Since this can take a few seconds Clojure programs are more easily tested and developed using a repl in a JVM booted and kept running for this purpose. See further below. A repl enables an instant feedback loop to the developer.</p>
 <p>To install Leiningen download the <a href="https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein">lein</a> script </p>
 <pre>wget <a href="https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein">https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein</a> </pre>
 <p>Place it on your $PATH where your shell can find it (eg. ~/bin)</p>
@@ -379,43 +405,31 @@ The preferred setup seems to be to compile ClojureScript by Clojure code in a Cl
 <pre>[org.clojure/clojurescript &#34;0.0-2371&#34;]</pre>
 <p>And this to plugins:</p>
 <pre> [lein-cljsbuild &#34;1.0.3&#34;]</pre>
-<p>And the configuration for the task as a root key:</p>
+<p>And add the configuration for the task/plug as a root key:</p>
 <pre class="prettyprint"><code class="language-clojure">  :cljsbuild {
-              :builds [{
-                        :id &#34;dev&#34;
-                        :source-paths [&#34;src-cljs&#34;]
-                        :compiler {
-                                   :output-to &#34;resources/public/js/main.js&#34;
-                                   :output-dir &#34;resources/public/js&#34;
-                                   :source-map true
-                                   :optimizations :none
-                                   }
-                        }]
+         :builds [{
+                    :id &#34;dev&#34;
+                    :source-paths [&#34;src-cljs&#34;]
+                    :compiler {
+                               :output-to &#34;resources/public/js/main.js&#34;
+                               :output-dir &#34;resources/public/js&#34;
+                               :source-map true
+                               :optimizations :none
+                               }
+                 }]
               }</code>
 </pre>
-<p>For more options see the sample project.clj above or <a href="https://github.com/technomancy/leiningen/blob/stable/sample.project.clj">here</a>.</p>
+<p>For more options and an example see the sample project.clj above or <a href="https://github.com/technomancy/leiningen/blob/stable/sample.project.clj">here</a>.</p>
 <p>You can then compile all ClojureScript files in the [projectdir]/src-cljs by executing:</p>
 <pre>lein cljsbuild once dev</pre>
-<p>If you want to recompile when .cljs files change have Leinigen watch the source directories:</p>
+<p>If you want to recompile when .cljs files change then have Leinigen watch the source directories:</p>
 <pre>lein cljsbuild auto dev</pre>
-<p>If there is only build <code>dev</code> is optional.</p>
-<p>When using optimizations other than none, <code>:source-map</code> needs to point to a
-file in the same directory as <code>:output-to</code>. This slows down compilation
-greatly. When setting <code>:optimizations</code> keyword to &#34;none&#34; the <code>:source-map</code> tag
-can be set to true. Compilation is also much faster with recompiling in auto
-mode taking a fraction of a second.
-
-lein cljsbuild auto is very slow when source-map is a path and not just true </p>
-<p></p>
-<blockquote><p>Source maps also work with :optimizations set to :none. In this case
-the :source-map value doesn&#39;t control file names. So long as the value is
-truth-y (cf. the leiningen example above), an individual source map file will
-be generated for every ClojureScript source file.</p>
-<p>It&#39;s important to note there are some source map option restrictions when using
-an :optimizations setting other than :none. In these
-cases :output-to, :output-dir, and :source-map must all share the exact same
-parent directory.</p>
+<p>If there is only one build <code>dev</code> is optional.</p>
+<p>Take note:</p>
+<blockquote><p>Source maps also work with :optimizations set to :none. In this case the :source-map value doesn&#39;t control file names. So long as the value is truth-y (cf. the leiningen example above), an individual source map file will be generated for every ClojureScript source file.</p>
+<p>It&#39;s important to note there are some source map option restrictions when using an :optimizations setting other than :none. In these cases :output-to, :output-dir, and :source-map must all share the exact same parent directory.</p>
 </blockquote>
+<p>Setting optimizations to something other than none slows down compilation greatly. Also make sure <code>source-map</code> is set to true in this case, not a string. Compilation is quite fast in auto mode with recompiling in auto mode taking a fraction of a second when a file changes. </p>
 <h3 id="header-0-4"><span class="section-number">0.4</span>Emacs</h3>
 Use <a href="https://github.com/clojure-emacs/cider">cider</a> for Clojure programming, install using package manager.<p>To load the necessary info, otherwise package-install doesn&#39;t work: </p>
 <pre>M-x list-packages</pre>
@@ -471,104 +485,213 @@ C-c C-d d	Display doc string for the symbol at point. If invoked with a prefix a
 C-c M-n	Select a namespace and switch to it.</pre>
 <p>You can connect to multiple nREPL servers using M-x cider-jack-in multiple times. To close the current nREPL connection, use M-x nrepl-close. M-x cider-quit closes all connections. </p>
 <p>Many more shortcuts at the <a href="https://github.com/clojure-emacs/cider">cider</a> site, as well as info on configuring cider.</p>
-<h3 id="header-0-6"><span class="section-number">0.6</span>ClojureScript repl in Emacs</h3>
-<p>
-
-</p>
-Before explaining how to start a ClojureScript repl in Emacs it is instructional to see how it&#39;s done from the shell command line.<p>First off, a ClojureScript repl always builds on and is started in a Clojure repl. So first thing to do is to start a Clojure repl:</p>
+<h3 id="header-0-6"><span class="section-number">0.6</span>ClojureScript repl</h3>
+<p>Before explaining how to start a ClojureScript repl in Emacs it is instructional to see how it&#39;s done from the shell command line.</p>
+<p>First off, a ClojureScript repl always builds on and is started in a Clojure repl. So first thing to do is to start a Clojure repl:</p>
 <pre>lein repl</pre>
-<p>From here we can connect to a JavaScript execution environment.  Clojure and ClojureScript 
-Then, from the ClojureScript <a href="https://github.com/clojure/clojurescript/wiki/The-REPL-and-Evaluation-Environments">wiki</a>:
+<p>From here we can connect to a JavaScript execution environment. The Clojure and ClojureScript libraries come with support for a ClojureScript repl. Rrom the ClojureScript <a href="https://github.com/clojure/clojurescript/wiki/The-REPL-and-Evaluation-Environments">wiki</a>:
 </p>
-<blockquote><p>The basic usage of the REPL is always the same:</p>
-<p>require cljs.repl
-require the namespace which implements the desired evaluation environment
-create a new evaluation environment
-start the REPL with the created environment</p>
+<blockquote><p>The basic usage of the (ClojureScript) REPL is always the same:</p>
+<ul><li>require cljs.repl</li>
+<li>require the namespace which implements the desired evaluation environment</li>
+<li>create a new evaluation environment</li>
+<li>start the REPL with the created environment</li>
+</ul>
 <p>Using the REPL will also feel the same in each environment; forms are entered, results are printed and side-effects happen where they make the most sense.</p>
 </blockquote>
-<a href="https://github.com/emezeske/lein-cljsbuild">https://github.com/emezeske/lein-cljsbuild</a> <h3 id="header-0-7"><span class="section-number">0.7</span>Project setup</h3>
-<h3 id="header-0-8"><span class="section-number">0.8</span>Fig-wheel</h3>
-<h3 id="header-0-9"><span class="section-number">0.9</span>Paredit</h3>
+<p>So in practical terms, copy and paste the following into a Clojure repl:</p>
+<pre class="prettyprint"><code class="language-clojure">  (do (require &#39;[cljs.repl :as repl])
+      (require &#39;[cljs.repl.rhino :as rhino]) ;; require the rhino implementation of IJavaScriptEnv
+      (def env (rhino/repl-env)) ;; create a new environment
+      (repl/repl env)) ;; start the REPL</code>
+</pre>
+<p>This connects to a generic JavasScript environment namely Rhino.</p>
+<p>If you want to connect to a browser&#39;s JavaScript runtime enter the followiing into a Lein repl:</p>
+<pre class="prettyprint"><code class="language-clojure">  ;; Execute in repl (started with lein repl):
+  (do (require &#39;[cljs.repl :as repl])
+      (require &#39;[cljs.repl.browser :as browser])
+      (def env (browser/repl-env :port 8090)) ; &#60;&#60;&#60; port 8090
+      (repl/repl env)) ;;starts cljs repl and connects to browser </code>
+</pre>
+<p>This will open a cljs prompt, but it will not be responsive. What you&#39;ve done in fact is start a server in the Clojure runtime that listens on port 8090. You will need a JavaScript runtime to connect to this and start interacting with this &#39;repl in a repl&#39; and evaluate ClojureScript code (after it&#39;s compiled to JavaScript by cljs.repl).  </p>
+<p>For this purpose, create a webpage, for example, index.html that contains the following html:</p>
+<pre class="prettyprint"><code class="language-html">&#60;html&#62;
+  &#60;head&#62;
+    &#60;meta charset=&#34;UTF-8&#34;&#62;
+    &#60;title&#62;Browser-connected REPL&#60;/title&#62;
+  &#60;/head&#62;
+  &#60;body&#62;
+    &#60;div id=&#34;content&#34;&#62;
+      &#60;script type=&#34;text/javascript&#34; src=&#34;out/goog/base.js&#34;&#62;&#60;/script&#62;
+      &#60;script type=&#34;text/javascript&#34; src=&#34;js/main.js&#34;&#62;&#60;/script&#62;
+      &#60;script type=&#34;text/javascript&#34;&#62;
+        goog.require(&#39;foo&#39;);
+      &#60;/script&#62;
+    &#60;/div&#62;
+  &#60;/body&#62;
+&#60;/html&#62;</code>
+</pre>
+<p>Leave out the <code>out/goog/base.js</code> script tag if you&#39;ve set optimizations to anything other than <code>none</code>.</p>
+<p>Then create a ClojureScript file in &#34;src-cljs/sample-app/core.cljs&#34; like so:</p>
+<pre class="prettyprint"><code class="language-clojure">  ;;This runs in the browser (as javascript):
+  (ns sample-app.core
+    (:require [clojure.browser.repl :as repl]))
+  ;; This connects to the repl server started in the lein repl:
+  (repl/connect &#34;<a href="http://localhost:8090/repl&#34">http://localhost:8090/repl&#34</a>;) ; &#60;&#60;&#60; port 8090</code>
+</pre>
+<p>And make sure the project gets compiled:</p>
+<pre>lein cljsbuild auto dev</pre>
+<p>This will produce a main.js file in the &#34;www/js&#34; directory in your project, which will be loaded and evaluated by the browser when it loads index.html. So refresh the page if it&#39;s opened already.</p>
+<p>Now the ClojureScript repl should be responsive and able to evaluate ClojureScript code in the browser&#39;s JavaScript environment. Try:</p>
+<pre>(. js/console (log &#34;Hello!!!&#34;))</pre>
+<h3 id="header-0-7"><span class="section-number">0.7</span>ClojureScript repl in Emacs: piggieback, Austin and weasel</h3>
+<p>The whole process described in the previous section does not work in Emacs since the &#34;ClojureScript REPL requires/assumes that it is running in a terminal environment&#34;. <a href="https://github.com/cemerick/piggieback">Piggieback</a> to the rescue! Check out its docs for more info on why it&#39;s needed in Emacs/nREPL sessions and what it does to enable the ClojureScript repl on top of nREPL.</p>
+<p>To use piggieback we only need to add one more dependency to our project:</p>
+<pre>[com.cemerick/piggieback &#34;0.1.3&#34;]</pre>
+<p>and add an option to the root key <code>:repl-options</code> in project.clj</p>
+<pre>:repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}</pre>
+<p>To start a Rhino ClojureScript in Emacs after doing <code>cider-jack-in</code> (which starts the nREPL) enter this into the repl:</p>
+<pre>(cemerick.piggieback/cljs-repl)</pre>
+<p>This should get you a cljs prompt.</p>
+<p>If instead you enter the following into the Emacs nREPL:</p>
+<pre class="prettyprint"><code class="language-clojure">(require &#39;cljs.repl.browser)
+(cemerick.piggieback/cljs-repl
+  :repl-env (cljs.repl.browser/repl-env :port 8090))</code>
+</pre>
+<p>and you refresh or open a browser with the same index.html as above that loads the same ClojureScript code as above you will again be connected to the browser&#39;s JavaScript runtime, but now from an nREPL session. Make sure to access index.html through a server, not through the file system.</p>
+<p>Ignore the suggestion in the piggieback docs to use <a href="https://github.com/cemerick/austin">Austin</a> instead. It does build on piggieback and adds features but also ties in a Clojure server. It&#39;s easier to just start with plain piggieback first. Austin hopelessly confused me at first.</p>
+<p>Austin starts two servers within a Clojure nREPL session. One to serve the index.html file and one to (reverse-) serve the ClojureScript repl for the browser to connect to. Because they share the same Clojure repl environment the html server can insert the same port and session number into the index.html file as the port and session that the repl server is configured with. They just share an atom. These port and session numbers are randomly chosen. This way you can of course start multiple sessions and repls and they won&#39;t clash. You also don&#39;t have to manually setup and choose the port number of the repl server and then insert it into the ClojureScript loaded in the index.html file.</p>
+<p>The third option for enabling a ClojureScript repl that connects to a browser within an nREPL session is to use <a href="https://github.com/tomjakubowski/weasel">weasel</a>. Weasel does not use long polling (like piggieback and Austin) to connect from the browser to the ClojureScript repl server but websockets. It still needs piggieback though so leave the set up described for piggieback in place but add one more dependency to project.clj:</p>
+<pre>[weasel &#34;0.4.2&#34;]</pre>
+<p>Start a ClojureScript repl by entering the following into a Clojure nREPL session (such as created for example by <code>cider-jack-in</code> in Emacs):</p>
+<pre class="prettyprint"><code class="language-clojure">  (require &#39;weasel.repl.websocket)
+  (cemerick.piggieback/cljs-repl
+   :repl-env (weasel.repl.websocket/repl-env
+              :ip &#34;0.0.0.0&#34; :port 8092))</code>
+</pre>
+<p>This will not work because the ClojureScript loaded by the index.html file needs to be a bit modified:</p>
+<pre class="prettyprint"><code class="language-clojure">(ns my.cljs.core
+  (:require [weasel.repl :as ws-repl]))
+
+(ws-repl/connect &#34;ws://localhost:8092&#34;)
+</code>
+</pre>
+<p>Alternatively:</p>
+<pre class="prettyprint"><code class="language-clojure">(ns my.cljs.core
+  (:require [weasel.repl :as ws-repl]))
+
+(ws-repl/connect &#34;ws://localhost:8092&#34;
+   :verbose true
+   :print #{:repl :console}
+   :on-error #(print &#34;Error! &#34; %))</code>
+</pre>
+<p>Explanation of the options:</p>
+<pre>verbose ; boolean, defaults to true
+:print ; :repl to print only to the repl,
+       ; :console to print only to the console
+       ; #{:repl :console} to print to both
+       ; or any variadic function to handle printing differently.
+       ; defaults to :repl
+:on-open, :on-error, :on-close ; fns for handling websocket lifecycle events.
+                               ; default for all is nil</pre>
+<p>Again, try:</p>
+<pre>(. js/console (log &#34;Hello!!!&#34;))</pre>
+<h3 id="header-0-8"><span class="section-number">0.8</span>Figwheel</h3>
+For more info see <a href="https://github.com/bhauman/lein-figwheel">figwheel</a>.Add dependency to project.clj<pre>[figwheel &#34;0.1.5-SNAPSHOT&#34;] </pre>
+<p>Add following to the plugins key:</p>
+<pre>[lein-figwheel &#34;0.1.5-SNAPSHOT&#34;]</pre>
+<p>Add the figwheel configuration to project.clj:</p>
+<pre class="prettyprint"><code class="language-clojure">:figwheel {
+   :http-server-root &#34;public&#34; ;; this will be in resources/
+   :server-port 3449          ;; default
+
+   ;; CSS reloading (optional)
+   ;; :css-dirs has no default value 
+   ;; if :css-dirs is set figwheel will detect css file changes and
+   ;; send them to the browser
+   :css-dirs [&#34;resources/public/css&#34;]
+
+   ;; Server Ring Handler (optional)
+   ;; if you want to embed a ring handler into the figwheel http-kit
+   ;; server
+   ;; :ring-handler example.server/handler 
+} </code>
+</pre>
+<p>Start figwheel in terminal:</p>
+<pre>lein figwheel example</pre>
+<p>Modify src-cljs/sample-app/core.cljs:</p>
+<pre class="prettyprint"><code class="language-clojure">(ns sample-app.core
+  (:require
+   [figwheel.client :as fw :include-macros true]))
+
+(enable-console-print!)
+
+(fw/watch-and-reload
+  :websocket-url &#34;ws://localhost:3449/figwheel-ws&#34; 
+  :jsload-callback (fn [] (print &#34;reloaded&#34;))) ;; optional callback
+
+(println &#34;You can change this line an see the changes in the dev console&#34;)
+</code>
+</pre>
+<p>Start a server in resources/public and open index.html in your browser through the server.</p>
+<h3 id="header-0-9"><span class="section-number">0.9</span>React/Om/Reagent</h3>
+<h3 id="header-0-10"><span class="section-number">0.10</span>Workflow</h3>
+For me:<ul><li>Copy or clone the <a href="https://github.com/Michieljoris/sample-app">sample-app</a>, or lein new sample-app?</li>
+</ul>
+cd into app dirlein-cooper to start lein figwheel and lein repl and bb-server forr resources/publicopen app page in browserOpen up a file from the project in emacscider-jack-in, should open in proper namespace!run one command to start cljs repl Done.   <h3 id="header-0-11"><span class="section-number">0.11</span>Paredit</h3>
 When editing Clojure in Emacs use paredit. Some shortcuts:<pre>M-(	paredit-wrap-round, surround expression after point in parentheses
 C-→	Slurp; move closing parenthesis to the right to include next expression
 C-←	Barf; move closing parenthesis to the left to exclude last expression
 C-M-f, C-M-b	Move to the opening/closing parenthesis</pre>
-<h3 id="header-0-10"><span class="section-number">0.10</span>Links</h3>
-<h4 id="header-0-10-1"><span class="section-number">0.10.1</span>Books</h4>
+<h3 id="header-0-12"><span class="section-number">0.12</span>Links</h3>
+<h4 id="header-0-12-1"><span class="section-number">0.12.1</span>Books</h4>
 Two books I&#39;ve found useful:    <ul><li><a href="http://www.amazon.com/Clojure-Programming-Chas-Emerick/dp/1449394701/ref%3Dsr_1_1/186-5337347-5323310?ie%3DUTF8&qid%3D1414693506&sr%3D8-1&keywords%3Dclojure">Clojure Programming</a></li>
 <li><a href="http://www.amazon.com/Programming-Clojure-Stuart-Halloway/dp/1934356867/ref%3Dsr_1_4/186-5337347-5323310?ie%3DUTF8&qid%3D1414693506&sr%3D8-4&keywords%3Dclojure">Programming Clojure</a></li>
 </ul>
 There&#39;s also a book on ClojureScript:<ul><li><a href="http://www.amazon.com/ClojureScript-Up-Running-Stuart-Sierra/dp/1449327435/ref%3Dsr_1_1/186-5337347-5323310?ie%3DUTF8&qid%3D1414693967&sr%3D8-1&keywords%3Dclojurescript">ClojureScript Up and Running</a></li>
 </ul>
-<h4 id="header-0-10-2"><span class="section-number">0.10.2</span>General web tutorials and docs on Clojure:</h4>
+<h4 id="header-0-12-2"><span class="section-number">0.12.2</span>General web tutorials and docs on Clojure:</h4>
 <ul><li><a href="http://learnxinyminutes.com/docs/clojure/">http://learnxinyminutes.com/docs/clojure/</a> | Learn clojure in Y Minutes</li>
 <li><a href="http://www.braveclojure.com/">http://www.braveclojure.com/</a> | Learn to Program the World&#39;s Most Bodacious Language with Clojure for the Brave and True</li>
 <li><a href="http://java.ociweb.com/mark/clojure/article.html">http://java.ociweb.com/mark/clojure/article.html</a> | Clojure - Functional Programming for the JVM</li>
 <li><a href="http://clojuredocs.org/quickref">http://clojuredocs.org/quickref</a> | Clojure Quick Reference | ClojureDocs - Community-Powered Clojure Documentation and Examples</li>
 <li><a href="https://github.com/clojure/clojurescript">https://github.com/clojure/clojurescript</a> | clojure/clojurescript · GitHub</li>
 </ul>
-<h4 id="header-0-10-3"><span class="section-number">0.10.3</span>Leiningen  </h4>
+<h4 id="header-0-12-3"><span class="section-number">0.12.3</span>Leiningen  </h4>
 <ul><li><a href="http://leiningen.org/">http://leiningen.org/</a> | Leiningen</li>
 <li><a href="https://github.com/technomancy/leiningen/blob/stable/doc/TUTORIAL.md">https://github.com/technomancy/leiningen/blob/stable/doc/TUTORIAL.md</a> | leiningen/TUTORIAL.md at stable · technomancy/leiningen · GitHub</li>
 <li><a href="https://github.com/emezeske/lein-cljsbuild">https://github.com/emezeske/lein-cljsbuild</a> | emezeske/lein-cljsbuild · GitHub</li>
 <li><a href="https://github.com/technomancy/leiningen/wiki/Faster">https://github.com/technomancy/leiningen/wiki/Faster</a> | Faster startup time</li>
 </ul>
-<h4 id="header-0-10-4"><span class="section-number">0.10.4</span>Emacs</h4>
+<h4 id="header-0-12-4"><span class="section-number">0.12.4</span>Emacs</h4>
 <ul><li><a href="http://clojure-doc.org/articles/tutorials/emacs.html">http://clojure-doc.org/articles/tutorials/emacs.html</a> </li>
 </ul>
-<h4 id="header-0-10-5"><span class="section-number">0.10.5</span>Repl </h4>
+<h4 id="header-0-12-5"><span class="section-number">0.12.5</span>Repl </h4>
 <ul><li><a href="https://github.com/clojure-emacs/cider">https://github.com/clojure-emacs/cider</a>  | Clojure environment for Emacs</li>
 <li><a href="https://github.com/clojure/clojurescript/wiki/The-REPL-and-Evaluation-Environments">https://github.com/clojure/clojurescript/wiki/The-REPL-and-Evaluation-Environments</a> | The REPL and Evaluation Environments · clojure/clojurescript Wiki · GitHub</li>
 <li><a href="https://github.com/cemerick/piggieback">https://github.com/cemerick/piggieback</a> | cemerick/piggieback · GitHub</li>
 <li><a href="https://github.com/cemerick/austin#project-repls">https://github.com/cemerick/austin#project-repls</a> | cemerick/austin · GitHub</li>
 <li><a href="https://github.com/tomjakubowski/weasel">https://github.com/tomjakubowski/weasel</a> | tomjakubowski/weasel · GitHub</li>
 </ul>
-<h4 id="header-0-10-6"><span class="section-number">0.10.6</span>Other  </h4>
+<h4 id="header-0-12-6"><span class="section-number">0.12.6</span>Other  </h4>
 <ul><li><a href="https://github.com/bhauman/lein-figwheel">https://github.com/bhauman/lein-figwheel</a> | bhauman/lein-figwheel · GitHub</li>
 <li><a href="http://rigsomelight.com/2014/05/01/interactive-programming-flappy-bird-clojurescript.html">http://rigsomelight.com/2014/05/01/interactive-programming-flappy-bird-clojurescript.html</a> | Interactive Programming in ClojureScript</li>
 </ul>
-<h4 id="header-0-10-7"><span class="section-number">0.10.7</span>React  </h4>
+<h4 id="header-0-12-7"><span class="section-number">0.12.7</span>React  </h4>
 <ul><li><a href="http://facebook.github.io/react/">http://facebook.github.io/react/</a> | A JavaScript library for building user interfaces | React</li>
 <li><a href="https://github.com/swannodette/om">https://github.com/swannodette/om</a> | swannodette/om · GitHub</li>
 <li><a href="http://clojure-doc.org/articles/tutorials/emacs.html">http://clojure-doc.org/articles/tutorials/emacs.html</a> | Clojure with Emacs | Clojure Documentation | Clojure Docs</li>
 <li><a href="https://github.com/holmsand/reagent">https://github.com/holmsand/reagent</a> | holmsand/reagent · GitHub</li>
 <li><a href="https://github.com/levand/quiescent">https://github.com/levand/quiescent</a> | levand/quiescent · GitHub</li>
+<li><a href="http://blog.michielborkent.nl/blog/2014/09/25/figwheel-keep-Om-turning/">http://blog.michielborkent.nl/blog/2014/09/25/figwheel-keep-Om-turning/</a></li>
 </ul>
-<h4 id="header-0-10-8"><span class="section-number">0.10.8</span>Starter projects:    </h4>
+<h4 id="header-0-12-8"><span class="section-number">0.12.8</span>Starter projects:    </h4>
 <ul><li><a href="https://github.com/plexus/chestnut">https://github.com/plexus/chestnut</a> | plexus/chestnut · GitHub</li>
 <li><a href="http://blog.michielborkent.nl/blog/2014/09/25/figwheel-keep-Om-turning/">http://blog.michielborkent.nl/blog/2014/09/25/figwheel-keep-Om-turning/</a> | Figwheel Keep Om Turning! - Through the cracks of immutability<p>
+
 </p>
 </li>
 </ul>
-<h2 id="header-1"><span class="section-number">1</span>Scratch </h2>
-&#60;script type=&#34;text/javascript&#34;&#62;var CLOSURE_NO_DEPS = true;&#60;/script&#62;when running without optimizations.<a href="https://groups.google.com/forum/#!msg/clojure/_WkdBGPhI-Q/AEElfvi2XnQJ">https://groups.google.com/forum/#!msg/clojure/_WkdBGPhI-Q/AEElfvi2XnQJ</a><pre>:source-map true must specify a file in the same directory as :output-to &#34;resources/public/js/main.js&#34; if optimization setting applied</pre>
-ClojureScript repl:;; Compile this project to JavaScript(use &#39;cljs.closure)(def opts {:output-to &#34;samples/repl/main.js&#34;:output-dir &#34;samples/repl/out&#34;})(build &#34;samples/repl/src&#34; opts);; Start REPL<pre class="prettyprint"><code class="language-clojure">  ;;This runs in the browser (as javascript):
-  (ns sample-app.core
-    (:require [clojure.browser.repl :as repl]))
-  ;; This connects to the repl server started in the lein repl:
-  (repl/connect &#34;<a href="http://localhost:8090/repl&#34">http://localhost:8090/repl&#34</a>;) ; &#60;&#60;&#60; port 8090
-  
-  ;; Execute in repl (started with lein repl):
-  (do (require &#39;[cljs.repl :as repl])
-      (require &#39;[cljs.repl.browser :as browser])
-      (def env (browser/repl-env :port 8090)) ; &#60;&#60;&#60; port 8090
-      (repl/repl env)) ;;starts cljs repl and connects to browser </code>
-</pre>
-<pre class="prettyprint"><code class="language-clojure">  ;;This runs in the browser (as javascript):
-  (ns sample-app.core
-    (:require [clojure.browser.repl :as repl]))
-  ;; This connects to the repl server started in the lein repl:
-  (repl/connect &#34;<a href="http://localhost:8090/repl&#34">http://localhost:8090/repl&#34</a>;) ; &#60;&#60;&#60; port 8090
-  
-  ;; Execute in nrepl (started with cider-jack-in):
-  (do (require &#39;[cemerick.piggieback :as repl])
-      (require &#39;[cemerick-austin as browser])
-      (def env (browser/repl-env :port 8090)) ; &#60;&#60;&#60; port 8090
-      (repl/cljs-repl env)) ;;starts cljs repl and connects to browser </code>
-</pre>
-<p>(cemerick.piggieback/cljs-repl :repl-env (cemerick.austin/exec-env))
-(cemerick.austin.repls/exec)</p>
 </div>
       <div  id="page--" class="page"> </div>
       <div  id="disqus-embed--"> </div>
@@ -583,7 +706,8 @@ ClojureScript repl:;; Compile this project to JavaScript(use &#39;cljs.closure)(
   </form>
 </div>
 <!--partial:html/aboutmeWidgetWrapper.html--><div align="justify" class="widget sidebar-module sidebar-module-inset">
-  <div id="widget--"><!--partial:widgets/aboutmeWidget.org--><h5 id="header-0-0-0-1"><span class="section-number">0.0.0.1</span>About me </h5>
+  <div id="widget--"><!--partial:widgets/aboutmeWidget.org--><div id="toc"><ul></ul>
+</div><h5 id="header-0-0-0-1"><span class="section-number">0.0.0.1</span>About me </h5>
 <p>Dutch by birth, living in Australia since late youth, classical pianist, but 
 closet programmer since childhood. This site hopefully is able to showcase some 
 of my more useful fabrications and thoughts.</p>
@@ -627,7 +751,7 @@ of my more useful fabrications and thoughts.</p>
      <li><a  href="/post/meteor-docs-and-attached-files.html" >Meteor, docs and attached files</a></li>
     </ul>
    </li>
-   <li><a  href="/archive/2014/October" >October</a>
+   <li><a  href="/archive/2014/November" >November</a>
     <ul>
      <li><a  href="/post/markup-cheat-sheet-for-org-mode.html" >Markup Cheat sheet for Org-mode</a></li>
      <li><a  href="/post/about-this-site.html" >About this site</a></li>

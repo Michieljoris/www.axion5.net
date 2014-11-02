@@ -1,4 +1,6 @@
 #+TITLE: Markup Cheat sheet for Org-mode
+#+OPTIONS: toc:0
+
 : comments: false
 : published: true
 : title: Markup Cheat sheet for Org-mode

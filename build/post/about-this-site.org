@@ -1,4 +1,6 @@
 #+TITLE: About this site
+#+OPTIONS: toc:0
+
 : comments: false
 : published: true
 : title: About this site

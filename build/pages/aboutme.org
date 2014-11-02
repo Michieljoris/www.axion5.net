@@ -1,3 +1,4 @@
+#+OPTIONS: toc:0
 #+About me
 
 Living in Brisbane, Australia with my wife and two daughters, but hoping to move to Amsterdam.
