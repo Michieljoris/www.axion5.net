@@ -1,7 +1,7 @@
 #+TITLE: Installing and using Clojure and ClojureScript with Emacs
 #+OPTIONS: toc:t num:t
-: comments: false
-: published: false
+: comments: true
+: published: true
 : title: Installing and using Clojure and ClojureScript with Emacs
 : tags: Emacs Clojure ClojureScript install
 
@@ -9,10 +9,45 @@ Clojure is wonderful, being able to use ClojureScript in the browser even more s
 
 Because of this I intend to document here as accurately as I can the process for getting a working environment in Emacs for both Clojure and ClojureScript. This is going to be a working document where I will update the procedure I use myself on an ongoing basis. In general I will be noting instructions to install the most recent verions of software and scripts. Mostly this is a description of how, not so much of why, but I'll try to include links to more info where relevant.
 
+: -------------
+
 Much of the following is freely copied and modified from other tutorials on the net. A list of resources is at the bottom of the page. 
 
-For a working setup and example of all that follows below clone the [[https://github.com/Michieljoris/sample-app][sample-app]].
-: -------------
+** Quick setup
+ 
+I've made a [[https://github.com/Michieljoris/mjstarter][template]] that sets up what's discussed below with as little effort as possible.
+
+First install Clojure and Leiningen as described below. 
+
+Create a new app from the template:
+: lein new mjstarter foobar
+
+Start the figwheel and nrepl server:
+: cd foobar
+: lein cooper
+
+Alternatively start up figwheel separately: =lein figwheel= and =lein repl=.
+
+Give it a minute.
+
+Add the following function to Emacs:
+#+BEGIN_SRC 
+(defun mjstarter ()
+  "Cider-connect to localhost:15123 and start weasel repl"
+  (interactive)
+  (cider-connect "localhost" 15123)
+  (cider-insert-in-repl "(require 'mjstarter.core) (mjstarter.core/weasel)" t))
+#+END_SRC 
+
+So then:
+: M-x mjstarter
+
+Then navigate in a browser to [[http://localhost:3449/index.html]]
+
+To use a separate server for the app, uncomment line 21 in src-cljs/[project-name]/core.cljs:
+: ;; :websocket-url "ws://{{figwheel-host}}:{{figwheel-port}}/figwheel-ws" 
+
+Then start a server in =resources/public=.
 
 ** Clojure
    
@@ -386,9 +421,9 @@ Leiningen is configured by the project.clj file in your project directory. For a
 #+END_SRC
 
 ** ClojureScript
-The preferred setup seems to be to compile ClojureScript by Clojure code in a Clojure/Leinigen project. 
+The preferred setup seems to be to compile ClojureScript by Clojure code in a Clojure/Leiningen project. 
    
-To do this you add a task to Leinigen in your project.clj in your Clojure project created with:
+To do this you add a task to Leiningen in your project.clj in your Clojure project created with:
 : lein new app some-app-name
 
 Add the following to dependencies:
@@ -418,7 +453,7 @@ For more options and an example see the sample project.clj above or [[https://gi
 You can then compile all ClojureScript files in the [projectdir]/src-cljs by executing:
 : lein cljsbuild once dev
 
-If you want to recompile when .cljs files change then have Leinigen watch the source directories:
+If you want to recompile when .cljs files change then have Leiningen watch the source directories:
 : lein cljsbuild auto dev
 
 If there is only one build =dev= is optional.
@@ -430,7 +465,7 @@ Take note:
 It's important to note there are some source map option restrictions when using an :optimizations setting other than :none. In these cases :output-to, :output-dir, and :source-map must all share the exact same parent directory.
 #+end_quote 
 
-Setting optimizations to something other than none slows down compilation greatly. Also make sure =source-map= is set to true in this case, not a string. Compilation is quite fast in auto mode with recompiling in auto mode taking a fraction of a second when a file changes. 
+Setting optimizations to something other than =:none= slows down compilation greatly. Also make sure =source-map= is set to true in this case, not a string. Compilation is quite fast in auto mode with recompiling in auto mode taking a fraction of a second when a file changes. 
 
 ** Emacs
 Use [[https://github.com/clojure-emacs/cider][cider]] for Clojure programming, install using package manager.
@@ -517,7 +552,7 @@ Before explaining how to start a ClojureScript repl in Emacs it is instructional
 First off, a ClojureScript repl always builds on and is started in a Clojure repl. So first thing to do is to start a Clojure repl:
 : lein repl
 
-From here we can connect to a JavaScript execution environment. The Clojure and ClojureScript libraries come with support for a ClojureScript repl. Rrom the ClojureScript [[https://github.com/clojure/clojurescript/wiki/The-REPL-and-Evaluation-Environments][wiki]]:
+From here we can connect to a JavaScript execution environment. The Clojure and ClojureScript libraries come with support for a ClojureScript repl. From the ClojureScript [[https://github.com/clojure/clojurescript/wiki/The-REPL-and-Evaluation-Environments][wiki]]:
   
 #+BEGIN_QUOTE
 The basic usage of the (ClojureScript) REPL is always the same:
@@ -570,7 +605,7 @@ For this purpose, create a webpage, for example, index.html that contains the fo
 </html>
 #+END_SRC
 
-Leave out the =out/goog/base.js= script tag if you've set optimizations to anything other than =none=.
+Leave out the =out/goog/base.js= script tag if you've set optimizations to anything other than =:none=.
 
 Then create a ClojureScript file in "src-cljs/sample-app/core.cljs" like so:
 #+BEGIN_SRC clojure
@@ -590,8 +625,10 @@ Now the ClojureScript repl should be responsive and able to evaluate ClojureScri
 : (. js/console (log "Hello!!!"))
 
 ** ClojureScript repl in Emacs: piggieback, Austin and weasel
-   The whole process described in the previous section does not work in Emacs since the "ClojureScript REPL requires/assumes that it is running in a terminal environment". [[https://github.com/cemerick/piggieback][Piggieback]] to the rescue! Check out its docs for more info on why it's needed in Emacs/nREPL sessions and what it does to enable the ClojureScript repl on top of nREPL.
    
+The whole process described in the previous section does not work in Emacs since the "ClojureScript REPL requires/assumes that it is running in a terminal environment". [[https://github.com/cemerick/piggieback][Piggieback]] to the rescue! Check out its docs for more info on why it's needed in Emacs/nREPL sessions and what it does to enable the ClojureScript repl on top of nREPL.
+
+.   
 *** Piggieback
 
 To use piggieback we only need to add one more dependency to our project:
@@ -714,34 +751,6 @@ Modify src-cljs/sample-app/core.cljs:
 #+END_SRC
 
 Start a server in resources/public and open index.html in your browser through the server.
-
-** COMMENT React/Om/Reagent
-
-** Workflow
-I've made a [[https://github.com/Michieljoris/mjstarter][template]] that sets up figwheel and weasel with as little effort as possible. 
-
-Create a new app from the template:
-: lein new mjstarter foobar
-
-Start the figwheel and nrepl server:
-: cd foobar
-: lein cooper
-
-Give it a minute.
-
-I've added the following function to Emacs:
-#+BEGIN_SRC 
-(defun mjstarter ()
-  "Cider-connect to localhost:52123 and start weasel repl"
-  (interactive)
-  (cider-connect "localhost" 52123)
-  (cider-insert-in-repl "(require 'mjstarter.core) (mjstarter.core/weasel)" t))
-#+END_SRC 
-
-So then:
-: M-x mjstarter
-
-Then navigate in a browser to http://localhost:2449/index.html
 
 ** Paredit
 When editing Clojure in Emacs use paredit. Some shortcuts:

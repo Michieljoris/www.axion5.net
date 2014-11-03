@@ -1,6 +1,6 @@
 #+TITLE: Markup Cheat sheet for Org-mode
 #+OPTIONS: toc:0
-
+: publishedat: 25/Oct/2014
 : comments: false
 : published: true
 : title: Markup Cheat sheet for Org-mode

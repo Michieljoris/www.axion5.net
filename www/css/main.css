@@ -190,3 +190,7 @@ pre.prettyprint {
 #toc>ul>li {
     list-style:none;
 }
+
+p { margin-top: 14px; }
+
+code { margin-bottom: -18px; }
