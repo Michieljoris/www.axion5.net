@@ -39,10 +39,17 @@ Add the following function to Emacs:
   (cider-insert-in-repl "(require 'mjstarter.core) (mjstarter.core/weasel)" t))
 #+END_SRC 
 
-So then:
+Make sure that in ~/.lein/profiles.clj is the following:
+: {:user {:plugins [[cider/cider-nrepl "0.8.0-SNAPSHOT"]]}}
+
+Then:
 : M-x mjstarter
 
 Then navigate in a browser to [[http://localhost:3449/index.html]]
+
+Now you have a ClojureScript repl in Emacs into the browser's JavaScript runtime.
+
+Edit the cljs files in src-cljs and the css files in resources/public. Browser updates without refreshing.
 
 To use a separate server for the app, uncomment line 21 in src-cljs/[project-name]/core.cljs:
 : ;; :websocket-url "ws://{{figwheel-host}}:{{figwheel-port}}/figwheel-ws" 

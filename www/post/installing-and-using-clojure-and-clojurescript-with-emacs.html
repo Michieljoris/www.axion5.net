@@ -125,9 +125,13 @@ lein cooper</pre>
   (cider-connect &#34;localhost&#34; 15123)
   (cider-insert-in-repl &#34;(require &#39;mjstarter.core) (<a href="http://mjstarter.core/weasel">http://mjstarter.core/weasel</a>)&#34; t))</code>
 </pre>
-<p>So then:</p>
+<p>Make sure that in ~/.lein/profiles.clj is the following:</p>
+<pre>{:user {:plugins [[cider/cider-nrepl &#34;0.8.0-SNAPSHOT&#34;]]}}</pre>
+<p>Then:</p>
 <pre>M-x mjstarter</pre>
 <p>Then navigate in a browser to <a href="http://localhost:3449/index.html"><a href="http://localhost:3449/index.html">http://localhost:3449/index.html</a></a></p>
+<p>Now you have a ClojureScript repl in Emacs into the browser&#39;s JavaScript runtime.</p>
+<p>Edit the cljs files in src-cljs and the css files in resources/public. Browser updates without refreshing.</p>
 <p>To use a separate server for the app, uncomment line 21 in src-cljs/[project-name]/core.cljs:</p>
 <pre>;; :websocket-url &#34;ws://{{figwheel-host}}:{{figwheel-port}}/figwheel-ws&#34; </pre>
 <p>Then start a server in <code>resources/public</code>.</p>
