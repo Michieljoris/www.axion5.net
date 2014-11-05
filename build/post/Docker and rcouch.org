@@ -1,0 +1,146 @@
+#+TITLE: Docker and rcouch
+#+OPTIONS: toc:nil num:t
+: comments: false
+: published: false
+: title: Docker and rcouch
+: tags: docker, rcouch, couchdb
+
+
+* rcouch
+  apt-get update
+  sudo apt-get install build-essential checkinstall
+  # apt-get install build-essential
+  cd /host
+  dpkg -i esl-erlang_15.b~ubuntu~oneiric_amd64.deb
+  apt-get -f install
+  git clone git://github.com/rebar/rebar.git
+  cd rebar/
+  ./bootstrap 
+  cp rebar /bin
+  apt-get install git
+  sudo apt-get install curl
+  apt-get install zip
+  apt-get install icu-devtools
+  apt-get install libicu-dev
+  apt-get install libcurl4-gnutls-dev
+  # or
+  # apt-get install libcurl4-openssl-dev
+  git clone https://github.com/rcouch/rcouch.git
+   # git clone http://git-wip-us.apache.org/repos/asf/couchdb.git
+    # git checkout 1994-merge-rcouch
+
+  cd rcouch/
+  make
+  make rel
+  rel/rcouch/bin/rcouch start
+  https://groups.google.com/forum/#!topic/rcouch/k2Fo3FZlB3U
+
+
+  
+* docker mini manual
+  https://github.com/wsargent/docker-cheat-sheet
+** docker ui  
+   Manage docker containers and images with a webpage:
+   https://github.com/crosbymichael/dockerui
+   Quickstart:
+   : build -t crosbymichael/dockerui github.com/crosbymichael/dockerui
+   : docker run -d -p 9000:9000 -v /var/run/docker.sock:/docker.sock crosbymichael/dockerui -e /docker.sock
+   Open your browser to http://<dockerd host ip>:9000
+** no sshd in container!!!?!!   
+   http://jpetazzo.github.io/2014/06/23/docker-ssh-considered-evil/
+   but use https://github.com/jpetazzo/nsenter
+   To install:
+   : docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter
+   Use the docker-enter script, put it in ~/bin, download it here:
+   https://github.com/jpetazzo/nsenter/raw/master/docker-enter
+   To enter any docker image:
+   : docker-enter <imagename>
+** share dir between host and container
+ docker run -d --name phusion -v /home/michieljoris/tmp:/host phusion/baseimage  
+** Run a script in container
+sudo docker run ubuntu:14.04 /bin/echo 'Hello world'
+Runs then stops
+** Run shell
+sudo docker run -t -i ubuntu:14.04 /bin/bash
+The -t flag assigns a pseudo-tty or terminal inside our new container and the -i
+flag allows us to make an interactive connection by grabbing the standard in
+(STDIN) of the container.
+** Run deamonized script
+sudo docker run -d ubuntu:14.04 /bin/sh -c "while true; do echo hello world; sleep 1; done"
+   
+** Run image with name
+  docker run -d --name phusion phusion/baseimage 
+** mount volume from host in container
+docker run -v /home/vagrant/test:/root/test ubuntu echo yo
+
+** List all containers
+docker ps -a
+** display container stdout
+   docker logs <docker name or id>
+   docker logs -f <docker name or id>
+   -f for the tail
+** stop running container   
+ docker stop <id or name> 
+** restart container
+docker restart <id or name>
+** copy file to host
+   docker cp <id or name>:/etc/passwd .
+
+** details of last containter started
+docker ps -l
+
+** expose any required network ports inside our container to our host
+   use -P flag:
+    docker run -d -P training/webapp python app.py
+** map to specific port 
+   docker run -d -p 5000:5000 training/webapp python app.py
+   or 
+   docker run -d -p 5000 training/webapp python app.py
+   to bind 5000 inside to open port outside
+** find public facing port   
+    docker port <id or name> 5000
+    to what port is inside port 5000 bound on the host
+** top processes in container:
+   docker top <id or name>
+** inspect container
+   docker inspect <id or name>
+** getting a new image
+docker pull centos
+** searching for an image
+docker search sinatra
+** commiting a new image
+Start an image, start shell or ssh in, do your changes    
+docker commit -m="Added json gem" -a="Kate Smith" \
+0b2616b0e5a8 ouruser/sinatra:v2
+where 0b261... is a container just started -a is author and name of new
+image is ouruser/sinatra:v2
+** a container is an image on which you have executed commands and
+these can be commited again to an image!! 
+** or create a new image from a Dockerfile:
+# This is a comment
+FROM ubuntu:14.04
+MAINTAINER Kate Smith <ksmith@example.com>
+RUN apt-get update && apt-get install -y ruby ruby-dev
+RUN gem install sinatra
+    
+Then in dir of Dockerfile:
+docker build -t="ouruser/sinatra:v2" .
+We can then create a container from our new image.
+docker run -t -i ouruser/sinatra:v2 /bin/bash
+** set a new tag on a image:
+docker tag 5db5f8471261 ouruser/sinatra:devel
+** Dockerfile CMD ENTRYPOINT
+   ENTRYPOINT ["/usr/bin/rethinkdb"]
+   CMD ["--help"]
+   
+With the ENTRYPOINT set, we know that whenever this image is run, all arguments
+passed during docker run will be arguments to the ENTRYPOINT (
+/usr/bin/rethinkdb ).
+
+I also have a default CMD set in the Dockerfile to --help. What this does is
+incase no arguments are passed during docker run, rethinkdb's default help
+output will display to the user. This is same functionality that you would
+expect interacting with the rethinkdb binary.
+** To show command history of a image.
+docker history tcnksm/hello
+
