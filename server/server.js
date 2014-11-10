@@ -235,7 +235,7 @@ var options = {
         
         // "/contactus_form" : sendMail
         // ,"/contactus_form" : testSendMail
-        }
+    }
     ,getHandlers: {
         "/__api/remove" : blog.remove,
         "/__api/render" : function () {

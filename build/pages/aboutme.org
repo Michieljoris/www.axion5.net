@@ -24,7 +24,7 @@ Contact me at [[mailto:mail@axion5.net][mail@axion5.net]]
 
 All my code is on [[http://github.com/michieljoris][github]]. 
 
-Download my [[/docs/resume.pdf][resume]] and [[/docs/cover-letter.pdf][cover letter]].
+Download my [[/docs/michiel-van-oosten-cv.pdf][cv.pdf]].
 
 Or checkout [[http://au.linkedin.com/in/michieljoris/][linkedin]] or [[http://careers.stackoverflow.com/michieljoris][stackoverflow]].
 
