@@ -21,13 +21,13 @@ paradigm. Some interesting things might follow from this.
 : --------------------------------
 
 Since this is an experiment I am setting some further limitations, the first one
-is technologies used. They are relatively novel, but also few in number, namely:
+is technologies used. Some are relatively novel, but they are also few in number, namely:
 
 1) docker
    For ready made instances of the following three.
 3) serf
    To coordinate servers in a multi-server setup
-2) haproxy
+2) A proxy server
    To control access to a particular server and/or databases
 4) couchdb
    Data has to be stored somewhere..
@@ -48,11 +48,40 @@ feed, thus enabling apps to directly respond to changes in a database.
 This is a problem for couchdb since it is not very good at read validation, and
 only checks access at a database level. The usual solution is to separate the
 data into multiple databases based on read permissions. But we still want the
-data to replicate between instances, see below for a solution to this problem.
+data to replicate between instances.
 
-*** No load balancing, instead clients find their own most efficient server
+*** All data is contained in one database which is replicated between pods.
+This is pull and push replication. Also data from the aggregate gets replicated one
+way only into partitioned databases. 
+
+*** Users can never access the main aggregate.
+Instead they access duplicates of this data from partitioned by access
+databases.
+
+*** Every document in the aggregate might be duplicated in one of the partitioned databases
+But only once. No two partitioned databases may contain the same document (by
+id).
+
+*** In a pod ring every pod maintains its own pod status document
+Which gets replicated to all other pods. In this document is data such as pod
+id, couchdb stats, vps stats and last deleted doc in the partitioned databases.
+Nobody else writes to this document but the pod itself.
 
 *** No dns, or at least no hard dependency.
+A user needs to find the app, so an url for that will be needed, and a dns
+lookup. One could use a central place where pods or pod rings register ip
+addresses. Once an app is loaded (from a pod's database for instance) one could
+imagine that the app questions the pod on other ip addresses of other pods in
+the ring. Or again looks in a central registry where pods register their ip
+addresses. Pods might also be able to configure their own dns settings. An app
+only needs access to one pod, somehow, to be able to access the others.
+
+*** No load balancing, instead clients find their own most efficient server
+Once an app knows the ip addresses of al the pods in a ring, it can be made the
+apps responsibility to choose the pod with the most capacity in terms of
+connections or latency or other parameters it either can measure itself, or that
+are being reported by the separate pods. Remember, all pods know all about all
+other pods in a pod ring.
 
 *** Every machine or vps is completely autonomous
 Meaning it can take action without being told so by a master vps, and no vps is
@@ -62,4 +91,85 @@ All knowledge of the cluster is shared. Etc, you get the idea.
 
 *** A cluster, or pod ring is self adjusting, depending on load.
 
+*** A pod ring should be robust and be able to cope with all but one pod failing
+Using a watts-newman small world network between pods all pods should keep
+replicating to each other and stay in sync at all times. The watts-newman
+network model can be implemented by every single pod independently without
+consulting or taking into account what other pods decide to connect to. It also
+predicts relatively low average hop count even when there are dozens and dozens
+or possibly hundreds of pods in a pod ring. When a pod disappears from a pod
+ring it will self adjust, as it will when a pod is added (again). For this to
+work every pod needs a working serf instance that has been hooked up to the pods
+serf network, as the pod knows about the network through serf.
 
+Clients will also always notice a pod failing and should redirect requests to another pod
+in the ring if the app is designed properly.
+
+*** A user can start a new pod ring with just the data accessible in another pod ring
+So users own their data. They can replicate their own data to a pod they control
+and then delete the data in the old pod (ring). When the data is shared with
+other users, they will also not be able to use the old pod (ring) to access the
+data.
+
+*** Apps should leverage couchdb's replication and changes feed features
+With a bit effort separate users of the same app and connecting to the same pod
+(ring) should be easy to sync up with each other using these couchdb feautures.
+The ultimate goal is to achieve parity with most features in meteorjs.
+
+*** Every pod has minimal workers behind its database
+These workers are doing registration, send emails, do maintenance on the
+databases, monitor and report the pods state etc, but should contain minimal app
+or business logic. This should reside in the apps/client themselves. It is the
+question in how far you can go with this. 
+
+*** The whole system is message based
+From pod to pod and from pod to app. This maximizes decoupling. No app or pod
+should be reliant on a specific response or for that matter any response to a
+message sent. If a message is confirmed, or other wise is returning data the app
+may use this, but it can not expect or wait for this. It should be able to make
+do and not fail or otherwise 'crash', but should always present a reasable ui to
+the user and do its best to resolve the situation. Data should always be
+retrieved by direct database access. 
+
+*** No possibility of creating document conflicts
+A logical consequence of having only one writable pod.
+
+*** A proxy is used for basic access control.
+For maintenance it might be useful to cut of access to a couchdb instance, or
+certain databases can be made write-only by disallowing get requests on the
+database. This proxy can also do basic reporting and logging of connections and
+requests.
+
+** Compromises/trade-offs
+
+*** Easily scalable for read operations, but not for write operations
+An app can use any pod to read from, but only one to write to, and that pod is
+the same for all clients. This is not only to prevent document conflicts, but
+also to enable proper implementation of a access system based on permissions and
+roles.
+
+*** No sharding of data
+But one can use bigcouch, cloudant or couchdb 2.0 for this if needed. Every pod
+has a complete copy of all the data. So this system favors connection heavy, cpu
+heavy applications, since we can keep firing up new pods to deal with additional
+load. But a vps has a limit on how data it can store (hard disk limit), plus all
+this will have to be replicated to every new pod on creation. This becomes
+troublesome once we're talking about gigabytes of data. One solution would be to
+store big files such as images and video and sound files outside the pod ring
+and in a key value store somewhere. But that would need a server in front of it
+to enforce permissions.
+
+*** Every node uses duplication of data to control read access.
+Even when couchdb implements "validate doc read" this will be necessary because
+views are recalculated into indexed and will not the "vdr" function to validate
+read access. Every pod therefore will have to duplicate its data to some degree.
+If all data is accessed in a pod by users it will have a duplication ration of
+at least two. If the pod is nice enough to then aggregate this again to some
+degree or other for individual users the duplication ration might be much higher
+than two. On the other hand every pod only needs to leave in one piece the main
+aggregate that's replicated between pods. All other databases it can destroy and
+create at its own discretion, taking matters such as load and space into
+consideration. This will mess with users who are reading from these databases,
+or have change feeds set up of course. 
+
+** Implementation
