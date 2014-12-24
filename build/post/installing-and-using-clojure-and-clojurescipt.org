@@ -4,6 +4,7 @@
 : published: true
 : title: Installing and using Clojure and ClojureScript with Emacs
 : tags: Emacs Clojure ClojureScript install
+: publishedat: 10 Nov 2014
 
 Clojure is wonderful, being able to use ClojureScript in the browser even more so, however setting up a development environment is a pain in the ass. On top of this what's considered best practice is still changing from almost month to month.
 

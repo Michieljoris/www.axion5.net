@@ -16,6 +16,12 @@ https://github.com/Michieljoris/michieljoris.github.io
   
 
 * TODO
+** turn archive order around, make last written on top of list
+** make archive tree collapsible
+** put recent posts in reverse chronological order
+** link on home page page2 shouldn't be www/page2
+** put posts in order on front page
+** add date under title
 ** remove hexo-blog from github
 
 * good to know

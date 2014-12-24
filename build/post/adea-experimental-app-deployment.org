@@ -1,0 +1,65 @@
+#+TITLE: Adea, an experiment in app back end infrastructure
+#+OPTIONS: toc:0
+
+: comments: true
+: published: true
+: title: Adea, an experiment in app back end infrastructure
+: tags: web internet rethink 
+
+
+As per the last [[http://www.axion5.net/post/the-web-is-not-a-good-fit-really.html][blog post]] I want to describe a system and infrastructure to
+serve as the back end for a (web) app. I want to challenge some commonly held
+ideas of how to organise such a thing. Since the legacy of a document based web
+architecture has left us with a server-client paradigm and therefore a
+functional application (the 'server') on the server side (as it has left us with
+endless dom meddling on the client side) we're going reevalute the use and
+function of this server application. To do this properly we're going to try to
+make do without it all together. Removing the server from the server-client
+schism is one sure fire way to remove the schism and therefore break the old
+paradigm. Some interesting things might follow from this.
+
+: --------------------------------
+
+Since this is an experiment I am setting some further limitations, the first one
+is technologies used. They are relatively novel, but also few in number, namely:
+
+1) docker
+   For ready made instances of the following three.
+3) serf
+   To coordinate servers in a multi-server setup
+2) haproxy
+   To control access to a particular server and/or databases
+4) couchdb
+   Data has to be stored somewhere..
+
+** Requirements:
+
+The following is a list of requirements for the setup. Some are essential, some
+can be compromised on. But all try to make use of the technologies as best as possible.
+
+*** Apps talk directly to a database at all times
+This leverages the http end point feature of couchdb. Couchdb has also a solid
+authentication and authorization system built-in and has no problem with dealing
+with a lot of connections at the same time (Erlang based). Further more it is
+good at replicating databases between instances and is able to provide a changes
+feed, thus enabling apps to directly respond to changes in a database.
+
+*** A solid read and write permmission and role system needs to implemented 
+This is a problem for couchdb since it is not very good at read validation, and
+only checks access at a database level. The usual solution is to separate the
+data into multiple databases based on read permissions. But we still want the
+data to replicate between instances, see below for a solution to this problem.
+
+*** No load balancing, instead clients find their own most efficient server
+
+*** No dns, or at least no hard dependency.
+
+*** Every machine or vps is completely autonomous
+Meaning it can take action without being told so by a master vps, and no vps is
+more important than another. It can manage its own affairs and no decision or
+action it takes should endanger the cluster. No vps is dependent on another vps.
+All knowledge of the cluster is shared. Etc, you get the idea. 
+
+*** A cluster, or pod ring is self adjusting, depending on load.
+
+

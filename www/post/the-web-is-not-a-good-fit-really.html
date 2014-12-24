@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> 
 <html class="no-js" xmlns:ng="http://angularjs.org" lang="en">
   <!--<![endif]-->
-  <head id="head"><title>Axion5-Meteor, docs and attached files</title><meta charset='utf-8'/><meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/><meta content='' name='description'/><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'/>
+  <head id="head"><title>Axion5-The web is not a good fit really..</title><meta charset='utf-8'/><meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/><meta content='' name='description'/><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'/>
 <!--partial:html/ieshim.html--><!--[if lte IE 8]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <script>
@@ -71,149 +71,111 @@
     <div class="col-sm-9 blog-main">
 
       <div class="pageTitle" id="pageTitle--"><header >
-  <div class="title blog-post-title">  Meteor, docs and attached files  </div>
-  <time class="blog-post-meta" datetime="2nd of June 2014">  2nd of June 2014  </time>
+  <div class="title blog-post-title">  The web is not a good fit really..  </div>
+  <time class="blog-post-meta" datetime="24th of December 2014">  24th of December 2014  </time>
 </header></div>
-      <div  id="main--" class="blog-post"><!--partial:post/meteor-docs-and-attached-files.org--><div id="toc"><ul></ul>
+      <div  id="main--" class="blog-post"><!--partial:post/web-is-not-good-fit.org--><div id="toc"><ul></ul>
 </div><pre>comments: true
 published: true
-title: Meteor, docs and attached files
-tags: Meteor, database
-publishedat: 2/June/2014</pre>
-<p>You can store files directly in MongoDB documents, however there is a limit of
-16MB and the Meteor DDP protocol might not be up to the task. </p>
-<p>What follows is a description with code examples of how to do this a different
-way while still enforcing access rights.</p>
-<pre>----------------------</pre>
-<p>There are two atmosphere packages that attempt to fill the gap:</p>
-<ol><li>CollectionFS</li>
-<li>fileCollection</li>
-</ol>
-<p>Both are extensively documentend, with the latter one being the lighter one.</p>
-<p>They either use the MongoDB GridFS or store files externally on S3 or the
-server’s file system. They both tie in with the MongoDB style of organising
-data, extending functionality of collections, by having special ‘file’
-collections.</p>
-<p>These ‘file’ documents can then be referenced from other documents. With these
-packages come API’s and systems for security, manipulation, filtering, UI
-helpers etc.</p>
-<p>My eyes drooped and my mind wandered every time I tried to read through the
-documentation for these packages. It seemed a bit overdone, at least for my
-purposes.</p>
-<p>I have used CouchDB somewhat, and files are called attachments in that corner of
-the database world. The API is simple, just ‘attach’ them, and CouchDB takes
-care of storing them. Access rights are tied to the document they are attached
-to.</p>
-<p>I tried to implement something similar for Meteor.</p>
-<p>Instead of storing the files in MongoDB, they are stored on and read from the
-server’s hard disk through a separate static file server. Files are attached by
-path and name to a document, as an array of file objects. Each object can
-contain as much meta data as you like, but at least the path and name.</p>
-<p>To access a file from the file server an access key needs to accompany the
-request for the file. This access key is generated (and encrypted) server side
-by Meteor when the document is published that has the reference to the file. The
-access key contains two references, one to the currently logged in user’s hashed
-log in token, and one to md5 hash of the contents of the file.</p>
-<p>Because transform (reference..) doesn’t work on the server side I am using added
-and friends to modify the relevant docs when published:</p>
-<pre class="prettyprint"><code class="language-javascript">//Draft of server side authorizing of request
-module.exports = function(req) {
-    if (req.url.pathname.indexOf(&#39;/public&#39;) === 0) return VOW.kept(); 
-    var vow = VOW.make();
-    
-    var query = req.url.search;
-    var decrypted = decrypt(query.slice(1), pwd);
-    var data;
-    if (decrypted.error) 
-        vow.break({ forbidden: true, srcPath: req.url.pathname });
-    else {
-        try {
-            data = JSON.parse(decrypted.decrypted);
-        } catch(e) {
-            vow.break({ forbidden: true, srcPath: req.url.pathname });
-        }
-        var hashedToken = data.l;
-        retrieveUser(hashedToken).when(
-            function(user) {
-                console.log(&#34;file retrieval of &#34; + req.url.pathname  + &#39; by &#39; , user.emails);
-                vow.keep();
-                
-            },
-            function(err) {
-                console.log(err);
-                vow.break({ forbidden: true, srcPath: req.url.pathname });
-            }
-        );
-    }
-    return vow.promise;
-  
-};</code>
-</pre>
-<p>Requests come in the form of:</p>
-<p><a href="http://files.server.com/path/to/somefile?KJSDFS93450FJDKSFJKDJFLSFS8908">http://files.server.com/path/to/somefile?KJSDFS93450FJDKSFJKDJFLSFS8908</a></p>
-<p>With the part after the question mark being the access key.</p>
-<p>When a user uploads a file, the md5 of the file can be calculated client side
-(by a library such as SparkMD5 for instance), and saved with the document. You
-could then forbid updating the md5 of any attachments server side perhaps, or
-attach them server side when the documents gets saved.</p>
-<p>Users could reuse an access key for a different path on the file server, in the
-same session (with the same login token) only if the file on that different path
-has the same md5 checksum, in other words, it’s the same file.</p>
-<p>Additional access rights to documents and thus to files can be granted to users
-within the same session, however when you take away access rights the documents
-will be ‘denied’, but the files will still be accessible. However when the
-logged in user logs out and then in again (new loginToken) the files will be
-disallowed as well. You could perhaps force to log everybody out
-Meteor.logoutOtherClients, or somehow issue everybody with new login tokens.</p>
-<p>Another caveat is that once a user copies or retrieves the url to a file, this
-url will work in any browser, on any computer as long as the user is logged
-in. It might be possible to work around this by setting a cookie (to the
-loginToken for example) in the tab and browser where the user is logged into the
-app. The file server can check whether the loginToken in the decrypted access
-key is the same as the cookie received with the request.</p>
-<p>The system is rather simple, and only needs a slight modification to an
-otherwise open static file server (I used my own bb-server), and a small
-adaption of publish functions for documents that can refer to files. You also
-have to write the user interface part of listing, uploading, deleting,
-retrieving of file attachments.</p>
-<p>For my own and future reference here is the code for uploading files:</p>
-<pre class="prettyprint"><code class="language-html">&#60;!--Custom styleable upload link--&#62;
-&#60;input type=&#34;file&#34; id=&#34;fileElem&#34; multiple accept=&#34;*&#34; style=&#34;display:none&#34; onchange=&#34;handleFiles(this.files)&#34;&#62;
-&#60;a href=&#34;#&#34; id=&#34;fileSelect&#34;&#62;Select files&#60;/a&#62;</code>
-</pre>
-<pre class="prettyprint"><code class="language-javascript">//Use HTML5 filereader to read and ajax post the file.
-function saveFile(fileName, data) {
-    if (!fileName) {
-        console.log(&#39;no filename, so not saving&#39;, data);
-    }
-    console.log(&#39;Saving file &#39; + fileName);
-    HTTP.call(&#39;POST&#39;, FILEHOST + &#39;/?path=&#39; + fileName, {
-        content: data
-    }, function(error, result) {
-        console.log(&#39;error: &#39;, error, &#39;\nresult: &#39;, result);
-	if (error) {
-            console.log(&#39;Failed to save on the server &#39;, data.error);
-            alert(&#39;Warning: this file did not save to the server!!&#39;);
-	}
-	else console.log(&#34;Success. Data saved to:&#34;, fileName);
-    });
-} 
-
-handleFiles = function handleFiles(files) {
-    // console.log(files);
-    var fileList = files; /* now you can work with the file list */
-    var reader = new FileReader();
-    reader.onload = function(data) {
-        //post to bb-server 
-	//TODO calculate MD5 of every file
-	//TODO add multiple file upload support
-        saveFile(fileList[0].name, reader.result);
-    };
-    // console.log(fileList[0]);
-    reader.readAsText(fileList[0]);
-};
-server, database, Meteor</code>
-</pre>
+title:The web is not a good fit really.. 
+tags: web internet rethink </pre>
+<p>Mobile and web apps are in wild demand and built by and for everybody. Yet
+nobody knows quite yet how to consistently and reliable structure and organize
+the back nor the front end. Some solutions are more popular then others, but
+there is no consensus, and fashion and fads seem to have undue influence. I want
+to talk about why and how this has come about and some ideas on improving the
+situations.</p>
+<pre>--------------------</pre>
+<p>Mobile apps are built using either decades old system desktop languages (java),
+or a company adapted version of C (more recently a purposefully designed
+language, swift). These languages are not exchangeable for other languages
+compiling to the same VM or machine code, nor are these the languages developers
+would necessarily choose if they had a choice.This is in complete contrast to
+the situation on the desktop (any language you like), or even on on the front
+end in the browser (list of transpilers to javascript is <a href="https://github.com/jashkenas/coffeescript/wiki/list-of-languages-that-compile-to-js">huge</a>).</p>
+<p>Companies are realizing that the traditional back ends based on java or php are
+not the most flexible or nimble, dare I say agile, and are jumping either on the
+nodejs bandwagon, or trying alternatives such as a scala (play) or python
+(django) framework.</p>
+<p>The situation on the front end is similarly confused. From adding simple effects
+using javascript, to using jquery to more easily manage the dom and then
+adopting a multitude of mvc frameworks, the history of front end seems to be a
+chase to more and more easily gat a grip on app development without ever really
+getting a real grip on the medium itself.</p>
+<p>A slow but certain move is underway of functionality from back end to front end.
+This is caused by the gradual realization that on the front end, the browser has
+a pretty decent (javascript) runtime. Web sites are turning into and being built
+more and more as (web) applications. Underlying all this lies a real confusion
+of what the web was and what it maybe can be. The web was originally built and
+conceived as a massive hyperlinked collection of &#39;documents&#39;. A massive wiki.
+Not a distributor of applications. Yet that is what the web is being used as and
+for more and more.</p>
+<p>Frameworks, systems and libraries that were built to create and serve
+&#34;documents&#34; have been and are being adapted to serve &#34;applications&#34;, or to use
+the more usual awful misnomer: &#34;dynamic documents&#34;. The first step on this road
+was made when static file servers were modified to execute scripts instead of
+serving a static file (cgi) when receving requests, and logically led to servers
+that were a runtime itself (nodejs). From complete configurability (apache) to
+complete programmability (nodejs).</p>
+<p>In the meantime web sites, web apps and mobile apps need to be served and
+supplied with data, sometimes on an enormous scale. Website hosting service
+providers are being replaced with providers of raw computing power and internet
+bandwidth (aws, gce). The problem of scalability and distributed computing and
+data is not solved, with companies either outsourcing the solution, or building
+proprietary systems, or a combination. Old ideas and technologies are being
+rediscovered and/or repackaged (docker, erlang) in an effort to get a handle on
+the problem. Companies that are quick to learn and adapt or are new (startups,
+think whatsapp) see their advantage and are able to significantly increase their
+chance to unsettle older and bigger companies.</p>
+<p>Yet no matter how easy to use the tools on both back and front end are becoming,
+and how much the back end infrastructure and service providers are adapting and
+improving, a lot of practices are still embedded in the old paradigm of the web
+as a document serving mechanism.</p>
+<p>Functionality needs to be delivered to people, better known as consumers if
+you&#39;re the money making kind. The old way of doing this was by building a
+desktop application, writing it to a magnetic disc, shrink wrapping and selling
+it over the counter. An application developer only had to deal with one
+computer, one (fixed) set and source of data (disc) and one user. The user
+interface was a &#39;view&#39; of the &#39;data&#39;. No mvc framework needed. No network
+latency or disconnection to worry about. No browser incompatibility to work
+around. No endless libraries and frameworks trying to solve the same problem
+over and over. Etc, etc.</p>
+<p>Come the web app and the thing is cleft perfectly in two. Most of the
+programmer&#39;s work is spent on adapting, writing, working around limitations of
+both halves, working against a legacy that was never designed to deliver
+application type functionality. An application developer is now worrying about
+load balancing, distributed data, sharding, document naming (dns), paths and
+urls, asynchronicity, state management, the list is endless. In the end however
+all this is boilerplate. It unnecessarily complicates the designing and
+implementing of the raw functionality required for a particular application, as
+all boilerplate does.</p>
+<p>Ideas are floating around to radically redesign the internet. Naming and looking
+up things could be vastly improved. Using a human readable text string to locate
+and uniquely identify resources seems very antiquated, and very inefficient.
+Documents have localized names so we can find them in folders in filing
+cabinets. Computers are better at naming things for their uniqueness than humans
+(hashes). This is an idea from Joe Armstrong (see <a href="https://www.youtube.com/watch?v%3DlKXe3HUG2l4">video</a> 31 minutes in). Peer to
+peer protocols (BitTorrent) and other distributed technologies such as
+blockchains (bitcoins) are ignoring the old server-client model and embracing
+networks for their intrinsic qualities instead of reducing them to a medium to
+transport data from A to B. </p>
+<p>Academics involved with the original design of the web as we know it now are
+rethinking its basic underlying premises, and want to use <a href="http://homepages.cwi.nl/~steven/">magnet links</a> instead
+of urls to locate and store content distributed in the network and not at a
+centralized server. Popularity of runtimes such as nodejs have promoted the idea
+of <a href="http://isomorphic.net/">isomorphic</a> web apps, using the same language on server and client, to the
+point of erasing the difference between both where any source code can and does
+run on both server and client (<a href="https://www.meteor.com/">meteorjs</a>), not necessarily easing the job of the
+developer, but conceptually certainly attractive. Other, but as of yet less
+popular solutions of the server-client schism propose to do away with the server
+side of affairs all together and deposit all functionality in the client
+(<a href="http://hood.ie/">hoodie</a>).</p>
+<p>A clear solution is not yet in sight, but the problem seem big to me. In
+the next blog post I want to talk about and design an experimental working
+application development infrastructure that tries to challenge some of the more
+commonly held underlying assumptions of how to deploy a web application. Dns,
+load balancing, rest api, ajax, scaling and more are all under fire. If it seems
+plausible it&#39;ll be implemented..</p>
 </div>
       <div  id="page--" class="page"> </div>
       <div  id="disqus-embed--"><!--partial:html/disqus-embed.html--><div id="disqus_thread"></div>

@@ -1,0 +1,119 @@
+#+TITLE: The web is not a good fit really..
+#+OPTIONS: toc:0
+
+: comments: true
+: published: true
+: title:The web is not a good fit really.. 
+: tags: web internet rethink 
+
+
+Mobile and web apps are in wild demand and built by and for everybody. Yet
+nobody knows quite yet how to consistently and reliable structure and organize
+the back nor the front end. Some solutions are more popular then others, but
+there is no consensus, and fashion and fads seem to have undue influence. I want
+to talk about why and how this has come about and some ideas on improving the
+situations.
+
+: --------------------
+
+Mobile apps are built using either decades old system desktop languages (java),
+or a company adapted version of C (more recently a purposefully designed
+language, swift). These languages are not exchangeable for other languages
+compiling to the same VM or machine code, nor are these the languages developers
+would necessarily choose if they had a choice.This is in complete contrast to
+the situation on the desktop (any language you like), or even on on the front
+end in the browser (list of transpilers to javascript is [[https://github.com/jashkenas/coffeescript/wiki/list-of-languages-that-compile-to-js][huge]]).
+
+Companies are realizing that the traditional back ends based on java or php are
+not the most flexible or nimble, dare I say agile, and are jumping either on the
+nodejs bandwagon, or trying alternatives such as a scala (play) or python
+(django) framework.
+
+The situation on the front end is similarly confused. From adding simple effects
+using javascript, to using jquery to more easily manage the dom and then
+adopting a multitude of mvc frameworks, the history of front end seems to be a
+chase to more and more easily gat a grip on app development without ever really
+getting a real grip on the medium itself.
+
+A slow but certain move is underway of functionality from back end to front end.
+This is caused by the gradual realization that on the front end, the browser has
+a pretty decent (javascript) runtime. Web sites are turning into and being built
+more and more as (web) applications. Underlying all this lies a real confusion
+of what the web was and what it maybe can be. The web was originally built and
+conceived as a massive hyperlinked collection of 'documents'. A massive wiki.
+Not a distributor of applications. Yet that is what the web is being used as and
+for more and more.
+
+Frameworks, systems and libraries that were built to create and serve
+"documents" have been and are being adapted to serve "applications", or to use
+the more usual awful misnomer: "dynamic documents". The first step on this road
+was made when static file servers were modified to execute scripts instead of
+serving a static file (cgi) when receving requests, and logically led to servers
+that were a runtime itself (nodejs). From complete configurability (apache) to
+complete programmability (nodejs).
+
+In the meantime web sites, web apps and mobile apps need to be served and
+supplied with data, sometimes on an enormous scale. Website hosting service
+providers are being replaced with providers of raw computing power and internet
+bandwidth (aws, gce). The problem of scalability and distributed computing and
+data is not solved, with companies either outsourcing the solution, or building
+proprietary systems, or a combination. Old ideas and technologies are being
+rediscovered and/or repackaged (docker, erlang) in an effort to get a handle on
+the problem. Companies that are quick to learn and adapt or are new (startups,
+think whatsapp) see their advantage and are able to significantly increase their
+chance to unsettle older and bigger companies.
+
+Yet no matter how easy to use the tools on both back and front end are becoming,
+and how much the back end infrastructure and service providers are adapting and
+improving, a lot of practices are still embedded in the old paradigm of the web
+as a document serving mechanism.
+
+Functionality needs to be delivered to people, better known as consumers if
+you're the money making kind. The old way of doing this was by building a
+desktop application, writing it to a magnetic disc, shrink wrapping and selling
+it over the counter. An application developer only had to deal with one
+computer, one (fixed) set and source of data (disc) and one user. The user
+interface was a 'view' of the 'data'. No mvc framework needed. No network
+latency or disconnection to worry about. No browser incompatibility to work
+around. No endless libraries and frameworks trying to solve the same problem
+over and over. Etc, etc.
+
+Come the web app and the thing is cleft perfectly in two. Most of the
+programmer's work is spent on adapting, writing, working around limitations of
+both halves, working against a legacy that was never designed to deliver
+application type functionality. An application developer is now worrying about
+load balancing, distributed data, sharding, document naming (dns), paths and
+urls, asynchronicity, state management, the list is endless. In the end however
+all this is boilerplate. It unnecessarily complicates the designing and
+implementing of the raw functionality required for a particular application, as
+all boilerplate does.
+
+Ideas are floating around to radically redesign the internet. Naming and looking
+up things could be vastly improved. Using a human readable text string to locate
+and uniquely identify resources seems very antiquated, and very inefficient.
+Documents have localized names so we can find them in folders in filing
+cabinets. Computers are better at naming things for their uniqueness than humans
+(hashes). This is an idea from Joe Armstrong (see [[https://www.youtube.com/watch?v%3DlKXe3HUG2l4][video]] 31 minutes in). Peer to
+peer protocols (BitTorrent) and other distributed technologies such as
+blockchains (bitcoins) are ignoring the old server-client model and embracing
+networks for their intrinsic qualities instead of reducing them to a medium to
+transport data from A to B. 
+
+Academics involved with the original design of the web as we know it now are
+rethinking its basic underlying premises, and want to use [[http://homepages.cwi.nl/~steven/][magnet links]] instead
+of urls to locate and store content distributed in the network and not at a
+centralized server. Popularity of runtimes such as nodejs have promoted the idea
+of [[http://isomorphic.net/][isomorphic]] web apps, using the same language on server and client, to the
+point of erasing the difference between both where any source code can and does
+run on both server and client ([[https://www.meteor.com/][meteorjs]]), not necessarily easing the job of the
+developer, but conceptually certainly attractive. Other, but as of yet less
+popular solutions of the server-client schism propose to do away with the server
+side of affairs all together and deposit all functionality in the client
+([[http://hood.ie/][hoodie]]).
+
+A clear solution is not yet in sight, but the problem seem big to me. In
+the next blog post I want to talk about and design an experimental working
+application development infrastructure that tries to challenge some of the more
+commonly held underlying assumptions of how to deploy a web application. Dns,
+load balancing, rest api, ajax, scaling and more are all under fire. If it seems
+plausible it'll be implemented..
