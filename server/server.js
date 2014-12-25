@@ -108,7 +108,7 @@ var options = {
     // over instead of the directory listing. Assign a string to look
     // for and send a different default file. Defaults to false and to
     // 'index.html' if assigned true.
-    ,index: "index.html"
+    ,index: true
     
     //if a request for /favicon comes in send the favicon found in the
     //path specified (relative to where this script is executed from), 

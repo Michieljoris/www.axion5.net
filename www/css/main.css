@@ -8,7 +8,7 @@
 
 ul {
     /* margin-left:0px; */
-    /* padding-left:0px; */
+    padding-left:16px; 
     /* list-style:none; */
 }
 
@@ -28,10 +28,14 @@ ul {
     margin-bottom: 14px;
 }
 
-#pageTitle-- time {
+/* #pageTitle-- time { */
+/*     font-size: 12px; */
+/* } */
+
+
+time {
     font-size: 12px;
 }
-
 
 /* /\* Sticky bottom *\/ */
 .header {

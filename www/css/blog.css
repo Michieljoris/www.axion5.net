@@ -1,4 +1,44 @@
 /*
+** DONE turn archive order around, make last written on top of list
+** DONE put recent posts in reverse chronological order
+** DONE put posts in order on front page
+** DONE add date under title
+** DONE turn archive order around, make last written on top of list
+** DONE put recent posts in reverse chronological order
+** DONE put posts in order on front page
+** DONE add date under title
+** DONE turn archive order around, make last written on top of list
+** DONE put recent posts in reverse chronological order
+** DONE put posts in order on front page
+** DONE add date under title
+** DONE turn archive order around, make last written on top of list
+** DONE put recent posts in reverse chronological order
+** DONE put posts in order on front page
+** DONE add date under title
+** DONE turn archive order around, make last written on top of list
+** DONE put recent posts in reverse chronological order
+** DONE put posts in order on front page
+** DONE add date under title
+** DONE turn archive order around, make last written on top of list
+** DONE put recent posts in reverse chronological order
+** DONE put posts in order on front page
+** DONE add date under title
+** DONE turn archive order around, make last written on top of list
+** DONE put recent posts in reverse chronological order
+** DONE put posts in order on front page
+** DONE add date under title
+** DONE turn archive order around, make last written on top of list
+** DONE put recent posts in reverse chronological order
+** DONE put posts in order on front page
+** DONE add date under title
+** DONE turn archive order around, make last written on top of list
+** DONE put recent posts in reverse chronological order
+** DONE put posts in order on front page
+** DONE add date under title
+** DONE turn archive order around, make last written on top of list
+** DONE put recent posts in reverse chronological order
+** DONE put posts in order on front page
+** DONE add date under title
  * Globals
  */
 
@@ -110,7 +150,7 @@ h6, .h6 {
 
 /* Sidebar modules for boxing content */
 .sidebar-module {
-  padding: 0px 0px 0px 10px;
+  padding: 0px 0px 0px 0px;
   /* margin: 0 -15px 0px; */
 }
 .sidebar-module-inset {
