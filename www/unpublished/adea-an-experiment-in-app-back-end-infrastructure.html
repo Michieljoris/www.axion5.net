@@ -72,7 +72,7 @@
 
       <div class="pageTitle" id="pageTitle--"><header >
   <div class="title blog-post-title">  Adea, an experiment in app back end infrastructure  </div>
-  <time class="blog-post-meta" datetime="25th of December 2014">  25th of December 2014  </time>
+  <time class="blog-post-meta" datetime="27th of December 2014">  27th of December 2014  </time>
 </header></div>
       <div  id="main--" class="blog-post"><!--partial:post/adea-experimental-app-deployment.org--><div id="toc"><ul></ul>
 </div><pre>comments: true
@@ -113,41 +113,41 @@ data into multiple databases based on read permissions. But we still want the
 data to replicate between instances.</p>
 <h4 id="header-0-1-3"><span class="section-number">0.1.3</span>All data is contained in one database which is replicated between pods.</h4>
 <p>This is pull and push replication. Also data from the aggregate gets replicated one
-way only into partitioned databases. </p>
-<h4 id="header-0-1-4"><span class="section-number">0.1.4</span>Users can never access the main aggregate.</h4>
-<p>Instead they access duplicates of this data from partitioned by access
-databases.</p>
-<h4 id="header-0-1-5"><span class="section-number">0.1.5</span>Aggregate database is partitioned by documents&#39; access signatures</h4>
-All docs are accessible by a unique set of users. This can be one user, allusers, or a particular subset. Every doc can limit its accessibility by definingit in a property. This is a list of roles and individual users that is allowedto read the doc. Other properties decide on write and modify rights, enforced bycouchdb&#39;s validate doc update. Since every doc has a unique &#39;access signature&#39;the whole set of docs can be partitioned by access signature. For everypartition a database can be set up and using filtered replication all docs willbe replicated to one and only one database.<h4 id="header-0-1-6"><span class="section-number">0.1.6</span>Access signature can also be function of doc&#39;s properties</h4>
-In this case not the parameters to a replication&#39;s filter are changed (as readfrom a doc&#39;s access object) but the filter itself. In this case all partialdatabases might have to be torn down, recreated and replications set up again.Or the change of access signature recalculated for every doc so they get removedfrom databases where they not longer belong.<h4 id="header-0-1-7"><span class="section-number">0.1.7</span>Rean is the name of the set of workers behind couchdb</h4>
-These workers are either put into action by a particular change in the aggregatedatabase or periodically inspect the state of couchdb themselves. They can forinstance respond to messages sent to by client apps.<h4 id="header-0-1-8"><span class="section-number">0.1.8</span>All docs written to the aggregate get validated by a validate doc update function</h4>
-This function has access to the doc written, the doc to be updated, thedatabase&#39;s security object and the user&#39;s roles and id. Whether a doc getswritten is thus a function of all of these parameters. <h4 id="header-0-1-9"><span class="section-number">0.1.9</span></h4>
-<h4 id="header-0-1-10"><span class="section-number">0.1.10</span>Every document in the aggregate might be duplicated in one of the partitioned databases</h4>
-But only once. No two partitioned databases may contain the same document (byid).  <h4 id="header-0-1-11"><span class="section-number">0.1.11</span>In a pod ring every pod maintains its own pod status document</h4>
-<p>Which gets replicated to all other pods. In this document is data such as pod
-id, couchdb stats, vps stats and index of
-Nobody else writes to this document but the pod itself.</p>
-<h4 id="header-0-1-12"><span class="section-number">0.1.12</span>No dns, or at least no hard dependency.</h4>
-<p>A user needs to find the app, so an url for that will be needed, and a dns
-lookup. One could use a central place where pods or pod rings register ip
-addresses. Once an app is loaded (from a pod&#39;s database for instance) one could
-imagine that the app questions the pod on other ip addresses of other pods in
-the ring. Or again looks in a central registry where pods register their ip
-addresses. Pods might also be able to configure their own dns settings. An app
-only needs access to one pod, somehow, to be able to access the others.</p>
-<h4 id="header-0-1-13"><span class="section-number">0.1.13</span>No load balancing, instead clients find their own most efficient server</h4>
+way only into partitioned databases. This also includes a copy of every user doc.</p>
+<h4 id="header-0-1-4"><span class="section-number">0.1.4</span>Every pod instance copies user docs to the _user database when required</h4>
+But this only needs to be done for active users. This way duplication can beminimized. A client app can send a message requesting access for a particularemail address or username and rean can then copy the proper user doc to the_users database, and set up the required partial databases as well. Somethingmight be possible to set up so that updated user docs can be replicated to the_users database, while leaving not active users for some pod can be left out ofthe _users database.<h4 id="header-0-1-5"><span class="section-number">0.1.5</span>Users can never access the main aggregate.</h4>
+Instead they access duplicates of this data from partitioned by accessdatabases. This can be enforced when couchdb implements the validate doc readfunction, or when using rcouch. Otherwise this will have to be enforced by theproxy by disallowing any get on the aggregate database.<h4 id="header-0-1-6"><span class="section-number">0.1.6</span>New users can only register at the write master</h4>
+This also goes for the forget password procedure. For new users to register somehoops have to jumped through since we still don&#39;t want a back end server and thenew user, or the client app can only talk to to the database directly by writingdocs to a public database. The procedure is described in my github repos <a href="http://github.com/michieljoris/cape">cape</a>and a demo is at <a href="http://github.com/michieljoris/authpages">authpages</a><h4 id="header-0-1-7"><span class="section-number">0.1.7</span>Aggregate database is partitioned by dcuments&#39; access signatures</h4>
+All docs are accessible by a unique set of users. This can be one user, allusers, or a particular subset. Every doc can limit its accessibility by definingit in a property. This is a list of roles and individual users that is allowedto read the doc. Other properties decide on write and modify rights, enforced bycouchdb&#39;s validate doc update. Since every doc has a unique &#39;access signature&#39;the whole set of docs can be partitioned by access signature. For everypartition a database can be set up and using filtered replication all docs willbe replicated to one and only one database.<h4 id="header-0-1-8"><span class="section-number">0.1.8</span>Access signature can also be function of doc&#39;s properties</h4>
+In this case not the parameters to a replication&#39;s filter are changed (as readfrom a doc&#39;s access object) but the filter itself. In this case all partialdatabases might have to be torn down, recreated and replications set up again.Or the change of access signature recalculated for every doc so they get removedfrom databases where they not longer belong.<h4 id="header-0-1-9"><span class="section-number">0.1.9</span>Rean is the name of the set of workers behind couchdb</h4>
+These workers are either put into action by a particular change in the aggregatedatabase or periodically inspect the state of couchdb themselves. They can forinstance respond to messages sent to by client apps. Rean will also initializeits couchdb instance. Rean runs in a docker container with a serf instancehooked up to the pod ring if the pod is part of one. Rean will look for itsconfiguration in the couchdb instance if it&#39;s not the first pod in the ring tobe started up. Otherwise it will create the aggregate and save its config in itto be replicated to any other pods. Needs some pondering still about how tostart this up properly with minimal effort...<h4 id="header-0-1-10"><span class="section-number">0.1.10</span>All docs written to the aggregate get validated by a validate doc update function (vdu)</h4>
+This function has access to the doc written, the doc to be updated, thedatabase&#39;s security object and the user&#39;s roles and id. Whether a doc getswritten is thus a function of all of these parameters. This function cannotrewrite the documents, however it can make sure that the document adhere to someproperties. For instance the user that updates it can be enforced to be includedas a property.<h4 id="header-0-1-11"><span class="section-number">0.1.11</span>All docs written may need to include access signature of the old doc as a property</h4>
+This gets enforced by the aggregate&#39;s vdu. The vdu has access to the doc that&#39;sbeing updated and calculates its access signature, as well as the accesssignature of the updated doc. If the access signature of the updated doc isincluded this can get validated by the vdu as well. The access signature of theold doc would be the name of the database where the doc was read from. When aclient app reads the doc directly from a partial database it can include it inthe updated doc as a property, if it doesn&#39;t know it can include the old doc asa separate property, or it can use the aggregate&#39;s update doc function. Thisupdate doc function can rewrite the doc and add the old access signatureproperty, as well as the new. If a doc does not change it signature on update nosignatures need to added as properties to the updated doc.<p>Client apps might also be able to calculate a doc&#39;s access signature themselves
+using the access object in the doc (but won&#39;t work if ps function applies to
+doc), or ask a pod to calculate the signature and add it itself.</p>
+<h4 id="header-0-1-12"><span class="section-number">0.1.12</span>Rean sets up a database and one way replication for every access signature</h4>
+The aggregate database has a design doc with a filter that takes a parameter.Every replication to every partial database uses the same filter but passes adifferent parameter to make sure that every partial database receives only thedocuments that match the access signature of the partial database. If a doc hasa property defining the its access signature it is used (has to be correctbecause of the vdu), otherwise the filter function will calculate it itself. <h4 id="header-0-1-13"><span class="section-number">0.1.13</span>Documents with changed access signature do not get replicated anywhere.</h4>
+They await intervention from rean. All replications (to partial databases andother pods) use a filter functions that prevents documents such as this frombeing replicated. This mechanism is to prevent any docs from not being removedfrom a partial database. A change feed is not garantueed to provide all changes,only the latest, so intermediate docs may be overlooked by rean, which meansdocs may not be removed from partial databases while they should. A documentcannot be updated till the old version is removed from a partial database it nolonger belongs.  <h4 id="header-0-1-14"><span class="section-number">0.1.14</span>Rean cleans up docs from partial databases when access signature changes </h4>
+Every doc with a changed access signature will get processed wby rean. It willdelete the doc in the partial database with the old access signature. After thisit will rewrite the doc but it will set the old access signature property to theupdated version. This will again pass the vdu, but now it will get replicated tothe proper partial database. It will also get replicated to other pods if thereare any replications setup. <h4 id="header-0-1-15"><span class="section-number">0.1.15</span>Every document in the aggregate might be duplicated in one of the partial databases</h4>
+But only once. No two partial databases may and can contain the samedocument (by id). When there are no users logged in that have access to aparticular partial database, it can be torn down by rean, and rebuilt when auser requires it again. But this is optional.<h4 id="header-0-1-16"><span class="section-number">0.1.16</span>Rean writes special docs with delete instructions </h4>
+For every doc that moves to another partial database (because its accesssignature changed) rean writes a doc with instructions to delete a particulardoc with a particular revision from a particuar partial database. These docs getreplicated to other pods where the local reans can then carry out theinstructions and remove these docs in their partial databases. These deleteinstruction docs have a sequential number. Every rean in every pod updates theirstatus doc with the latest delete instruction doc carried out. The write mastercan periodically check these status docs and remove these delete instructiondocs up to the lowest sequential number reported. Rean can choose to add deleteinstructions in bulk to one of these delete instruction docs. <h4 id="header-0-1-17"><span class="section-number">0.1.17</span>A node can fail and this does not affect the pod ring</h4>
+This will get reported by serf to all other pods. Every pod writes a status docthat does not get replicated to other pods for clients to read, but does getreplicated to a generally accessible partial database. Each pod will at alltimes report the databases it knows are accessible (from serf). A client thatwas connected to the failing pod can now try to access a working pod. Newclients will not try to connect to the failing one. When the pod comes backonline the same process gets repeated to let clients know its back online. <h4 id="header-0-1-18"><span class="section-number">0.1.18</span>A proxy may be necessary to enforce read restrictions on databases</h4>
+Couchdb is good at validating writes, but not at reads. In particular it cannotprevent reading from a database and only allow writing. This is necessaryhowever for the aggregate. So until couchdb implements &#39;validate doc read&#39; aproxy is necessary.<h4 id="header-0-1-19"><span class="section-number">0.1.19</span>A pod&#39;s public port is the proxy.</h4>
+Furthermore serf and coucdb need to be able to connect to other pods/machines.But couchdb itself is not publicly accessible unless through the proxy unlessreplicating with other databases. So maybe the proxy can check for the properpassword when it gets a direct connection request for couchdb. This proxy isalso useful for when rean wants to shut down or do maintenance on the pod.  <h4 id="header-0-1-20"><span class="section-number">0.1.20</span>The proxy is either something like bounce.js or haproxy</h4>
+Both are controllable and programmable, and will sit in a docker container witha serf instance. It can respond to messages from the local rean for instance.<h4 id="header-0-1-21"><span class="section-number">0.1.21</span>Every pod decides independently which pod is the pod master</h4>
+A write master is chosen based on its id. The highest id wins. Once a writemaster fails all other pods will of this via serf. Each one will independentlyknow which one should become the new write master. The one with the highest idwill then open its aggregate for writing. If there are no docs in the failingpod that still haven&#39;t replicated this process is safe. All clients will benotified or can query which pod is the new write master. When a failed writemaster comes back online any docs that replicated yet before it failed might nowget in a conflicted state. So in general any write master that finds itselfnewly elected may have to check for conflicts and resolve them.   <h4 id="header-0-1-22"><span class="section-number">0.1.22</span>Pods are responsible themselves for deleting docs from their partial databases</h4>
+When a pod goes offline and then after some time online again, the write mastermight have given up the pod and removed the delete instruction docs. The localrean can deduce this from the fact that there is a gap between the earliestdelete instruction doc in its aggregate and the latest one it reported asdeleted in its own status doc. In this case the local rean can either remove allpartial databases and start all replication again to new empty partial databasesor laboriously compare all docs in the partial databases with the ones in theaggregate and clean up appropriately. <h4 id="header-0-1-23"><span class="section-number">0.1.23</span>In a pod ring every pod maintains its own pod status document</h4>
+Which gets replicated to all other pods. In this document is data such as podid, couchdb stats, vps stats and index of latest delete instruction doc carriedout. Nobody else writes to this document but the pod itself. They get replicatedto all other pods. <h4 id="header-0-1-24"><span class="section-number">0.1.24</span>No dns, or at least no hard dependency.</h4>
+A user needs to find the app, so an url for that will be needed, and a dnslookup. One could use a central place where pods or pod rings register ipaddresses. Once an app is loaded (from a pod&#39;s database for instance) one couldimagine that the app questions the pod on other ip addresses of other pods inthe ring. Or again looks in a central registry where pods register their ipaddresses. Pods might also be able to configure their own dns settings using athe api of some dns server if possible. An app only needs access to one pod,somehow, to be able to access the others.<h4 id="header-0-1-25"><span class="section-number">0.1.25</span>No load balancing, instead clients find their own most efficient server</h4>
 <p>Once an app knows the ip addresses of al the pods in a ring, it can be made the
 apps responsibility to choose the pod with the most capacity in terms of
 connections or latency or other parameters it either can measure itself, or that
 are being reported by the separate pods. Remember, all pods know all about all
 other pods in a pod ring.</p>
-<h4 id="header-0-1-14"><span class="section-number">0.1.14</span>Every machine or vps is completely autonomous</h4>
-<p>Meaning it can take action without being told so by a master vps, and no vps is
-more important than another. It can manage its own affairs and no decision or
-action it takes should endanger the cluster. No vps is dependent on another vps.
-All knowledge of the cluster is shared. Etc, you get the idea. </p>
-<h4 id="header-0-1-15"><span class="section-number">0.1.15</span>A cluster, or pod ring is self adjusting, depending on load.</h4>
-bla bla bla<h4 id="header-0-1-16"><span class="section-number">0.1.16</span>A pod ring should be robust and be able to cope with all but one pod failing</h4>
+<h4 id="header-0-1-26"><span class="section-number">0.1.26</span>Every machine or vps and its pod is completely autonomous</h4>
+Meaning it can take action without being told so by a master vps, and no vps ismore important than another. It can manage its own affairs and no decision oraction it takes should endanger the cluster. No vps is dependent on another vps.All knowledge of the cluster is shared. Etc, you get the idea. <h4 id="header-0-1-27"><span class="section-number">0.1.27</span>Client is totally independent from backend database and vice versa</h4>
+Neither should expect or demand anything from the other. Client shouldpolitely request for data and if not granted or received solve its own problems.Backend workers though should do their best to accomodate and anticipateclients&#39; needs, and organise things as best as they can.  This means keepingpublic, reception, postoffice and mailboxes in order, and any replicationsthat are needed between them etc, and respond to client messages as well as possible.<h4 id="header-0-1-28"><span class="section-number">0.1.28</span>A cluster, or pod ring is self adjusting, depending on load.</h4>
+bla bla bla<h4 id="header-0-1-29"><span class="section-number">0.1.29</span>A pod ring should be robust and be able to cope with all but one pod failing</h4>
 <p>Using a watts-newman small world network between pods all pods should keep
 replicating to each other and stay in sync at all times. The watts-newman
 network model can be implemented by every single pod independently without
@@ -156,24 +156,25 @@ predicts relatively low average hop count even when there are dozens and dozens
 or possibly hundreds of pods in a pod ring. When a pod disappears from a pod
 ring it will self adjust, as it will when a pod is added (again). For this to
 work every pod needs a working serf instance that has been hooked up to the pods
-serf network, as the pod knows about the network through serf.</p>
+serf network, as the pod knows about the network through serf. A visual demo of
+the watts-newman network is at <a href="http://github.com/michieljoris/deploy-demo">deploy-demo</a>.</p>
 <p>Clients will also always notice a pod failing and should redirect requests to another pod
 in the ring if the app is designed properly.</p>
-<h4 id="header-0-1-17"><span class="section-number">0.1.17</span>A user can start a new pod ring with just the data accessible in another pod ring</h4>
+<h4 id="header-0-1-30"><span class="section-number">0.1.30</span>A user can start a new pod ring with just the data accessible in another pod ring</h4>
 <p>So users own their data. They can replicate their own data to a pod they control
 and then delete the data in the old pod (ring). When the data is shared with
 other users, they will also not be able to use the old pod (ring) to access the
 data.</p>
-<h4 id="header-0-1-18"><span class="section-number">0.1.18</span>Apps should leverage couchdb&#39;s replication and changes feed features</h4>
+<h4 id="header-0-1-31"><span class="section-number">0.1.31</span>Apps should leverage couchdb&#39;s replication and changes feed features</h4>
 <p>With a bit effort separate users of the same app and connecting to the same pod
 (ring) should be easy to sync up with each other using these couchdb feautures.
 The ultimate goal is to achieve parity with most features in meteorjs.</p>
-<h4 id="header-0-1-19"><span class="section-number">0.1.19</span>Every pod has minimal workers behind its database</h4>
+<h4 id="header-0-1-32"><span class="section-number">0.1.32</span>Every pod has minimal workers behind its database</h4>
 <p>These workers are doing registration, send emails, do maintenance on the
 databases, monitor and report the pods state etc, but should contain minimal app
 or business logic. This should reside in the apps/client themselves. It is the
 question in how far you can go with this. </p>
-<h4 id="header-0-1-20"><span class="section-number">0.1.20</span>The whole system is message based</h4>
+<h4 id="header-0-1-33"><span class="section-number">0.1.33</span>The whole system is message based</h4>
 <p>From pod to pod and from pod to app. This maximizes decoupling. No app or pod
 should be reliant on a specific response or for that matter any response to a
 message sent. If a message is confirmed, or other wise is returning data the app
@@ -181,31 +182,31 @@ may use this, but it can not expect or wait for this. It should be able to make
 do and not fail or otherwise &#39;crash&#39;, but should always present a reasable ui to
 the user and do its best to resolve the situation. Data should always be
 retrieved by direct database access. </p>
-<h4 id="header-0-1-21"><span class="section-number">0.1.21</span>No possibility of creating document conflicts</h4>
-<p>A logical consequence of having only one writable pod.</p>
-<h4 id="header-0-1-22"><span class="section-number">0.1.22</span>A proxy is used for basic read access control.</h4>
+<h4 id="header-0-1-34"><span class="section-number">0.1.34</span>No possibility of creating document conflicts</h4>
+A logical consequence of having only one writable pod, and creating only one wayreplications. From aggregate to other aggregates and from all aggregates tothe partial databases on their respective pods. However a bulk save of docs withthe all-or-nothing set might create conflicts. Maybe the vdu can check forconflicts by comparing revision numbers?<h4 id="header-0-1-35"><span class="section-number">0.1.35</span>A proxy is used for basic read access control.</h4>
 <p>For maintenance it might be useful to cut of access to a couchdb instance, or
 certain databases can be made write-only by disallowing get requests on the
 database. This proxy can also do basic reporting and logging of connections and
 requests.</p>
-<h4 id="header-0-1-23"><span class="section-number">0.1.23</span>No sessions or cookies </h4>
-Instead users get a temporary ogin and pwd to access a database. Thisusername/pwd can expire. This bypasses and ignore session cookies and thereforecsrf. An web app still needs to store this pwd in local storage. Meteorjs talksabout storing session tokens in local storage in this <a href="https://www.meteor.com/blog/2014/03/14/session-cookies">blog post</a> and expands onthe rationale. This does require an https connection and a web app will have tosend a username/pwd with every request. Meteorjs only sends this session tokenonce when setting up the ddp connection. Since every request is actually a loginand the crypto algorithm to hash a password used by couchdb is pbkdf2 loginattempts can be throttled to any arbitrary rate. So timing attacks becomedifficult. Web apps would be mostly listening to a change feed, which are longlasting connections. The issue still remains of a secret token (login pwd) sentwith every request.<h3 id="header-0-2"><span class="section-number">0.2</span>Compromises/trade-offs</h3>
-<h4 id="header-0-2-1"><span class="section-number">0.2.1</span>Easily scalable for read operations, but not for write operations</h4>
+<h4 id="header-0-1-36"><span class="section-number">0.1.36</span>No sessions or cookies </h4>
+Instead users get a temporary ogin and pwd to access a database. Thisusername/pwd can expire. This bypasses and ignore session cookies and thereforecsrf. An web app still needs to store this pwd in local storage. Meteorjs talksabout storing session tokens in local storage in this <a href="https://www.meteor.com/blog/2014/03/14/session-cookies">blog post</a> and expands onthe rationale. This does require an https connection and a web app will have tosend a username/pwd with every request. Meteorjs only sends this session tokenonce when setting up the ddp connection. Since every request is actually a loginand the crypto algorithm to hash a password used by couchdb is pbkdf2 loginattempts can be throttled to any arbitrary rate. So timing attacks becomedifficult. Web apps would be mostly listening to a change feed, which are longlasting connections. The issue still remains of a secret token (login pwd) sentwith every request.<p>To create a quasi session create a temp user with the same roles as actual
+user, with the added role of the user id (user email). This user can be
+replicated to other couch instances and it will still work. The session expires
+when the user account gets deleted, which rean can do after a certain amount of
+no pings from client, or after a msg from client. When the proper user account
+doesn&#39;t have the email as role it can&#39;t be used to access any of the dbs, except
+to ask for a session.</p>
+<h4 id="header-0-1-37"><span class="section-number">0.1.37</span>Every pod consists of adea and docker containers</h4>
+A vps or machine needs to have docker installed, a runtime (node, erlang,clojure) and serf and a port open to the proxy container. Adea is the softwarethat is responsible for adding and removing docker containers.  Adea isresponsible for starting and stopping docker containers. It communicates withthe pod and the pod ring through serf. It can do some basic host statusreporting. This agent should be as simple and robust as possible.<h4 id="header-0-1-38"><span class="section-number">0.1.38</span>A pod ring shares a pod ring configuration document</h4>
+In this document are the settings and parameters to properly configure rean.This doc gets replicated to all other pods and their aggregate databases. Butare not replicated to any partial database.<h4 id="header-0-1-39"><span class="section-number">0.1.39</span>A pod ring can add, activate, deactivate and remove its members</h4>
+If in the rean config doc there are credentials for any virtual server providerssuch as aws, linode, digital ocean or any other vps provider and rean isconfigured to auto scale one could devise an algorithm where a pod gets electedto start up a new vps using a vagrant script for instance. Rean could also forinstance monitor money spent and shut down or start up pods depending on abudget. This is possible because a pod ring self adjusts to pods being added orremoved from a pod ring. A new vps only needs adea, serf and docker installed.Adea needs to be started up and join the right serf cluster (with the propersecret) and the password to the couchdb instances of the pod ring. Somehow thissecret and password needs to be given or passed in when the vps is started up.After this the pod instance should be able to look after itself without anyfurther control or meddling from other pods.<h3 id="header-0-2"><span class="section-number">0.2</span>Compromises/trade-offs</h3>
+Some compromises have already been discussed in the requirements but here aresome more I could think of:<h4 id="header-0-2-1"><span class="section-number">0.2.1</span>Easily scalable for read operations, but not for write operations</h4>
 <p>An app can use any pod to read from, but only one to write to, and that pod is
 the same for all clients. This is not only to prevent document conflicts, but
 also to enable proper implementation of a access system based on permissions and
 roles.</p>
 <h4 id="header-0-2-2"><span class="section-number">0.2.2</span>No sharding of data</h4>
-<p>But one can use bigcouch, cloudant or couchdb 2.0 for this if needed. Every pod
-has a complete copy of all the data. So this system favors connection heavy, cpu
-heavy applications, since we can keep firing up new pods to deal with additional
-load. But a vps has a limit on how data it can store (hard disk limit), plus all
-this will have to be replicated to every new pod on creation. This becomes
-troublesome once we&#39;re talking about gigabytes of data. One solution would be to
-store big files such as images and video and sound files outside the pod ring
-and in a key value store somewhere. But that would need a server in front of it
-to enforce permissions.</p>
-<h4 id="header-0-2-3"><span class="section-number">0.2.3</span>Every node uses duplication of data to control read access.</h4>
+But one can use bigcouch, cloudant or couchdb 2.0 for this if needed. Every podhas a complete copy of all the data. So this system favors connection heavy, cpuheavy applications, since we can keep firing up new pods to deal with additionalload. But a vps has a limit on how data it can store (hard disk limit), plus allthis will have to be replicated to every new pod on creation. This becomestroublesome once we&#39;re talking about gigabytes of data. One solution would be tostore big files such as images and video and sound files outside the pod ringand in a key value store somewhere. But that would need a server in front of itto enforce permissions.<h4 id="header-0-2-3"><span class="section-number">0.2.3</span>Every node uses (multiple) duplication of data to control read access.</h4>
 <p>Even when couchdb implements &#34;validate doc read&#34; this will be necessary because
 views are recalculated into indexed and will not the &#34;vdr&#34; function to validate
 read access. Every pod therefore will have to duplicate its data to some degree.
@@ -217,337 +218,30 @@ aggregate that&#39;s replicated between pods. All other databases it can destroy
 create at its own discretion, taking matters such as load and space into
 consideration. This will mess with users who are reading from these databases,
 or have change feeds set up of course. </p>
-<h3 id="header-0-3"><span class="section-number">0.3</span>Implementation</h3>
-<h4 id="header-0-3-1"><span class="section-number">0.3.1</span>Build/rebuild partitioned databases</h4>
-<h2 id="header-1"><span class="section-number">1</span>More</h2>
-<h3 id="header-1-1"><span class="section-number">1.1</span>cape.org</h3>
-SIMPLICITY IS GOOD!!!<h4 id="header-1-1-1"><span class="section-number">1.1.1</span>procedure to set up project</h4>
-<h5 id="header-1-1-1-1"><span class="section-number">1.1.1.1</span>backend</h5>
-Start couch in a docker containerbin/dcouchopen localhost:5984/_utilsTo tail the couch&#39;s log:docker-enter rcouchThen:tail -f /rel/rcouch/log/couch.logstart backend:node backend/rean.jsconfigure email and couch connection details in backend/env.jsconfigure backend workers in backend/config.js<p>reset couch with bin/dreset</p>
-<h4 id="header-1-1-2"><span class="section-number">1.1.2</span>general programming concepts</h4>
-<h5 id="header-1-1-2-1"><span class="section-number">1.1.2.1</span>defry, describe and delimit</h5>
-<h6 id="header-1-1-2-1-1"><span class="section-number">1.1.2.1.1</span>don&#39;t ever fucking repeat your self!</h6>
-if yes -&#62; refactor!!<h6 id="header-1-1-2-1-2"><span class="section-number">1.1.2.1.2</span>describe what you&#39;re doing,</h6>
-clear logical flow, descriptive naming, choice comments, few or no corner casehandling or out of place logic, explicitly type or make clear what variablesare supposed to contain, use name params instead of list etc<h6 id="header-1-1-2-1-3"><span class="section-number">1.1.2.1.3</span>delimit</h6>
-break up in modules, pure/independant functions, not bigger than my head perfunction, clear global structure/architecture<h5 id="header-1-1-2-2"><span class="section-number">1.1.2.2</span>modules with functions not objects with methods</h5>
-<h5 id="header-1-1-2-3"><span class="section-number">1.1.2.3</span>librairies not frameworks</h5>
-<h5 id="header-1-1-2-4"><span class="section-number">1.1.2.4</span>quotes</h5>
-<h6 id="header-1-1-2-4-1"><span class="section-number">1.1.2.4.1</span>Dijkstra:</h6>
-Industry suffers from the managerial dogma that for the sake of stabilityand continuity, the company should be independent of the competence ofindividual employees.<h5 id="header-1-1-2-5"><span class="section-number">1.1.2.5</span>12factor</h5>
-I. CodebaseOne codebase tracked in revision control, many deploysII. DependenciesExplicitly declare and isolate dependenciesIII. ConfigStore config in the environmentin env.js, this is hardcoded now, but will get from environment or fromconsul or other separate network?IV. Backing ServicesTreat backing services as attached resourcesV. Build, release, runStrictly separate build and run stagesVI. ProcessesExecute the app as one or more stateless processesVII. Port bindingExport services via port bindingVIII. ConcurrencyScale out via the process modelIX. DisposabilityMaximize robustness with fast startup and graceful shutdownX. Dev/prod parityKeep development, staging, and production as similar as possibleXI. LogsTreat logs as event streamsXII. Admin processesRun admin/management tasks as one-off processes<h4 id="header-1-1-3"><span class="section-number">1.1.3</span>project concepts/design</h4>
-<h5 id="header-1-1-3-1"><span class="section-number">1.1.3.1</span>problem is removing illegal docs</h5>
-<h6 id="header-1-1-3-1-1"><span class="section-number">1.1.3.1.1</span>ideas</h6>
-Don&#39;t use sessions, have user authenticate for every request?Or to create a quasi session create a temp user with the same roles as actualuser, with the added role of the user id (user email). This user can bereplicated to other couch instances and it will still work. The session expireswhen the user account gets deleted, which rean can do after a certain amount ofno pings from client, or after a msg from client. When the proper user accountdoesn&#39;t have the email as role it can&#39;t be used to access any of the dbs, exceptto ask <h6 id="header-1-1-3-1-2"><span class="section-number">1.1.3.1.2</span>solution one</h6>
-Use aggregate with vduVdu only lets through docs which have an as attribute that has the hash of theaccess signature. This is the name of the database where this doc is supposed togo, decided on the access object and property access function. Vdu calculatesthis hash and checks whether the as attr. is the same. It also calculates the ashash of the current doc in the db. If it is different the doc has to have aold-as attr. that matches it.If the old doc still has a oldas attr. the vdu throws an error. Clients have towait for an update of the doc and write an update of this doc, because somebodyalready updated the doc they&#39;re trying to write.For every as there is a matching db and a rep that filters out all the docs withmatching as, but only if the doc does not have a oldas attr. A rean agent listens to changes filtered by a view that picks up docs with anoldas attr. For every such doc it deletes the matching doc in the matching db(where it shouldn&#39;t be anymore) and rewrites the doc but now without the oldasattr.Clients can get the as hash of a doc by sending a message and asking for it,calculate it themselves based on the as object in the doc (but won&#39;t work if psfunction applies to doc) or use the update function. The update function willautomatically calculate and add the old and new as hashes so that the doc willpass the vdu.<ul><li>advantages</li>
-<li>Most docs would be written straight to the aggregate, pass the vdu and be</li>
-</ul>
-replicated straight to the appropriate as db.<ol><li>If rean goes down or is busy a backlog will be created. All docs in the backlog</li>
-</ol>
-will not be able to be updated anymore. When rean is started up again it willjust process the backlog and make the docs updateable again.<ul><li>disadvantages</li>
-<li>This duplicates the data at least once if all data is accessed by clients (that</li>
-</ul>
-is the whole of the data in aggregate is divided up in read only partial dbs).<ol><li></li>
-</ol>
-<h5 id="header-1-1-3-2"><span class="section-number">1.1.3.2</span>Three ways to change access signature to doc</h5>
-<ol><li>Write a new doc that is a clone of the old one, but with a new accesssignature, and delete the old one. </li>
-<li>Write a new access signature to the doc, but also include the old as a hashor something. A rean agent can pick this up and purge the old as db.</li>
-<li>Send a msg to a custom rean agent that can rewrite docs in bulk as far astheir as is concerned. The agent also can purge the docs from as dbs wherethe doc is not allowed anymore.</li>
-</ol>
-<h5 id="header-1-1-3-3"><span class="section-number">1.1.3.3</span>prop signature access (ps)</h5>
-ps(doc) -&#62; as This function takes a doc and returns a access signature hash.This is based on the props of the doc and ultimately on the doc&#39;s explicit readaccess object. Every rep uses the same filter, but with a query param statingthe access hash for a particalur database. When the prop bases access functionchanges all dbs and reps need to be deleted and then the reps started again withauto created databases. The other option is to create a view on aggregate thatgets all docs with a current hash different from the hash calculated newps(doc). These should be deleted from the as databases, but also restart thereps to the docs to their new as db.<h6 id="header-1-1-3-3-1"><span class="section-number">1.1.3.3.1</span>When changing the as of doc:</h6>
-<ul><li>Add the old as hash so that rean can remove it from the proper as db</li>
-</ul>
-Or mark it otherwise but add the old read access object. Vdu can ensure the ashashes (current and old) match those of the old doc and updated doc.<ul><li>Write a new doc but delete the old</li>
-</ul>
-<h6 id="header-1-1-3-3-2"><span class="section-number">1.1.3.3.2</span>When a client writes a doc that is affected by ps rules:</h6>
-<ul><li>A new doc can just be written straight, the reps will put it in the right db</li>
-</ul>
-When updating a doc a client can do the following:<ul><li>Write a new doc, delete the old.</li>
-<li>You can not write it unless you know the hash of the updated doc. The old oneis the name of the db the doc came from, which should also be a prop of thedoc. The new one can be gotten by posting it and asking rean to calculate it.</li>
-</ul>
-<h6 id="header-1-1-3-3-3"><span class="section-number">1.1.3.3.3</span>In both cases:</h6>
-You can use the update function:Add new doc, or props to update and delete. The update function will calculateas hash from props and access object. If same as current doc it will just writethe new object. If different it will write the doc with the new and old hash.This would be validated again by du, since this is just a simple rewritefunction. <h5 id="header-1-1-3-4"><span class="section-number">1.1.3.4</span>Aggregate vdu</h5>
-As hash has to match the read access objectOld as hash has to exist if old doc&#39;s as hash is different from the updated one.If same it cannot exist. Or just the old as hash (matching the doc in the db).<h5 id="header-1-1-3-5"><span class="section-number">1.1.3.5</span>A user&#39;s doc stores his private data, such as app state, contact details etc.</h5>
-If the user is actually a group, the group data is stored here.<h5 id="header-1-1-3-6"><span class="section-number">1.1.3.6</span>database per user.</h5>
-Doubling as mailbox and data source for user.Ways to limit excessive duplication:<ol><li>Access attachments, binary files through a shared binary/attachmentdatabase, and using vdr on it to control access, when all that&#39;s stored in adatabase is text they maybe are not so big and can be duplicated for every user.</li>
-<li>Delete user and group databases when not accessed for a while. All data is inaggregate anyway and the only reason for these user and group databases toexist is to control and limit access to a certain subset of docs from thisaggregate.</li>
-</ol>
-<h5 id="header-1-1-3-7"><span class="section-number">1.1.3.7</span>sharing data</h5>
-Two ways: either replicate and duplicate data to all users who have accesspermissions, or move to separate database and set secObj.members.{roles|names}to who you want to have access. The name should be guaranteed unique andsomething like &#34;shared_89334jkk8njfu83hfu3hf&#34;. This is created by sending amessage to cape who creates the database, changes the ownership? In any casethe data gets moved to the shared db and removed from the user&#39;s db.<h5 id="header-1-1-3-8"><span class="section-number">1.1.3.8</span>userids, roles and groups</h5>
-<ul><li>userids: Userid is always a user&#39;s email. His database is called:private_[email]_[md5hash-of-email] where email is normalized to only contain validchars (only lowercase characters (a-z), digits (0-9), or any of the characters_, $, (, ), +, -, and / are allowed for database names). This way a user candeduce his private database from his email address, and it&#39;s unique, evenacross couchdb instances.</li>
-</ul>
-<h5 id="header-1-1-3-9"><span class="section-number">1.1.3.9</span>normalized</h5>
-Denormalize when convenient, but ultimately structure is defined by normalizeddocs.Views can be set up to fetch all relevant (joined) docs in one request.Validate Doc Read in rcouch doesn&#39;t work on views, so this necessitatesdatabase per user. Vdr can be used other ways and in other places though. Ifvdr is not available a proxy can be installed and configured<h5 id="header-1-1-3-10"><span class="section-number">1.1.3.10</span>generic doc structure:</h5>
-type: comment, article, product etcowner: id of creator/owner of doclast-modifiedlast-modified-byaccess:selective replication, vdu and purge use this and the secObj of the database todecide what is allowed in the database.non-existent:All docs can have a access prop:<ul><li>non existent: only own</li>
-</ul>
-<h5 id="header-1-1-3-11"><span class="section-number">1.1.3.11</span>possible proxy need for:</h5>
-<ul><li>block _all_dbs so that rean can do maintenance</li>
-<li>alternative to vdr and rcouch:<ul><li>block read on reception db and aggregate</li>
-</ul>
-</li>
-<li>disallow anonymous signup to couchdb</li>
-</ul>
-<h5 id="header-1-1-3-12"><span class="section-number">1.1.3.12</span>Rebuild with just _users, aggregate, config.js, a couchdb instance and cape</h5>
-This means you can delete private and shared databases when not needed oraccessed for a while. Users should send ping messages to keep a database alive,because they can expire and would have to be rebuilt when a user log in again.<h4 id="header-1-1-4"><span class="section-number">1.1.4</span>specs</h4>
-<h5 id="header-1-1-4-1"><span class="section-number">1.1.4.1</span>messages</h5>
-<h6 id="header-1-1-4-1-1"><span class="section-number">1.1.4.1.1</span>Reception:</h6>
-<ul><li>signup|forgotpwd|confirm</li>
-<li>mailbox? [username]if backend has forgot to setup user&#39;s mailbox, or it got wiped or whatever,client can send a msg with her username. Backend can then set up a mailbox andcan send confirmation to public. Users&#39; mailboxes are called mailbox_username</li>
-</ul>
-<h6 id="header-1-1-4-1-2"><span class="section-number">1.1.4.1.2</span>Mailbox:</h6>
-<ul><li>signedinThis is instead of CouchDB session tracking, since I don&#39;t have access toit. Unless session tracker reads couch&#39;s log.Message client can and should send after logging in, preferable with some uuidfor the session.</li>
-<li>loggingoutClient should send this before explicitly logging out. But doesn&#39;t alwayshappen, especially when connection breaks, or laptop gets closed, or cookiegets wiped etc.</li>
-<li>pingClient can send this when activity is detected so sessions can be better tracked</li>
-<li>database?Request for name(s) of database(s) client can use. By default a user&#39;sdatabase is called db_username.</li>
-</ul>
-<h5 id="header-1-1-4-2"><span class="section-number">1.1.4.2</span>client is totally independent from backend database and vice versa</h5>
-Niether should expect or demand anything from the other. Client shouldpolitely request for resources and if not granted solve its own problems.Backend workers though should do their best to accomodate and anticipateclients&#39; needs, and organise things as best as they can.  This means keepingpublic, reception, postoffice and mailboxes in order, and any replicationsthat are needed between them etc, and respond to client messages as well as possible.<h5 id="header-1-1-4-3"><span class="section-number">1.1.4.3</span>logging in and out</h5>
-<ul><li>on signup mailbox should have been made.if not or is deleted:<ol><li>client can send msg to reception, &#39;mailbox?&#39;, confirm/error inpublic</li>
-<li>cape can check periodically and/or subscribe to db changes</li>
-</ol>
-</li>
-<li>on login client should send msg to mailbox saying helloiam</li>
-<li>on logout should send msg &#39;goodbyefrom&#39;.otherwise (reverse) proxy can maybe track login/logout?  or hack CouchDB,because couch doesn&#39;t tie sessions to users/logins unfortunatelyor client can logout msg when it can&#39;t read its own mailbox?</li>
-</ul>
-<h5 id="header-1-1-4-4"><span class="section-number">1.1.4.4</span>client needs to delete message after having read it</h5>
-backend still purges msg after a certain time. In case of public databaseuser can only update existing msg doc (enforced by vdu). Same with msgwritten to mailbox or personal database.<h4 id="header-1-1-5"><span class="section-number">1.1.5</span>arguments for and against</h4>
-<h5 id="header-1-1-5-1"><span class="section-number">1.1.5.1</span>no doc property signature access OR?</h5>
-changes the ps function means rewriting all filters and all associated reps, andalso deleteing all databases since we can&#39;t have deleted docs in dbs. They don&#39;tget replicated to when the doc is allowed again. So the db needs to be deletedand populated again. It is also difficult to predict which dbs will be affected.You&#39;d have to test the filter against every single doc.OR: change ps function, then use a view to get all docs that have a as hashdifferent from the calculated as hash. Delete the docs in the calculated as hash(db name) databases.<h5 id="header-1-1-5-2"><span class="section-number">1.1.5.2</span>use separate databases reception and public</h5>
-semi public such as reception (wo) and public (ro) should not be merged withprivate databases in case the read and write validate and security objectsare not configured properly, by accident or bugs or whatever. Better to keepseparate for security reasons, but in principle everything could be done withread and write validate<h5 id="header-1-1-5-3"><span class="section-number">1.1.5.3</span>separate mailbox from data databases at all times</h5>
-<ul><li>same reason as for the semipublic databases. Security. New signups have noright to anything initially, so they shouldn&#39;t be able to write to or readfrom app data databases, not even secured through vuds and vrds androles/names, in case of bugs or misconfiguration perhaps. A new signup has noroles and is not added to any database by name, so cannot not access appdatabases by default, not through configuration, it&#39;s safer and easier,rights have to be granted, not withheld.</li>
-<li>no filtering needed to separate comms from data, no possibility of muddlingof either database. When the data db is muddled this might propagate throughthe system if reps are not properly setup.</li>
-<li>but client needs to listen to two databases sometimes, but only needs tolisten to mailbox when interested, for instance when it has sent a requestand it wants confirmation.</li>
-</ul>
-<h5 id="header-1-1-5-4"><span class="section-number">1.1.5.4</span>one database per user, combining data and mail, sometimes two</h5>
-<ul><li>only one connection.</li>
-<li>but sometimes a user gets data from a group database but needs to haveconnection for individual msgs at all times so would have permanent 2connection going then.</li>
-</ul>
-<h5 id="header-1-1-5-5"><span class="section-number">1.1.5.5</span>separate app logic and housekeeping logic</h5>
-vuds and vrds are going to have a lot of app logic in them, like to keep thislogic separate from housekeeping/basic access logic<h4 id="header-1-1-6"><span class="section-number">1.1.6</span>Databases</h4>
-<h5 id="header-1-1-6-1"><span class="section-number">1.1.6.1</span>reception</h5>
-This database is publicly writable. Through the use of validate_doc_update onecan ensure only certain types of documents get written. For instance attachmentcan be blocked, or overly big field values etc. Any message written get pickedup <code>cape</code> (through the changes api) and immediately deleted from the<code>reception</code> database. This database is supposed to be write-only. At the momentthis is not possible using CouchDB only (version 1.6), however a simple proxyserver in front of the public face of CouchDB can fix this by only allowingPOST and PUT requests to this database. A fork of CouchDB called <a href="https://github.com/rcouch/rcouch/wiki">rcouch</a> doeshave write-only databases and read validation support. It&#39;s supposed to <a href="https://blogs.apache.org/couchdb/entry/merging_rcouch">merge</a>with CouchDB &#39;soon&#39;.<h5 id="header-1-1-6-2"><span class="section-number">1.1.6.2</span>public</h5>
-<p>This is not publicly writable, however anybody can read from it. It is used to
-transmit little messages of success or error to various requests made through
-=reception=.</p>
-<p>When messages to <code>reception</code> include a &#39;callback&#39; id, the client sending the
-message can receive the feedback from <code>cape</code> through the <code>public</code> database by
-listening to changes in this database, but filtered by this callback id. This
-filtering happens on the server, so the only time the client is contacted is
-when a relevant message gets written to <code>public</code> by <code>cape</code>. Of course a client
-can listen to all changes, and depending on how many people are trying to sign
-up or are going through &#39;forgot pwd&#39; procedures, quite a few messages can get
-read. The messages (docs) themselves contain nothing but a callback id and a
-field with a string containing information such as &#39;password updated&#39;, or
-&#39;email missing&#39; or &#39;email sent&#39; or &#39;too short password&#39; etc. This is a security
-leak, but very big.</p>
-<h5 id="header-1-1-6-3"><span class="section-number">1.1.6.3</span>temp</h5>
-<p>Internal database used by <code>cape</code> to remember messages posted to =reception=
-so the proper follow up action can be taken in response to further messages
-from the same client.
-</p>
-<h5 id="header-1-1-6-4"><span class="section-number">1.1.6.4</span>private_[email]_[hash-of-email]</h5>
-Email is normalized so couchb accepts the name. The hash is there toguarantee uniqueness nonetheless.secObj = { admins: { names:[], roles:[]},members: { names: [&#34;&#60;email&#62;&#34;], roles: []} }These are only created when there docs with only one reader.<h5 id="header-1-1-6-5"><span class="section-number">1.1.6.5</span>shared_[access_object_hash]</h5>
-All docs with a certain access signature go in here. They get only created whenthere are docs with these access signatures.<h5 id="header-1-1-6-6"><span class="section-number">1.1.6.6</span>stats</h5>
-session tracker agent can send stats or log messages etc.<h4 id="header-1-1-7"><span class="section-number">1.1.7</span>agents</h4>
-<h5 id="header-1-1-7-1"><span class="section-number">1.1.7.1</span>sessiontracker</h5>
-deals with messages such as signedin, loggingout and ping, because these messagesare reliable to a point only, a best guess should be made. For instance aclient can send pings when activity is detected. But if client logs in andonly listens to changes sessiontracker doesn&#39;t know about them. Sessiontracker could listen to changes on client&#39;s databases so it knows when towrite to it. Or other agents could notify it when they notice activity from aclient. Or it could actively monitor/tail couch&#39;s log. At debug levels authevents get logged. You would have to parse it and make sense of it.<h4 id="header-1-1-8"><span class="section-number">1.1.8</span>implement:</h4>
-<h5 id="header-1-1-8-1"><span class="section-number">1.1.8.1</span>trello</h5>
-everyone their own multiple todo lists, organized by boardshare by the board/list/item, share ro or rwwhen owned/shared and writable any edits should propogate and magically changeat other peoples boards/lists/itemswhen owned/shared should be  able to share further when allowedwhen client shares something it should send msg/notification to other user itshares with.<h5 id="header-1-1-8-2"><span class="section-number">1.1.8.2</span>shop</h5>
-<h5 id="header-1-1-8-3"><span class="section-number">1.1.8.3</span>wiki</h5>
-<h5 id="header-1-1-8-4"><span class="section-number">1.1.8.4</span>social network</h5>
-<h5 id="header-1-1-8-5"><span class="section-number">1.1.8.5</span>inventory</h5>
-<h5 id="header-1-1-8-6"><span class="section-number">1.1.8.6</span>gregs&#39;s project</h5>
-people have roles such as family, circle, extended fammily, service provideretc every doc has an access level, chosen from different set dependent on typeof doc.  different types of docs have different set of access levels then fora certain doc type lets say medical info (taxonomy): set for every rolewhether they can create/update/delete read a document of this type.  So inother words, every doc has a type_access-level access role assigned, then inthe reps access scenario (one database per role/id), every db gets assignedthe proper roles. Same strategy for the cud, if some with the database&#39;s rolewrites, check the secObj of the db whether they can cud.So Greg&#39;s config-access table is modified by modifying the secObj of every dbthat represents a role.<h5 id="header-1-1-8-7"><span class="section-number">1.1.8.7</span>edge</h5>
-<p></p>
-<h4 id="header-1-1-9"><span class="section-number">1.1.9</span>TODO</h4>
-<h5 id="header-1-1-9-1"><span class="section-number">1.1.9.1</span>disallow singupt tom@email.com and Tom@email.com</h5>
-Record and use the email local capitalisations as sgned up, but don&#39;t allowdifferent capitalisations of local to sign up.<h5 id="header-1-1-9-2"><span class="section-number">1.1.9.2</span>monitor does no work right now</h5>
-is called but work function is empty<h5 id="header-1-1-9-3"><span class="section-number">1.1.9.3</span>follow should stop listening when no response</h5>
-because the browser hangs/eats up all memory<h5 id="header-1-1-9-4"><span class="section-number">1.1.9.4</span>rewrite backend in clojure</h5>
-<h5 id="header-1-1-9-5"><span class="section-number">1.1.9.5</span>rewrite/write frontend in clojurescript</h5>
-<h5 id="header-1-1-9-6"><span class="section-number">1.1.9.6</span>client should stop listening when error, since it locks up the browser/computer</h5>
-just try again now and again, or on the request of user instead.<h5 id="header-1-1-9-7"><span class="section-number">1.1.9.7</span>make sure deletion of public and temp is self-repairing</h5>
-<h5 id="header-1-1-9-8"><span class="section-number">1.1.9.8</span>on signup create user mailbox</h5>
-monitor existence (for every user, infrequent, once per 5 minutes or rarer),subscribe to db changes, react to nomailbox msg in reception from user,username: is added and from: is added to msg, and ack send to public(ok/error); Client should try periodically when mailbox is not there, to seeif it&#39;s back<h5 id="header-1-1-9-9"><span class="section-number">1.1.9.9</span>validate_read_doc:</h5>
-access based on user role, doc type and taxonomy.<h5 id="header-1-1-9-10"><span class="section-number">1.1.9.10</span>send inter user message:</h5>
-<ul><li>send msg to mailbox &#62; instant:true/false from:username (validated by to be</li>
-</ul>
-username vud) msg:mail to:otherusername content:&#34;bla bla&#34;<ul><li>gets replicated to postoffice, or postoffice listens to changes in every mailbox?</li>
-<li>postoffice puts msg in recipient&#39;s (:to) mailbox</li>
-<li>if instant=true, remove from mailboxes after timeout, otherwise leave inplace?</li>
-</ul>
-<h5 id="header-1-1-9-11"><span class="section-number">1.1.9.11</span>make sure log messages are an independant stream to be</h5>
-picked up a separate process!!!!  Both from cape backend and frontend.<h5 id="header-1-1-9-12"><span class="section-number">1.1.9.12</span>how about tests?</h5>
-<ul><li>clojurescript repl to automate tests</li>
-<li>automated browser testing?</li>
-</ul>
-<h5 id="header-1-1-9-13"><span class="section-number">1.1.9.13</span>how about csrf?</h5>
-Several things have to happen for cross-site request forgery to succeed:<ul><li>The attacker must target either a site that doesn&#39;t check the referrer header(which is common) or a victim with a browser or plugin that allows refererspoofing (which is rare).</li>
-<li>The attacker must find a form submission at the target site, or a URL that hasside effects, that does something (e.g., transfers money, or changes thevictim&#39;s e-mail address or password).</li>
-<li>The attacker must determine the right values for all the forms or URL inputs;if any of them are required to be secret authentication values or IDs that theattacker can&#39;t guess, the attack will fail.</li>
-<li>The attacker must lure the victim to a Web page with malicious code while the</li>
-</ul>
-victim is logged into the target site.<p>&#62;&#62; at least set the proper cors origin!!!!
-&#62;&#62; only vulnerability are POST requests?
-<a href="http://en.wikipedia.org/wiki/Cross-site_request_forgery">http://en.wikipedia.org/wiki/Cross-site_request_forgery</a></p>
-<h5 id="header-1-1-9-14"><span class="section-number">1.1.9.14</span>watch out for xss!!!</h5>
-sanitize anything that can get rendered by the browser,for instance an agent can rewrite docs, or vud can disallow unescaped output<a href="https://www.npmjs.org/package/validator">https://www.npmjs.org/package/validator</a>also the app has to not allow to render unescaped data!!!!Apply csp!!!!<a href="http://www.html5rocks.com/en/tutorials/security/content-security-policy/">http://www.html5rocks.com/en/tutorials/security/content-security-policy/</a>Maybe a proxy can add the header, or it can be inserted as a meta tag.<h5 id="header-1-1-9-15"><span class="section-number">1.1.9.15</span>if cb in mailbox is called with error auto fix it!!!</h5>
-<h5 id="header-1-1-9-16"><span class="section-number">1.1.9.16</span>how to deal with backlog in mailboxes?</h5>
-<h5 id="header-1-1-9-17"><span class="section-number">1.1.9.17</span>make reception unreadable by adding proxy or use rcouch</h5>
-<h5 id="header-1-1-9-18"><span class="section-number">1.1.9.18</span>test starting from scratch, empty database</h5>
-<h5 id="header-1-1-9-19"><span class="section-number">1.1.9.19</span>passwordless login</h5>
-this just needs adaption on the client side<h5 id="header-1-1-9-20"><span class="section-number">1.1.9.20</span>somebody should be monitoring the agents and restart them !!!</h5>
-<h5 id="header-1-1-9-21"><span class="section-number">1.1.9.21</span>do cape agents needs less than full _admin rights?</h5>
-But nobody else can create databases though.<h5 id="header-1-1-9-22"><span class="section-number">1.1.9.22</span>formalize error msgs!!!</h5>
-just strings for now<h5 id="header-1-1-9-23"><span class="section-number">1.1.9.23</span>enable https for couch</h5>
-<h5 id="header-1-1-9-24"><span class="section-number">1.1.9.24</span>restart listeners to mailboxes when stopped</h5>
-<h5 id="header-1-1-9-25"><span class="section-number">1.1.9.25</span>setup logrotate for couchdb!!</h5>
-<a href="http://wiki.apache.org/couchdb/Installing_on_Ubuntu">http://wiki.apache.org/couchdb/Installing_on_Ubuntu</a><a href="http://java.dzone.com/articles/how-install-couch-db-15-ubuntu">http://java.dzone.com/articles/how-install-couch-db-15-ubuntu</a><h5 id="header-1-1-9-26"><span class="section-number">1.1.9.26</span>couchdb is timing out the reps trying!!!</h5>
-<h5 id="header-1-1-9-27"><span class="section-number">1.1.9.27</span>how to setup frontend cape.js?</h5>
-With modules? So then we need bb-server!But source needs to be in capeOr just test in node, just don&#39;t use node dependencies,and also test in test-cape now and then, to see if it has the same results?<h5 id="header-1-1-9-28"><span class="section-number">1.1.9.28</span>setup basic comm between front and backend</h5>
-<h5 id="header-1-1-9-29"><span class="section-number">1.1.9.29</span>hide follow under vouchdb.changes in the node version of vouchdb</h5>
-<h5 id="header-1-1-9-30"><span class="section-number">1.1.9.30</span>replace jquery dependency in node and browser in vouchdb!!</h5>
-replace vouch_couch with vouch_cradle on nodeor factor out jquery on nodeor replace with request:<a href="https://github.com/iriscouch/browser-request/">https://github.com/iriscouch/browser-request/</a><h5 id="header-1-1-9-31"><span class="section-number">1.1.9.31</span>have env.js get is vars from the ENV</h5>
-now it&#39;s hardbaked, but under version source control<h5 id="header-1-1-9-32" class="task-status done"><span class="section-number">1.1.9.32</span><span class="task-status done">DONE</span>implement wipe all designdocs in rean.js</h5>
-for that matter, wipe all cape databases as well, and all users and allreplications<h5 id="header-1-1-9-33" class="task-status done"><span class="section-number">1.1.9.33</span><span class="task-status done">DONE</span>lock down npm dependencies of 3rd party libs!!</h5>
-run npm shrinkwrap to find out version numbers<h5 id="header-1-1-9-34" class="task-status done"><span class="section-number">1.1.9.34</span><span class="task-status done">DONE</span>store mandril email password in ENV</h5>
-<h5 id="header-1-1-9-35" class="task-status done"><span class="section-number">1.1.9.35</span><span class="task-status done">DONE</span>add from/to fields to msgs</h5>
-<h5 id="header-1-1-9-36" class="task-status done"><span class="section-number">1.1.9.36</span><span class="task-status done">DONE</span>all jobs running permanently should be agents!!</h5>
-<h5 id="header-1-1-9-37" class="task-status done"><span class="section-number">1.1.9.37</span><span class="task-status done">DONE</span>vouch_couch creates a session but</h5>
-sessions expire, admin:irma needs to be baked into all requests<h5 id="header-1-1-9-38" class="task-status done"><span class="section-number">1.1.9.38</span><span class="task-status done">DONE</span>enable cors for couchdb when initing</h5>
-<h5 id="header-1-1-9-39" class="task-status done"><span class="section-number">1.1.9.39</span><span class="task-status done">DONE</span>unique email/username when signing up!!!</h5>
-<h5 id="header-1-1-9-40" class="task-status done"><span class="section-number">1.1.9.40</span><span class="task-status done">DONE</span>lock down public from writing, is read only</h5>
-<h5 id="header-1-1-9-41" class="task-status done"><span class="section-number">1.1.9.41</span><span class="task-status done">DONE</span>set filter in public for callback</h5>
-<h5 id="header-1-1-9-42" class="task-status done"><span class="section-number">1.1.9.42</span><span class="task-status done">DONE</span>set view to list names in _users</h5>
-<h5 id="header-1-1-9-43" class="task-status done"><span class="section-number">1.1.9.43</span><span class="task-status done">DONE</span>lock down temp db from writing/reading</h5>
-<h5 id="header-1-1-9-44" class="task-status done"><span class="section-number">1.1.9.44</span><span class="task-status done">DONE</span>put a validate_doc_update on the mailboxes!!</h5>
-otherwise browser can&#39;t access it!!!<h5 id="header-1-1-9-45" class="task-status done"><span class="section-number">1.1.9.45</span><span class="task-status done">DONE</span>mailboxes need to be locked down:</h5>
-set security objectadd appropriate doc_validate_update<h4 id="header-1-1-10"><span class="section-number">1.1.10</span>research</h4>
-<a href="http://wiki.apache.org/couchdb/PerDocumentAuthorization">http://wiki.apache.org/couchdb/PerDocumentAuthorization</a><h5 id="header-1-1-10-1"><span class="section-number">1.1.10.1</span>other logins than couchdb native</h5>
-<ol><li>use couchdb pluggable auth mechanisms</li>
-<li>put nodejs in front, forward to couch, but use password.js or something toauthenticate via github/facebook/google/twitter etc</li>
-</ol>
-<h4 id="header-1-1-11"><span class="section-number">1.1.11</span>resources</h4>
-<a href="https://github.com/etrepum/couchperuser">https://github.com/etrepum/couchperuser</a><a href="https://github.com/pegli/couchdb-dbperuser-provisioning/blob/master/lib/provision.js">https://github.com/pegli/couchdb-dbperuser-provisioning/blob/master/lib/provision.js</a><a href="https://github.com/flatiron/cradle">https://github.com/flatiron/cradle</a><a href="https://www.npmjs.org/package/couchdb-expired">https://www.npmjs.org/package/couchdb-expired</a><a href="https://www.npmjs.org/package/couchdb-tools">https://www.npmjs.org/package/couchdb-tools</a><p>using continuous for changes feed and has email queue example in tests:
-<a href="https://github.com/mikeal/dbemitter">https://github.com/mikeal/dbemitter</a></p>
-<p>Convert an NPM package command-line program into a web page:
-<a href="https://github.com/iriscouch/browser_bin">https://github.com/iriscouch/browser_bin</a></p>
-<p>Detect security issues, large or small, in a CouchDB server
-<a href="https://github.com/iriscouch/audit_couchdb">https://github.com/iriscouch/audit_couchdb</a></p>
-<h4 id="header-1-1-12"><span class="section-number">1.1.12</span>pouchdb considerations</h4>
-<h5 id="header-1-1-12-1"><span class="section-number">1.1.12.1</span>replication persistence</h5>
-They should never stop!!!<a href="https://github.com/HubSpot/offline/">https://github.com/HubSpot/offline/</a>Automatically display online/offline indication to your users. #hubspot-open-source<a href="http://pouchdb.com/api.html#replication">http://pouchdb.com/api.html#replication</a><a href="https://groups.google.com/forum/#!topic/pouchdb/9ywFZ6ceqNc">https://groups.google.com/forum/#!topic/pouchdb/9ywFZ6ceqNc</a><a href="https://www.bountysource.com/issues/1034011-persistent-replications?utm_campaign=plugin&#38;utm_content=tracker%2F52197&#38;utm_medium=issues&#38;utm_source=github">https://www.bountysource.com/issues/1034011-persistent-replications?utm_campaign=plugin&#38;utm_content=tracker/52197&#38;utm_medium=issues&#38;utm_source=github</a><h5 id="header-1-1-12-2"><span class="section-number">1.1.12.2</span>replication size</h5>
-How much to replicate and how to dump old data?Without then deleting the docs on the server when removed from client in asynced replication?<h4 id="header-1-1-13"><span class="section-number">1.1.13</span>good to know</h4>
-<h5 id="header-1-1-13-1"><span class="section-number">1.1.13.1</span>couchdb needs to serve pages..</h5>
-just load as attachment to doc and link to it as database/doc/attachment.html<h5 id="header-1-1-13-2"><span class="section-number">1.1.13.2</span>start a coucbd instance</h5>
-install build-couchdb, follow instructions in its readme<a href="https://github.com/jhs/build-couchdb">https://github.com/jhs/build-couchdb</a>see bin/couchdb and bin/couch.ini for starting it<h5 id="header-1-1-13-3"><span class="section-number">1.1.13.3</span>using follow on node, and vouchdb.changes on browser.</h5>
-longpoll on browser (vouchdb.changes), or perhaps event-source?<a href="http://couchdb.readthedocs.org/en/latest/api/database/changes.html#event-source">http://couchdb.readthedocs.org/en/latest/api/database/changes.html#event-source</a><h5 id="header-1-1-13-4"><span class="section-number">1.1.13.4</span>install  and start docker with couchdb</h5>
-Install docker on Ubuntu 13.10 Saucy:<a href="https://docs.docker.com/installation/ubuntulinux/#ubuntu-raring-1304-and-saucy-1310-64-bit">https://docs.docker.com/installation/ubuntulinux/#ubuntu-raring-1304-and-saucy-1310-64-bit</a>Mint needs some extra packages, see bottom of page<a href="https://registry.hub.docker.com/u/klaemo/couchdb/">https://registry.hub.docker.com/u/klaemo/couchdb/</a>Start docker:docker run -d -p 5984:5984 --name couchdb klaemo/couchdb<h5 id="header-1-1-13-5"><span class="section-number">1.1.13.5</span>reverse proxy for haproxy</h5>
-<a href="https://github.com/foosel/OctoPrint/wiki/Reverse-proxy-configuration-examples">https://github.com/foosel/OctoPrint/wiki/Reverse-proxy-configuration-examples</a><p>ction wait(couchdb, db, cb) {</p>
-<p>function change(error, change) {
-if(!error) {
-log(change);
-log(db + &#34;: Change &#34; + change.seq + &#34; has &#34; + Object.keys(change.doc).length + &#34; fields&#34;);
-}
-else log._e(error);
-}</p>
-<p>var config = {
-db: &#39;<a href="http://&#39">http://&#39</a>; + couchdb.admin + &#39;:&#39; + couchdb.pwd + &#39;@&#39;  +
-couchdb.url + &#39;/&#39; + db,
-include_docs: true,
-since: &#34;now&#34;
-};
-log(config);</p>
-l<h5 id="header-1-1-13-6"><span class="section-number">1.1.13.6</span>persona:</h5>
-Add this script or download and include -that- &#60;scriptsrc=&#34;<a href="https://login.persona.org/include.js&#34;&#62;&#60;/script&#62">https://login.persona.org/include.js&#34;&#62;&#60;/script&#62</a>; Include persona-buttons.cssInclude cookie.js Include persona.js with the initPersona function Call itbefore the app starts.  Add these functions to a controller:<p>$scope.signout = function($event) { $event.preventDefault();
-console.log(&#39;Logging out&#39;); navigator.id.logout();</p>
-<p>};</p>
-<p>$scope.signin = function($event) { $event.preventDefault();
-console.log(&#39;Logging in&#39;); navigator.id.request(); };</p>
-<p>Have this html snippet in the controller&#39;s scope somewhere: &#60;div ng-show=&#34;true&#34;&#62;
-&#60;a ng-hide=&#34;signedIn&#34; href=&#34;#&#34; class=&#34;persona-button blue&#34;
-ng-click=&#34;signin($event)&#34;&#62;&#60;span&#62;Sign in&#60;/span&#62;&#60;/a&#62; &#60;a ng-show=&#34;signedIn&#34;
-href=&#34;#&#34; class=&#34;persona-button blue&#34; ng-click=&#34;signout($event)&#34;&#62;&#60;span&#62;Sign
-out&#60;/span&#62;&#60;/a&#62; &#60;/div&#62;</p>
-<p>Add this to the server configuration to turn sessions on: ,sessions: { expires:
-30*24*60*60 //one month } Add the right emails to authorized_emails.js
-exports.list = [ &#39;michieljoris@gmail.com&#39; ];</p>
-<p>Add this to server.js ,signin = require(&#34;./signin.js&#34;) ,signout =
-require(&#34;./signout.js&#34;) Add this to the post handlers ,&#34;/signin&#34;: signin
-,&#34;/signout&#34;: signout After successfull signin $scope.signedIn is the user&#39;s
-email address</p>
-<h4 id="header-1-1-14"><span class="section-number">1.1.14</span>doing</h4>
-<h5 id="header-1-1-14-1"><span class="section-number">1.1.14.1</span>script to start/reset rcouch</h5>
-<h5 id="header-1-1-14-2"><span class="section-number">1.1.14.2</span>clean up databases reception, temp and public</h5>
-reception: should stay clean, but check periodically and if there&#39;s more than ndocs, shut it down for writing by adding a role or name, wipe it, and make itaccessible again<ul><li>temp: all docs are time stamped, periodically clean out</li>
-<li>publictimestamp them and periodically clean out<p>curl -X PUT <a href="http://localhost:5984/_config/couch_http_auth/public_fields">http://localhost:5984/_config/couch_http_auth/public_fields</a> -H
-&#34;Content-Type: application/json&#34; -d &#39;&#34;name&#34;&#39; -u admin</p>
-</li>
-</ul>
-asdfa<h3 id="header-1-2"><span class="section-number">1.2</span>readme.org (cape)</h3>
-<h3 id="header-1-3"><span class="section-number">1.3</span>Deploy-demo</h3>
-<hr/>
-<p>Playground and experiments for [adea](<a href="http://github.com/michieljoris/adea">http://github.com/michieljoris/adea</a>).</p>
-<p>Containing:</p>
-<h4 id="header-1-3-1"><span class="section-number">1.3.1</span>Simulation of decentralized server deployment</h4>
-<p>Basically every server is supposed to self configure. So that means every server
-has to decide for themselves what other servers to connect to. The only info
-available (through [serf](<a href="http://www.serfdom.io/">http://www.serfdom.io/</a>)) is a list of other servers. A
-server can also create network wide events and query/response other servers, but
-is not able to set state in the network. Any state is stored locally in
-CouchDB. These CouchDB instances will need to be linked up reliably with
-redundancy and robustness built-in. But the problem is that there is not going
-to be governing, central configuration server/agent/service. How to decide which
-other servers to link up with using CouchDB replications? The system will also
-have to self adjust to failing servers, failing replications etc.</p>
-<p>Requirements are as few connections as possible per server and as few hops as
-possible from any server to any other server, but with guaranteed connectivity
-so it&#39;s similar to the degree-diameter problem in graph theory, which is not
-solved. But a good working solution is any small world network.</p>
-<h4 id="header-1-3-2"><span class="section-number">1.3.2</span>Watts-newman small network implementation</h4>
-<p>In the `src` directory is a nodejs script `watts-newman.js` that implements the
-algorithm by the same name. I wrote a basic depth first shortest path
-implementation for shortest path, but only roughly optimized it. It works, but
-is slow for V&#62;30. I added a Dijkstra shortest path implementation found on the
-net. Much faster..</p>
-<p>Using this script I can experiment and find the optimal values to use in the
-watts-newman small world network construction. See `src/watts-newman.js` for
-more details.</p>
-<p>Run</p>
-<p>bin/serve
-</p>
-and go to localhost:9001 for a simulation of a watts-newman small network. <p>It seems you can get a decent result with p=.8 and k=1. With p=0 you&#39;ll get
-the typical watts-newman ring. </p>
-<p>Parameters need to be set in `www/scripts/main.js` for now.</p>
-<p>All servers will need to run their own Adea agent. It is responsible for
-starting up docker services (haproxy, adea-ui, couchdb, logging, search and any
-other services, such as datatbases and apps), but also for setting up and
-maintaining couchdb replications, since this is where the adea agent will get
-its network state data from. The idea is that adea (any agent) can organise,
-configure, deploy, tear down  docker containers, but also servers through the
-api&#39;s offered by the likes of Linode, Do, AWS etc.</p>
-<p>If you took every adea server offline in the network but one, it should be able
-to rebuild itself autonomously. If there was no live version left, all you&#39;d
-have to do is start up a adea agent on your own computer or on a VPS host, point
-it to a CouchDB instance, give it credentials and it would rebuild the network
-again, sharing load and responsibilities as soon as it had peers to work
-with. </p>
-<p>For redundancy sake you&#39;d have CouchDB instances hooked up to the network, such
-as offered by Cloudant, Iriscouch and Couchbase or any self-hosted CouchDB. To
-go even further, you could have the network data stored (encrypted) at free hosting
-services , preferably without using accounts, so adea can organise this
-itself. Then you could have database-less agents lurking at various servers and
-services perhaps that could restart the network. This is starting to sound like
-a virus, or bot network...</p>
-<p>Install:</p>
-<p>git clone git@<a href="http://github.com/michieljoris/deploy-demo">http://github.com/michieljoris/deploy-demo</a>
-</p>
-<p>More ideas:
-<a href="http://xmpp.org/">http://xmpp.org/</a>
-irc?
-peer to peer, ala torrents
-vpn</p>
-</div>
+<h4 id="header-0-2-4"><span class="section-number">0.2.4</span>Client apps will have their accessible data spread amongs several partial databases</h4>
+However a pod can decide, based on hard disk space avaiable to set up a databasefor every user where all the data that&#39;s accessible for that user getsreplicated into. This will eat space if there is a lot of data that is shared.If all data is shared all data will get duplicated as much as there are users.You could work out an algorithm where rean calculates how much data each userhas access to (the sum of the size partial databases he has access to) and thendivide the free space by the number of (active) users and then replicate as muchas possible to a user specific database. A client app can then query rean whichdatabases it should read from. The other option is to write messages to agenerally accessible database about all changes to the aggregate. Clients canlisten for (filtered) changes in this general database and then fetch the docsbased on reported changes in the aggregate. <h3 id="header-0-3"><span class="section-number">0.3</span>Work to be done!</h3>
+The above sketches a system that has not been fully fleshed out yet but seemslike it could work as a whole. The system tries to exploit to the fullest thestrongest points of each technology used such as docker, couchdb, serf, proxiesand vps provideers. It also tries to approach the problem of the client-serverschism in a I hope somewhat original way, discarding some other truisms aboutsetting up a backend infrastructure along the way about load balancing,sessions, dns and scaling.<h3 id="header-0-4"><span class="section-number">0.4</span>Questions and research</h3>
+<h4 id="header-0-4-1"><span class="section-number">0.4.1</span>How would this system go about implementing the following?</h4>
+<h5 id="header-0-4-1-1"><span class="section-number">0.4.1.1</span>trello</h5>
+everyone their own multiple todo lists, organized by boardshare by the board/list/item, share ro or rwwhen owned/shared and writable any edits should propogate and magically changeat other peoples boards/lists/itemswhen owned/shared should be  able to share further when allowedwhen client shares something it should send msg/notification to other user itshares with.<h5 id="header-0-4-1-2"><span class="section-number">0.4.1.2</span>shop</h5>
+<h5 id="header-0-4-1-3"><span class="section-number">0.4.1.3</span>wiki</h5>
+<h5 id="header-0-4-1-4"><span class="section-number">0.4.1.4</span>social network</h5>
+<h5 id="header-0-4-1-5"><span class="section-number">0.4.1.5</span>inventory</h5>
+<h5 id="header-0-4-1-6"><span class="section-number">0.4.1.6</span>gregs&#39;s project</h5>
+people have roles such as family, circle, extended fammily, service provideretc every doc has an access level, chosen from different set dependent on typeof doc.  different types of docs have different set of access levels then fora certain doc type lets say medical info (taxonomy): set for every rolewhether they can create/update/delete read a document of this type.  So inother words, every doc has a type_access-level access role assigned, then inthe reps access scenario (one database per role/id), every db gets assignedthe proper roles. Same strategy for the cud, if some with the database&#39;s rolewrites, check the secObj of the db whether they can cud.So Greg&#39;s config-access table is modified by modifying the secObj of every dbthat represents a role.<h5 id="header-0-4-1-7"><span class="section-number">0.4.1.7</span>edge</h5>
+<h4 id="header-0-4-2"><span class="section-number">0.4.2</span>Usernames or emails as ids? </h4>
+<h4 id="header-0-4-3"><span class="section-number">0.4.3</span>Can workers run in parallel?</h4>
+Can you set multiple reans to work on one couchdb? <h4 id="header-0-4-4"><span class="section-number">0.4.4</span>Cache requests in memcache perhaps?</h4>
+Rean is already listening to changes so it can invalidate queries and views.<h4 id="header-0-4-5"><span class="section-number">0.4.5</span>Multiple apps per pod ring?</h4>
+Yes, that&#39;s possible, just prefix all doc types with the app name. So a clientapp can just pull the app specific data from the partial databases.<h4 id="header-0-4-6"><span class="section-number">0.4.6</span>Multiple groups of users for one app in a pod ring</h4>
+Like a saas?<h4 id="header-0-4-7"><span class="section-number">0.4.7</span>Splitting of pod rings into two rings?</h4>
+<h4 id="header-0-4-8"><span class="section-number">0.4.8</span>Where is the client app? </h4>
+In the aggregate? Pulled down from some repository somewhere?<h4 id="header-0-4-9"><span class="section-number">0.4.9</span>Deploying/updating software?</h4>
+How to update the app within the pod ring? How to update rean? How to updatetechnologies used, or for that matter the os of a vps?<h4 id="header-0-4-10"><span class="section-number">0.4.10</span>A/B testing?</h4>
+<h4 id="header-0-4-11"><span class="section-number">0.4.11</span>What&#39;s the api for docker? Fromm node? Or clojure?</h4>
+<h4 id="header-0-4-12"><span class="section-number">0.4.12</span>How to bootstrap a pod or pod ring?</h4>
+In principle a pod only needs an open port on a vps (with docker installed) withan instance of adea and possibly serf running. But it needs be fed a configuration. Thiscan maybe written straight to the couchdb instance. Rean can react to this andboostrap itself and configure couchdb properly. But really all you is start reanwith a particular config and it will provision one or more vps&#39;s and build thepod ring. <h4 id="header-0-4-13"><span class="section-number">0.4.13</span>Big files (video, images, sound) should not be replicated around</h4>
+But should be in a key value store somewhere (DynamoDB perhaps). Or in aseparate database with a validate read access function on it. Or use a proxy tocontrol access. But this complicates access to these resources. Needs morethought.</div>
       <div  id="page--" class="page"> </div>
       <div  id="disqus-embed--"><!--partial:html/disqus-embed.html--><div id="disqus_thread"></div>
 <script type="text/javascript">
