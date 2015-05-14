@@ -239,16 +239,16 @@ Bye for now!</pre>
   ;; relies on features only found in newer Leiningen versions.
   :min-lein-version &#34;2.0.0&#34;
   :dependencies [[org.clojure/clojure &#34;1.6.0&#34;]
-                 [org.clojure/clojurescript &#34;0.0-2371&#34;]
-                 [com.cemerick/piggieback &#34;0.1.3&#34;]
-                 [weasel &#34;0.4.2&#34;]
-                 [figwheel &#34;0.1.5-SNAPSHOT&#34;] 
+                 [org.clojure/clojurescript &#34;0.0-3269&#34;]
+                 [com.cemerick/piggieback &#34;0.2.0&#34;]
+                 [weasel &#34;0.6.0&#34;]
+                 [figwheel &#34;0.3.1&#34;] 
                  ]
   ;; Plugins are code that runs in Leiningen itself and usually
   ;; provide new tasks or hooks.
   :plugins [
-            [lein-cljsbuild &#34;1.0.3&#34;]
-            [lein-figwheel &#34;0.1.5-SNAPSHOT&#34;]
+            [lein-cljsbuild &#34;1.0.6-SNAPSHOT&#34;]
+            [lein-figwheel &#34;0.3.1&#34;]
             ;; [cider/cider-nrepl &#34;0.8.0-SNAPSHOT&#34;]
             ]
 
@@ -431,9 +431,9 @@ Bye for now!</pre>
 <h3 id="header-0-4"><span class="section-number">0.4</span>ClojureScript</h3>
 The preferred setup seems to be to compile ClojureScript by Clojure code in a Clojure/Leiningen project. To do this you add a task to Leiningen in your project.clj in your Clojure project created with:<pre>lein new app some-app-name</pre>
 <p>Add the following to dependencies:</p>
-<pre>[org.clojure/clojurescript &#34;0.0-2371&#34;]</pre>
+<pre>[org.clojure/clojurescript &#34;0.0-3269&#34;]</pre>
 <p>And this to plugins:</p>
-<pre> [lein-cljsbuild &#34;1.0.3&#34;]</pre>
+<pre> [lein-cljsbuild &#34;1.0.6-SNAPSHOT&#34;]</pre>
 <p>And add the configuration for the task/plug as a root key:</p>
 <pre class="prettyprint"><code class="language-clojure">  :cljsbuild {
          :builds [{
@@ -468,8 +468,8 @@ Then:<pre>M-x package-install [RET] cider [RET]</pre>
 <pre>M-x package-install [RET] clojure-mode [RET]</pre>
 <h3 id="header-0-6"><span class="section-number">0.6</span>Clojure repl in Emacs</h3>
 Cider needs nrepl installed for your project, so first, check version of cider:<pre>M-x cider-version</pre>
-&#62; CIDER 0.8.0-snapshot<p>Make sure that in ~/.lein/profiles.clj is the following:</p>
-<pre>{:user {:plugins [[cider/cider-nrepl &#34;0.8.0-SNAPSHOT&#34;]]}}</pre>
+&#62; CIDER 0.9.0snapshot<p>Make sure that in ~/.lein/profiles.clj is the following:</p>
+<pre>{:user {:plugins [[cider/cider-nrepl &#34;0.9.0snapshot&#34;]]}}</pre>
 <p>or per project add to <code>project.clj</code></p>
 <pre>:plugins [[cider/cider-nrepl &#34;0.8.0-SNAPSHOT&#34;]]</pre>
 <p>and that the versions match. Snapshot should be in capitals here.</p>
@@ -577,7 +577,7 @@ C-c M-n	Select a namespace and switch to it.</pre>
 The whole process described in the previous section does not work in Emacs since the &#34;ClojureScript REPL requires/assumes that it is running in a terminal environment&#34;. <a href="https://github.com/cemerick/piggieback">Piggieback</a> to the rescue! Check out its docs for more info on why it&#39;s needed in Emacs/nREPL sessions and what it does to enable the ClojureScript repl on top of nREPL.<p>.   </p>
 <h4 id="header-0-8-1"><span class="section-number">0.8.1</span>Piggieback</h4>
 <p>To use piggieback we only need to add one more dependency to our project:</p>
-<pre>[com.cemerick/piggieback &#34;0.1.3&#34;]</pre>
+<pre>[com.cemerick/piggieback &#34;0.2.0&#34;]</pre>
 <p>and add an option to the root key <code>:repl-options</code> in project.clj</p>
 <pre>:repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}</pre>
 <p>To start a Rhino ClojureScript in Emacs after doing <code>cider-jack-in</code> (which starts the nREPL) enter this into the repl:</p>
@@ -592,7 +592,7 @@ The whole process described in the previous section does not work in Emacs since
 <h4 id="header-0-8-2"><span class="section-number">0.8.2</span>Austin</h4>
 Ignore the suggestion in the piggieback docs to use <a href="https://github.com/cemerick/austin">Austin</a> instead. It does build on piggieback and adds features but also ties in a Clojure server. It&#39;s easier to just start with plain piggieback first. Austin hopelessly confused me at first.<p>Austin starts two servers within a Clojure nREPL session. One to serve the index.html file and one to (reverse-) serve the ClojureScript repl for the browser to connect to. Because they share the same Clojure repl environment the html server can insert the same port and session number into the index.html file as the port and session that the repl server is configured with. They just share an atom. These port and session numbers are randomly chosen. This way you can of course start multiple sessions and repls and they won&#39;t clash. You also don&#39;t have to manually setup and choose the port number of the repl server and then insert it into the ClojureScript loaded in the index.html file.</p>
 <h4 id="header-0-8-3"><span class="section-number">0.8.3</span>Weasel</h4>
-The third option for enabling a ClojureScript repl that connects to a browser within an nREPL session is to use <a href="https://github.com/tomjakubowski/weasel">weasel</a>. Weasel does not use long polling (like piggieback and Austin) to connect from the browser to the ClojureScript repl server but websockets. It still needs piggieback though so leave the set up described for piggieback in place but add one more dependency to project.clj:<pre>[weasel &#34;0.4.2&#34;]</pre>
+The third option for enabling a ClojureScript repl that connects to a browser within an nREPL session is to use <a href="https://github.com/tomjakubowski/weasel">weasel</a>. Weasel does not use long polling (like piggieback and Austin) to connect from the browser to the ClojureScript repl server but websockets. It still needs piggieback though so leave the set up described for piggieback in place but add one more dependency to project.clj:<pre>[weasel &#34;0.6.0&#34;]</pre>
 <p>Start a ClojureScript repl by entering the following into a Clojure nREPL session (such as created for example by <code>cider-jack-in</code> in Emacs):</p>
 <pre class="prettyprint"><code class="language-clojure">  (require &#39;weasel.repl.websocket)
   (cemerick.piggieback/cljs-repl
@@ -627,9 +627,9 @@ The third option for enabling a ClojureScript repl that connects to a browser wi
 <p>Again, try:</p>
 <pre>(. js/console (log &#34;Hello!!!&#34;))</pre>
 <h3 id="header-0-9"><span class="section-number">0.9</span>Figwheel</h3>
-For more info see <a href="https://github.com/bhauman/lein-figwheel">figwheel</a>.Add dependency to project.clj<pre>[figwheel &#34;0.1.5-SNAPSHOT&#34;] </pre>
+For more info see <a href="https://github.com/bhauman/lein-figwheel">figwheel</a>.Add dependency to project.clj<pre>[figwheel &#34;0.3.1&#34;] </pre>
 <p>Add following to the plugins key:</p>
-<pre>[lein-figwheel &#34;0.1.5-SNAPSHOT&#34;]</pre>
+<pre>[lein-figwheel &#34;0.3.1&#34;]</pre>
 <p>Add the figwheel configuration to project.clj:</p>
 <pre class="prettyprint"><code class="language-clojure">:figwheel {
    :http-server-root &#34;public&#34; ;; this will be in resources/

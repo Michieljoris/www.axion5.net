@@ -69,8 +69,18 @@ quoted text
 
 C-c ' to edit source code, C-c ' to return and update
 
-* lines
------  horizontal line (5 dashes)
+* definition List
+
+- vim :: Vi IMproved, a programmers text editor
+- ed :: Line-oriented text editor
+
+: - vim :: Vi IMproved, a programmers text editor
+: - ed :: Line-oriented text editor
+
+* rule
+
+-----
+
 : -----  horizontal line (5 dashes)
 
 * tables
@@ -105,3 +115,5 @@ alt-enter at end of line to add a new one
 # comment (not exported)
 : # comment (not exported)
 
+
+Also see http://mooz.github.io/org-js/

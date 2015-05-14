@@ -19,8 +19,7 @@ something together myself that I think will suit me for a while.
 
 One repo on github for building, cloning, syncing all the source code,
 including the posts, pages and layout. Setting up the site on a new computer is
-as easy as cloning the repo, doing an npm install, bower install and a
-bin/serve.
+as easy as cloning the repo, doing an npm install, bower install and a =bin/serve= .
 
 Adding or updating posts and pages is as easy as editing the files in the
 build/post and build/pages directories. These files are all in org mode, so I
@@ -30,9 +29,9 @@ allows me to have headings, lists, stylings, links, quotes, tables, lines and
 hidden comments. 
 
 Posts can have meta data at the top of the file, enabling or setting properties
-like title, published, tags and comments. On save the whole site rerenders
-itself from scratch (with some caching though). Refresh the page and my site
-is locally updated.
+like title, published, tags and comments. Run =bin/build= and on save the whole
+site rerenders itself from scratch (with some caching though). Refresh the page
+and my site is locally updated.
 
 Updating the site on the net is done by just pushing the www directory to the
 michieljoris.io.github repo.
