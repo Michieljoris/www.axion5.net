@@ -2,6 +2,8 @@
 
 #+Projects
 
+*NOTE: I put this page together in 2014. For more up to date info see this* [[/post/little-guide-to-my-github-repos.html][blog post]]
+
 [[http://github.com/michieljoris/bb-server][bb-server]]
 
 Starting out as cobbled together one page node server, it grew over the past
