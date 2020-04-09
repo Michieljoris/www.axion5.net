@@ -1,7 +1,7 @@
 #+OPTIONS: toc:0
 #+About me
 
-Dutch by birth. foo
+Dutch by birth.
 
 
 Classical pianist.
@@ -10,6 +10,7 @@ Piano teacher since 12 years or so.
 
 Loving the weather and space in Australia but missing the culture of where
 I come from.
+
 
 Enjoy speed skating and wind surfing as sports, sailing as a hobby.
 
