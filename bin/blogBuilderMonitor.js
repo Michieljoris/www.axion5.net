@@ -2,7 +2,7 @@ var argv = require('optimist').argv;
 var websocketIsOpen;
 var blog = require('bb-blog');
 
-var blogConfig = require('server/blog-config.js');
+var blogConfig = require('../server/blog-config.js');
 
 if (argv.h || argv.help) {
     console.log([
