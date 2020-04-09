@@ -348,7 +348,7 @@ Bye for now!</pre>
                  :skip-default-init false
                  ;; Customize the socket the repl task listens on and
                  ;; attaches to.
-                 :host &#34;0.0.0.0&#34;
+                 :host &#34;127.0.0.1&#34;
                  :port 4001
                  ;;for more options see the sample project.clj
                  :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
@@ -597,7 +597,7 @@ The third option for enabling a ClojureScript repl that connects to a browser wi
 <pre class="prettyprint"><code class="language-clojure">  (require &#39;weasel.repl.websocket)
   (cemerick.piggieback/cljs-repl
    :repl-env (weasel.repl.websocket/repl-env
-              :ip &#34;0.0.0.0&#34; :port 8092))</code>
+              :ip &#34;127.0.0.1&#34; :port 8092))</code>
 </pre>
 <p>This will not work because the ClojureScript loaded by the index.html file needs to be a bit modified:</p>
 <pre class="prettyprint"><code class="language-clojure">(ns my.cljs.core

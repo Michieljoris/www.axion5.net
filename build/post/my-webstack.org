@@ -1,11 +1,13 @@
 #+TITLE: My webstack
 #+OPTIONS: toc:0
 
-: comments: true
+: comments: false
 : published: true
 : title: My webstack
 : tags: server,javascript
 : publishedat: 3 April 2014
+
+
 
 Partly to learn and partly because I like to be in control I wrote my own
 webserver. It started out as a very simple file server but now implements quite

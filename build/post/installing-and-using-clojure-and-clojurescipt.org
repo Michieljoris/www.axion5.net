@@ -347,7 +347,7 @@ Leiningen is configured by the project.clj file in your project directory. For a
                  :skip-default-init false
                  ;; Customize the socket the repl task listens on and
                  ;; attaches to.
-                 :host "0.0.0.0"
+                 :host "127.0.0.1"
                  :port 4001
                  ;;for more options see the sample project.clj
                  :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
@@ -673,7 +673,7 @@ Start a ClojureScript repl by entering the following into a Clojure nREPL sessio
   (require 'weasel.repl.websocket)
   (cemerick.piggieback/cljs-repl
    :repl-env (weasel.repl.websocket/repl-env
-              :ip "0.0.0.0" :port 8092))
+              :ip "127.0.0.1" :port 8092))
 #+END_SRC
 
 This will not work because the ClojureScript loaded by the index.html file needs to be a bit modified:
