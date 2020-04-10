@@ -1,0 +1,424 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" xmlns:ng="http://angularjs.org" lang="en"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" xmlns:ng="http://angularjs.org" lang="en"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" xmlns:ng="http://angularjs.org" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> 
+<html class="no-js" xmlns:ng="http://angularjs.org" lang="en">
+  <!--<![endif]-->
+  <head id="head"><title>Axion5-Docker and rcouch</title><meta charset='utf-8'/><meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/><meta content='' name='description'/><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'/>
+<!--partial:html/ieshim.html--><!--[if lte IE 8]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script>
+      // The ieshiv takes care of our ui.directives, bootstrap module directives and 
+      // AngularJS's ng-view, ng-include, ng-pluralize and ng-switch directives.
+      // However, IF you have custom directives (yours or someone else's) then
+      // enumerate the list of tags in window.myCustomTags
+
+      window.myCustomTags = [ 'yourDirective', 'somebodyElsesDirective' ]; // optional
+    </script>
+    <script src="js/angular-ui-ieshiv.js"></script>
+    <![endif]-->						    
+
+
+<link rel="stylesheet" type="text/css" href="/css/bower/normalize.css/normalize.css">
+<link rel="stylesheet" type="text/css" href="/css/bower/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/css/tweak.css">
+<link rel="stylesheet" type="text/css" href="/css/highlightjs/hybrid.css">
+<link rel="stylesheet" type="text/css" href="/css/blog.css">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+
+<script type='text/javascript'>function cachify(path) { return path; }</script><!--partial:html/google_analytics.html--><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-27130001-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+  <body id="body" ><!--partial:html/body-blog.html--><!--[if lt IE 7]>
+    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
+
+<!-- <div class="row"> -->
+<div id="editbar--" > </div>
+<!-- </div> -->
+
+
+<div class="blog-masthead">
+  <div class="container">
+    <nav class="blog-nav">
+      <a id="menu-blog" class="blog-nav-item" href="/">Blog</a>
+      <a id="menu-projects" class="blog-nav-item" href="/projects.html">Projects</a>
+      <a id="menu-websites" class="blog-nav-item" href="/websites.html">Websites</a>
+      <a id="menu-aboutme" class="blog-nav-item" href="/aboutme.html">About me</a>
+      <a id="site-title" href="/">Axion5</a>
+    </nav>
+  </div>
+</div>
+
+<div id="main" class="container">
+
+  <div class="blog-header">
+    <h1 class="blog-title">Axion5</h1>
+    <p class="lead blog-description">The official example template of creating a blog with Bootstrap.</p>
+  </div>
+
+  <div align="justify" id="blog-body" class="row">
+
+    <div class="col-sm-9 blog-main">
+
+      <div class="pageTitle" id="pageTitle--">Guide to my github</div>
+      <div  id="main--" class="blog-post"> </div>
+      <div  id="page--" class="page"><!--partial:pages/guide-to-my-github.org--><div id="toc"><ul></ul>
+</div><p>There are basically 4 projects spread over multiple repos and a bunch of separate
+repos:</p>
+<ul><li>adea</li>
+<li>bb-server stack</li>
+<li>roster</li>
+<li>aum</li>
+</ul>
+<p>First three projects are from 2013/2014 built mainly with nodejs and couchdb
+(probably outdated somewhat now), last one (aum) is a full stack clojure library
+building on and extending <a href="https://github.com/omcljs/om/wiki/Documentation-(om.next)">om.next</a>.</p>
+<p>Adea is more of an idea, with some implementation. Relevant repos are: <a href="https://github.com/Michieljoris/cape">cape</a>
+(main repo), <a href="https://github.com/michieljoris/authpages">authpages</a> (demonstration of signup/forgotpwd/resetpwd/confirm using
+couchdb and cape as backend), <a href="https://github.com/Michieljoris/deploy-demo">deploy-demo</a> (visualisation of adea deploy
+algorithm), <a href="https://github.com/Michieljoris/node-haproxy">node-haproxy</a> (control haproxy from node with hot reload) and
+<a href="https://github.com/Michieljoris/docker-rcouch">docker-rcouch</a>. See <a href="http://www.axion5.net/post/adea-an-experiment-in-application-back-end-infrastructure.html">adea</a> blog post for more info.</p>
+<p>The blog on this site is actually put together using the <a href="https://github.com/Michieljoris/bb-server">bb-server</a> stack. See</p>
+pages, the site itself is generated by <a href="https://github.com/Michieljoris/bb-blog">bb-blog</a>.<p>On the <a href="http://www.axion5.net/projects.html">projects</a> page there is some info on the roster app project, and see <a href="/post/little-guide-to-my-github-repos.html#header-0-2">here</a>
+for summary of repos . Again, grand plans, but at least there was a working
+roster app.</p>
+<p>Over the years I added miscellaneous repos such as <a href="https://github.com/Michieljoris/teocs">answers to TEOCS</a> and a <a href="https://github.com/Michieljoris/mal">Make A
+Lisp</a> (in javascript), see <a href="/post/little-guide-to-my-github-repos.html#header-0-3">here</a> for more repos.</p>
+<p>Most of the above repos are from 2015 and earlier. In the beginning of 2015 I
+got a job at <a href="https://digitalechecklisten.nl/">DigitaleChecklisten</a> and most of my programming energy went into
+working on their mysql/rails/ember stack. There was no accompanying admin app
+but I got the chance to build this in clojure from 2016 onwards. This is a full
+stack app built from basic building blocks such as mysql, ring and om-next. A
+lot for it had to be built still such as database validation, backend and
+frontend parser, test framework, build scripts etc. I extracted the generic parts and bundled
+them in <a href="https://github.com/Michieljoris/aum">aum</a> and a few accompanying repos. See  <a href="/post/little-guide-to-my-github-repos.html#header-0-4">here</a> for a summary of them.</p>
+<p>Playing around with devops a bit in <a href="https://github.com/Michieljoris/demo">demo</a> (One line deploy of branch to
+branch.somedomain.com by using git push, ala dokku) and <a href="https://github.com/Michieljoris/mystack">mystack</a>, a work in
+progress using the hashicorp tools to set up a cloud infrastructure.</p>
+<hr/>
+<h4 id="header-0-0-1"><span class="section-number">0.0.1</span>Bb-server stack, my own nodejs web stack and blog engine</h4>
+To learn javascript and node I put together as best as I could a complete stack, from a nodejs server, to a template engine.<p>A summary of the relevant github repos:</p>
+<h5 id="header-0-0-1-1"><span class="section-number">0.0.1.1</span><a href="https://github.com/Michieljoris/bootstrapjs">bootstrapjs</a></h5>
+<pre>Tech: javascript Year:2012</pre>
+<p>&#34;Organise javascript code in modules with automatic dependency resolution a la require.js.&#34;</p>
+<p>This was before ES6 modules were around. I kinda liked javascript, well, the
+good parts, but the frontend was really missing some kind of module system. I
+rolled my own which was very instructional. Used in a few later projects.</p>
+<h5 id="header-0-0-1-2"><span class="section-number">0.0.1.2</span><a href="https://github.com/Michieljoris/bb-server">bb-server</a></h5>
+<pre>Tech: javascript, nodejs Year: 2013</pre>
+<p>&#34;Simple bare bones http server. With clothes on now though..&#34;,</p>
+<p>Some clothes:</p>
+<ul><li>Caching of all static resources, in memory (LRU) and on disk.</li>
+<li>Transpiling, minifying and compressing of these assets on the fly, combine this with caching and only modified assets will be transformed on a request.</li>
+<li>Prerendering. A phantomjs rendered version of a page will be served if page comes with a query for an escaped fragment. These are also cached then.</li>
+<li>Can serves a single page application</li>
+<li>Start a websocket and/or a https server alongside your http server</li>
+<li>Add message and close handlers for the websocket server</li>
+<li>Inject scripts into browser</li>
+<li>Option to inject reload script will refresh the browser on reload msg.</li>
+<li>Support for sessions (mostly copied from sessions npm module)</li>
+<li>You can plugin your own GET and POST handlers triggered by route.</li>
+<li>Deals with favicon.ico requests</li>
+<li>Customized logging of all requests to a log file</li>
+<li>Cache busting by automatically removing stamps</li>
+<li>Standard server features such as setting cache headers and giving a 304 response to a if- not- modified- since header.</li>
+<li>Most options can be set on the command line, all of them using a json configuration file.</li>
+<li>Wrapping of js files from a modules directory to denodify them.</li>
+<li>Implementation of server side of persona. Example angular version of client side included.</li>
+</ul>
+<h5 id="header-0-0-1-3"><span class="section-number">0.0.1.3</span><a href="https://github.com/Michieljoris/cachejs">cachejs</a></h5>
+<pre>Tech: javascript year: 2013</pre>
+<p>&#34;Implementation of async LRU and ARC cache.&#34;,</p>
+<p>Plus some intuitions on how the ARC cache works in the readme. Used in
+bb-server.</p>
+<h5 id="header-0-0-1-4"><span class="section-number">0.0.1.4</span><a href="https://github.com/Michieljoris/html-builder">html-builder</a></h5>
+<pre>Tech: javascript, logthis, bootstrapjs. Year: 2013</pre>
+<p>&#34;Don&#39;t write html, use a layout and and populate it with partials.&#34;</p>
+<p>Basically a static site builder, also see next few entries.</p>
+<pre>javascript, 2012</pre>
+<h5 id="header-0-0-1-5"><span class="section-number">0.0.1.5</span><a href="https://github.com/Michieljoris/recaster">recaster</a></h5>
+<pre>Tech: javascript Year:2013</pre>
+<p>&#34;Wrapper for miscellaneous transpilers, minifiers and compressors.&#34;,</p>
+<h5 id="header-0-0-1-6"><span class="section-number">0.0.1.6</span><a href="https://github.com/Michieljoris/denodify">denodify</a></h5>
+<pre>Tech: javascript Year: 2014</pre>
+<p>&#34;Organize javascript on the browser using the nodejs module system.&#34;,</p>
+<p>Like browserify, but a bit simpler.</p>
+<h5 id="header-0-0-1-7"><span class="section-number">0.0.1.7</span><a href="https://github.com/Michieljoris/denodify-core">denodify-core</a></h5>
+<pre>Tech: javascript Year: 2014</pre>
+<p>&#34;Nodejs core modules adapted for denodify&#34;,</p>
+<h5 id="header-0-0-1-8"><span class="section-number">0.0.1.8</span><a href="https://github.com/Michieljoris/monad">vow.js</a></h5>
+<pre>Tech: javascript Year: 203</pre>
+<p>&#34;Douglas Crockford&#39;s vow.js wrapped up in a node module&#34;,</p>
+<p>This module is still on <a href="https://www.npmjs.com/package/dougs_vow">npmjs</a> together with bb-server and some other ones.
+They also seem to get some traffic, but not sure if that&#39;s just noise.</p>
+<h5 id="header-0-0-1-9"><span class="section-number">0.0.1.9</span><a href="https://github.com/Michieljoris/logthis">logthis</a></h5>
+<pre>Tech: javascript Year: 2012</pre>
+<p>&#34;A little namespaced logging utility for node and the browser.&#34;</p>
+<h5 id="header-0-0-1-10"><span class="section-number">0.0.1.10</span><a href="https://github.com/Michieljoris/js-project">Scaffold using previous repos</a></h5>
+<pre>Tech: javascript, bb-server, denodify, logthis, html-builder etc Year: 2014</pre>
+<p>&#34;Scaffold for a new node or website project using html-builder, bb-server etc&#34;,</p>
+<h5 id="header-0-0-1-11"><span class="section-number">0.0.1.11</span><a href="https://github.com/Michieljoris/bb-blog">bb-blog</a></h5>
+<pre>Tech: javascript Year: 2014</pre>
+<p>&#34;Bare bones blog for bb-server&#34;,</p>
+<h5 id="header-0-0-1-12"><span class="section-number">0.0.1.12</span><a href="https://github.com/Michieljoris/seo_laundry">seo_laundry</a></h5>
+<pre>Tech: javascript Year:2013</pre>
+<p>&#34;Server based creator of html cleansed of js by phantomjs&#34;,</p>
+<h5 id="header-0-0-1-13"><span class="section-number">0.0.1.13</span><a href="https://github.com/Michieljoris/url-washer">url-washer</a></h5>
+<pre>Tech: javascript Year:2013</pre>
+<p>&#34;Pass in an url and get back the html cleansed of js..&#34;,</p>
+<h5 id="header-0-0-1-14"><span class="section-number">0.0.1.14</span><a href="https://github.com/Michieljoris/phantom-sitemap">phantom-sitemap&#34;,</a></h5>
+<pre>Tech: javascript Year:2014</pre>
+<p>&#34;Crawls a site, extracts the links and returns the promise of either a sitemap or just a list of links&#34;</p>
+<h5 id="header-0-0-1-15"><span class="section-number">0.0.1.15</span><a href="https://github.com/Michieljoris/blog-example">bb-blog-example</a></h5>
+<pre>Tech: javascript, bb-server stack Year: 2014</pre>
+<p>&#34;Blog generated and served with bb-blog, bb-server and html-builder&#34;,</p>
+<h5 id="header-0-0-1-16"><span class="section-number">0.0.1.16</span><a href="https://github.com/Michieljoris/www.axion5.net"><a href="http://www.axion5.net">http://www.axion5.net</a></a></h5>
+<pre>Tech: javascript, bb-server stack Year: 2014</pre>
+<p>&#34;Repo of my personal site. Includes all posts and pages.&#34;,</p>
+<h5 id="header-0-0-1-17"><span class="section-number">0.0.1.17</span><a href="https://github.com/Michieljoris/firstdoor">Website built using bb-server stack: firstdoor</a></h5>
+<pre>Tech: bb-server and co, angular, bootstrap. Year: 2013</pre>
+<p>&#34;Website using angular and bootstrap&#34;,</p>
+<p>Website built for a client with a newly started business, using my
+bb-server/html-builder stack. They used it in production for a couple of
+years.</p>
+<h5 id="header-0-0-1-18"><span class="section-number">0.0.1.18</span><a href="https://github.com/Michieljoris/personalinfo">Idea for an app: personalinfo</a></h5>
+<pre>Tech: bb-server stack Year 2013</pre>
+<p>Idea for an app: A tool for families to share detailed information about
+their family member with a disability:</p>
+<p><a href="https://github.com/Michieljoris/personalinfo/blob/master/docofpersonalinfo.pdf">https://github.com/Michieljoris/personalinfo/blob/master/docofpersonalinfo.pdf</a></p>
+<p>Would need to be rather secure and privacy aware. Perhaps with controls to share
+only parts to selected accounts.</p>
+<h5 id="header-0-0-1-19"><span class="section-number">0.0.1.19</span><a href="https://github.com/Michieljoris/dbeditor">Dropbox file editor: dbeditor</a></h5>
+<pre>Tech: javascript, bb-server stack.dropbox api Year: 2013</pre>
+<p>&#34;Edit files in dropbox with a markdown or wysiwyg editor&#34;</p>
+<p>This site allows you to connect to your dropbox, browse the contents and then
+edit text files using a markdown or wysiwyg editor.</p>
+<p>Probably obsolete now.</p>
+<h4 id="header-0-0-2"><span class="section-number">0.0.2</span>Roster, couchDB repos</h4>
+<h5 id="header-0-0-2-1"><span class="section-number">0.0.2.1</span><a href="https://github.com/Michieljoris/validate_doc_update">validate_doc_update</a></h5>
+<pre>Tech: javascript, CouchDB Year: 2013</pre>
+<p>&#34;Automated couchdb document validator. &#34;</p>
+<p>Has a little DSL + parser to get more flexible validation in CouchDB. Instead
+of pushing js to a database design doc to update the validation a standard
+script is loaded there. Then, by kinda abusing members.names and user roles you
+can set what kind of docs are allowed and who is allowed to write them when.
+Idea is that you encode these things in the role strings themselves and that
+the validate script parses and interpretes them. Used in some other CouchDB
+projects.</p>
+<h5 id="header-0-0-2-2"><span class="section-number">0.0.2.2</span><a href="https://github.com/Michieljoris/vouchdb">vouchdb</a></h5>
+<pre>Tech: javascript Year:2014</pre>
+<p>&#34;Use the same promise based api for CouchDB and PouchDB, on nodejs and in the browser.&#34;,</p>
+<p>wip</p>
+<h5 id="header-0-0-2-3"><span class="section-number">0.0.2.3</span><a href="https://github.com/Michieljoris/quilt">quilt</a></h5>
+<pre>Tech: javascript, CouchDB, Angular Year: 2013</pre>
+<p>&#34;Opiniated CouchDB manager, similar to Futon.&#34;</p>
+<h5 id="header-0-0-2-4"><span class="section-number">0.0.2.4</span>Roster app</h5>
+<h6 id="header-0-0-2-4-1"><span class="section-number">0.0.2.4.1</span><a href="https://github.com/Michieljoris/roster">roster</a></h6>
+<pre>Tech: javascript,CouchDB,PouchDB, SmartClient, bootstrapjs. Year: 2012</pre>
+<p>&#34;Web based database management framework. Plug in custom views and editors,
+at the moment a roster and shift management software.&#34;</p>
+<p>At the time I was doing some shiftwork and the system of managing time sheets
+was rather cumbersome. I put a spreadsheet together first which was adopted and
+then this app was also adopted to some degree.</p>
+<h6 id="header-0-0-2-4-2"><span class="section-number">0.0.2.4.2</span><a href="https://github.com/Michieljoris/roster_help">roster_help</a></h6>
+<pre>Tech: javascript Year: 2013</pre>
+<p>&#34;Separate site documenting the roster app.&#34;,</p>
+<p><a href="https://github.com/Michieljoris/roster_help/blob/master/build/markdown/security.md">https://github.com/Michieljoris/roster_help/blob/master/build/markdown/security.md</a></p>
+<p>Mainly a long blurb about why and how I think the set up of CouchDB for the roster app is secure.</p>
+<h6 id="header-0-0-2-4-3"><span class="section-number">0.0.2.4.3</span><a href="https://github.com/Michieljoris/shift-calendar">shift-calendar</a></h6>
+<pre>Tech: javascript Year:2014</pre>
+<p>&#34;Replacement calendar for the one in roster&#34;,</p>
+<h4 id="header-0-0-3"><span class="section-number">0.0.3</span>Misc repos</h4>
+<h5 id="header-0-0-3-1"><span class="section-number">0.0.3.1</span><a href="https://github.com/Michieljoris/teocs">My answers for The Elements of Computing Systems&#34;,</a></h5>
+<pre>Tech: Common Lisp Year: 2012</pre>
+<p>See <a href="https://www.amazon.com.au/Elements-Computing-Systems-Building-Principles/dp/0262640686">https://www.amazon.com.au/Elements-Computing-Systems-Building-Principles/dp/0262640686</a></p>
+<p>From a review of the book:
+&#34;You start with (software simulations of) basic logical circuits and use them to
+build a CPU. Then you build an assembly language, a VM and a high level language
+similar to Java&#34;</p>
+<p>Very instructive, and was fun to implement in CL. Also my first repo on github
+it seems.</p>
+<h5 id="header-0-0-3-2"><span class="section-number">0.0.3.2</span><a href="https://github.com/Michieljoris/picoscript">picoscript</a></h5>
+<pre>Tech: picolisp, javascript Year: 2012</pre>
+<p>&#34;The beginning of a version of picolisp that translates to javascript.&#34;</p>
+<p>Well, rather ambitious project. More of an idea. I did like <a href="https://picolisp.com/wiki/?home">picolisp</a>.</p>
+<h5 id="header-0-0-3-3"><span class="section-number">0.0.3.3</span><a href="https://github.com/Michieljoris/sicp">sicp</a></h5>
+<pre>Tech: Scheme Year: 2012</pre>
+<p>&#34;Some answers for SICP&#34;</p>
+<p>wip</p>
+<h5 id="header-0-0-3-4"><span class="section-number">0.0.3.4</span><a href="https://github.com/Michieljoris/ThoughtWorks">ThoughtWorks</a></h5>
+<pre>Tech: javascript Year: 2014</pre>
+<p>&#34;Solutions of tasks you apparently need to do when applying for a job at ThoughtWorks&#34;</p>
+<h5 id="header-0-0-3-5"><span class="section-number">0.0.3.5</span><a href="https://github.com/Michieljoris/improvfree">improvfree</a></h5>
+<pre>Tech: keykit Year: 2006</pre>
+<p>&#34;An ear training tool written using keykit&#34;,</p>
+<p>I wrote it to practice ear training. I was dissatisfied with the ear training
+software going around at the time and combined the features of several. But
+not knowing java or javascript or any other language than c/c++, basic and
+pascal I found it hard to hook up to the midi hardware in the soundblaster
+cards. But keykit made it easy.</p>
+<h5 id="header-0-0-3-6"><span class="section-number">0.0.3.6</span><a href="https://github.com/Michieljoris/trello-export">trello-export</a></h5>
+<pre>Tech: javascript Year: 2014</pre>
+<h5 id="header-0-0-3-7"><span class="section-number">0.0.3.7</span><a href="https://github.com/Michieljoris/nonograms">nonograms</a></h5>
+<pre>Tech: clojure Year: 2014</pre>
+<h5 id="header-0-0-3-8"><span class="section-number">0.0.3.8</span><a href="https://github.com/Michieljoris/mal">Make a lisp</a></h5>
+<pre>Tech:javascript Year: 2015</pre>
+<p>&#34;Implementation of a lisp in javascript.&#34;,</p>
+<h5 id="header-0-0-3-9"><span class="section-number">0.0.3.9</span><a href="https://github.com/Michieljoris/aid">Archeology Inspired Database wip</a></h5>
+<pre>Tech: clojure Year: 2017</pre>
+<p>&#34;Archeology inspired database&#34;,</p>
+<h5 id="header-0-0-3-10"><span class="section-number">0.0.3.10</span><a href="https://github.com/Michieljoris/code-x">code-x</a></h5>
+<pre>Tech: javascript Year: 2014</pre>
+<p>&#34;Answers to exercises on codewars, codeeval and hackerrank&#34;</p>
+<h5 id="header-0-0-3-11"><span class="section-number">0.0.3.11</span><a href="https://github.com/Michieljoris/imageopti">imageopti</a></h5>
+<pre>Tech: javascript Year: 2013</pre>
+<p>&#34;Wrapper for linux image utilities&#34;,</p>
+<h5 id="header-0-0-3-12"><span class="section-number">0.0.3.12</span><a href="https://github.com/Michieljoris/firgilio">firgilio</a></h5>
+<pre>Tech: javascript Year: 2014</pre>
+<p>&#34;Functional version of virgilio from icemobile&#34;,</p>
+<h5 id="header-0-0-3-13"><span class="section-number">0.0.3.13</span><a href="https://github.com/Michieljoris/CV">CV</a></h5>
+<pre>Tech: bash, latex, emacs Year: 2014</pre>
+<p>&#34;Write emacs org cover letter, export to latex, then create pdf &#34;</p>
+<h5 id="header-0-0-3-14"><span class="section-number">0.0.3.14</span><a href="https://github.com/Michieljoris/directive_objectEditor">Angular: directive_objectEditor</a></h5>
+<pre>Tech: javascript, Angular Year: 2013</pre>
+<p>&#34;Visual javascript object inspector and editor as a Angularjs directive&#34;,</p>
+<p>Played around with Angular for a bit, but in the end was not a fan.</p>
+<h4 id="header-0-0-4"><span class="section-number">0.0.4</span>Aum, clojure</h4>
+<h5 id="header-0-0-4-1"><span class="section-number">0.0.4.1</span><a href="https://github.com/Michieljoris/boot-scripts">tail.boot</a></h5>
+<pre>Tech: clojure Year: 2017</pre>
+<p>&#34;Boot task: prints, tails and filters logs on the commandline. Works best with logstash logs. &#34;</p>
+<h5 id="header-0-0-4-2"><span class="section-number">0.0.4.2</span><a href="https://github.com/Michieljoris/revolt-extra">revolt-extra</a></h5>
+<pre>Tech: clojure Year: 2019</pre>
+<p>&#34;plugins and tasks for <a href="https://github.com/mbuczko/revolt">revolt</a>&#34;,</p>
+<h5 id="header-0-0-4-3"><span class="section-number">0.0.4.3</span><a href="https://github.com/Michieljoris/tools-deps-poc">tools-deps-poc&#34;,</a></h5>
+<pre>Tech: clojure, tools.deps Year: 2019</pre>
+<p>&#34;Proof of concept of tools.deps and revolt&#34;,</p>
+<p>Experimenting with tools.deps</p>
+<h5 id="header-0-0-4-4"><span class="section-number">0.0.4.4</span><a href="https://github.com/Michieljoris/dj-consumer">dj-consumer</a></h5>
+<pre>Tech: clojure Year: 2018</pre>
+<p>&#34;Background jobs for clojure, modelled on Rails delayed jobs&#34;</p>
+<h5 id="header-0-0-4-5"><span class="section-number">0.0.4.5</span><a href="https://github.com/Michieljoris/aum">aum</a></h5>
+<pre>Tech: clojure Year: 2020</pre>
+<p>&#34;Set of libs to build a full stack app in clojure&#34;</p>
+<h5 id="header-0-0-4-6"><span class="section-number">0.0.4.6</span><a href="https://github.com/Michieljoris/aum-starter-app">aum-starter-app</a></h5>
+<pre>Tech: clojure Year: 2020</pre>
+<p>&#34;Minimal full stack starter app using Aum&#34;</p>
+<h5 id="header-0-0-4-7"><span class="section-number">0.0.4.7</span><a href="https://github.com/Michieljoris/clj-utils">clj-utils</a></h5>
+<pre>Tech: clojure Year: 2020</pre>
+<p>&#34;Set of generic clojure fns&#34;</p>
+</div>
+      <div  id="disqus-embed--"> </div>
+      <div  id="disqus-count--"> </div>
+
+    </div><!-- /.blog-main -->
+
+    <div id="rightbar--" class="box col-sm-3 col-sm-offset-1 blog-sidebar"><!--partial:html/search.html--><div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:www.axion5.net">
+  </form>
+</div>
+<!--partial:html/aboutmeWidgetWrapper.html--><div align="justify" class="widget sidebar-module sidebar-module-inset">
+  <div id="widget--"><!--partial:widgets/aboutmeWidget.org--><div id="toc"><ul></ul>
+</div><h5 id="header-0-0-0-1"><span class="section-number">0.0.0.1</span>About me </h5>
+<p>Dutch by birth, living in Australia since late youth, classical pianist, but 
+closet programmer since childhood. This site hopefully is able to showcase some 
+of my more useful fabrications and thoughts.</p>
+<p>All my code is on <a href="http://github.com/michieljoris">github</a>. </p>
+<p>For more info see the <a href="/aboutme.html">about me</a> page, <a href="http://au.linkedin.com/in/michieljoris/">linkedin</a> or 
+<a href="http://careers.stackoverflow.com/michieljoris">stackoverflow</a>.</p>
+<p>Email me at <a href="mailto:mail@axion5.net">mail@axion5.net</a></p>
+</div>
+</div>
+
+<!--partial:html/recentWidgetWrapper.html--><div class="widget sidebar-module">
+  <b>Recent posts</b>
+  <div id="widget--"><ul id="most-recent-partial">
+  <li><a href="/post/adea-an-experiment-in-application-back-end-infrastructure.html">Adea, an experiment in application back end infrastructure</a></li>
+  <li><a href="/post/the-web-is-not-a-good-fit-really.html">The web is not a good fit really..</a></li>
+  <li><a href="/post/installing-and-using-clojure-and-clojurescript-with-emacs.html">Installing and using Clojure and ClojureScript with Emacs</a></li>
+  <li><a href="/post/markup-cheat-sheet-for-org-mode.html">Markup Cheat sheet for Org-mode</a></li>
+  <li><a href="/post/about-this-site.html">About this site</a></li>
+</ul></div>
+</div>
+<!--partial:html/tagWidgetWrapper.html--><div class="widget sidebar-module ">
+  <b>Tags</b>
+  <div id="widget--"><ul id="by-tag-partial">
+  <li><a href="/tag/web">web</a> (2)</li>
+  <li><a href="/tag/rethink">rethink</a> (2)</li>
+  <li><a href="/tag/internet">internet</a> (2)</li>
+  <li><a href="/tag/Emacs">Emacs</a> (1)</li>
+  <li><a href="/tag/Clojure">Clojure</a> (1)</li>
+</ul></div>
+</div>
+<!--partial:html/archiveWidgetWrapper.html--><div class="widget sidebar-module">
+  <b>Archive</b>
+  <div id="widget--"><ul class="css-treeview" id="archive-partial">
+ <li><a  href="/archive/2014" >2014</a>
+  <ul>
+   <li><a  href="/archive/2014/April" >April</a>
+    <ul>
+     <li><a  href="/post/my-webstack.html" >My webstack</a></li>
+    </ul>
+   </li>
+   <li><a  href="/archive/2014/June" >June</a>
+    <ul>
+     <li><a  href="/post/meteor-docs-and-attached-files.html" >Meteor, docs and attached files</a></li>
+    </ul>
+   </li>
+   <li><a  href="/archive/2014/October" >October</a>
+    <ul>
+     <li><a  href="/post/about-this-site.html" >About this site</a></li>
+     <li><a  href="/post/markup-cheat-sheet-for-org-mode.html" >Markup Cheat sheet for Org-mode</a></li>
+    </ul>
+   </li>
+   <li><a  href="/archive/2014/November" >November</a>
+    <ul>
+     <li><a  href="/post/installing-and-using-clojure-and-clojurescript-with-emacs.html" >Installing and using Clojure and ClojureScript with Emacs</a></li>
+    </ul>
+   </li>
+   <li><a  href="/archive/2014/December" >December</a>
+    <ul>
+     <li><a  href="/post/adea-an-experiment-in-application-back-end-infrastructure.html" >Adea, an experiment in application back end infrastructure</a></li>
+     <li><a  href="/post/the-web-is-not-a-good-fit-really.html" >The web is not a good fit really..</a></li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul></div>
+</div>
+</div><!-- /.blog-sidebar -->
+
+  </div><!-- /.row -->
+
+</div><!-- /.container -->
+
+<div class="blog-footer">
+  <p>Site rendered from org files using 
+<a href="http://github.com/michieljoris/bb-blog">bb-blog</a> and
+    <a href="http://github.com/michieljoris/html-builder">html-builder</a>
+    by <a href="https://github.com/michieljoris">@michieljoris</a>.</p>
+  <p>
+    <a href="#">Back to top</a>
+  </p>
+</div>
+
+<script type="text/javascript" src="/scripts/bower/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="/scripts/bower/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="/scripts/bower/modernizr/modernizr.js"></script>
+<script type="text/javascript" src="/scripts/bower/logthis/logthis.js"></script>
+<script type="text/javascript" src="/scripts/highlight.pack.js"></script>
+<script type="text/javascript" src="/scripts/main.js"></script>
+<script>hljs.initHighlightingOnLoad();</script></body>
+</html>	
+	 

@@ -82,6 +82,14 @@ delete bodyWebsites.mapping.main;
 delete bodyWebsites.mapping['disqus-embed'];
 delete bodyWebsites.mapping['disqus-count'];
 
+var bodyMyGithub = extend(true, {}, fromTemplate);
+bodyMyGithub.id = 'body-myGithub';
+bodyMyGithub.mapping.page = 'pages/guide-to-my-github.org';
+bodyMyGithub.mapping.pageTitle = 'myGithubPageTitle';
+delete bodyMyGithub.mapping.main;
+delete bodyMyGithub.mapping['disqus-embed'];
+delete bodyMyGithub.mapping['disqus-count'];
+
 var aboutmePage = extend(true, {}, toTemplate );
 aboutmePage.out = 'www/aboutme.html';
 aboutmePage.mapping.body[0] = 'body-aboutme'; 
@@ -90,10 +98,13 @@ var projectsPage = extend(true, {}, toTemplate );
 projectsPage.out = 'www/projects.html';
 projectsPage.mapping.body[0] = 'body-projects'; 
 
-
 var websitesPage = extend(true, {}, toTemplate );
 websitesPage.out = 'www/websites.html';
-websitesPage.mapping.body[0] = 'body-websites'; 
+websitesPage.mapping.body[0] = 'body-websites';
+
+var myGithubPage = extend(true, {}, toTemplate );
+myGithubPage.out = 'www/my-github.html';
+myGithubPage.mapping.body[0] = 'body-myGithub';
 
 var exports = {
     fromTemplate: fromTemplate,
@@ -204,6 +215,7 @@ var exports = {
             ,aboutmePageTitle: 'About me'
             ,projectsPageTitle: 'Projects'
             ,websitesPageTitle: 'Websites'
+            ,myGithubPageTitle: 'Guide to my github'
             ,"meta-page-title": '<title>meta-page-title</title>'
             ,"highlightjs": '<script>hljs.initHighlightingOnLoad();</script>'
             // ,"highlightcss": '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/default.min.css">'
@@ -402,8 +414,8 @@ var exports = {
             },
             fromTemplate,
             toTemplate
-            ,bodyWebsites, bodyProjects, bodyAboutme
-            ,websitesPage, projectsPage, aboutmePage
+            ,bodyWebsites, bodyProjects, bodyAboutme, bodyMyGithub,
+            ,websitesPage, projectsPage, aboutmePage, myGithubPage
             
             //Main layout
             

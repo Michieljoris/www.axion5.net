@@ -1,10 +1,5 @@
-#+TITLE: Guide to my github
-#+OPTIONS: toc:0 num:t
-: publishedat: 10/April/2020
-: comments: false
-: published: false
-: title: Little guide to my github repos
-: tags: github
+#+OPTIONS: toc:0
+#+My github
 
 There are basically 4 projects spread over multiple repos and a bunch of separate
 repos:
@@ -48,8 +43,9 @@ Playing around with devops a bit in [[https://github.com/Michieljoris/demo][demo
 branch.somedomain.com by using git push, ala dokku) and [[https://github.com/Michieljoris/mystack][mystack]], a work in
 progress using the hashicorp tools to set up a cloud infrastructure.
 
-: ------------------
-** Bb-server stack, my own nodejs web stack and blog engine
+-----
+
+*** Bb-server stack, my own nodejs web stack and blog engine
 To learn javascript and node I put together as best as I could a complete stack, from a nodejs server, to a template engine.
 
 A summary of the relevant github repos:
@@ -239,7 +235,7 @@ edit text files using a markdown or wysiwyg editor.
 
 Probably obsolete now.
 
-** Roster, couchDB repos
+*** Roster, couchDB repos
 **** [[https://github.com/Michieljoris/validate_doc_update][validate_doc_update]]
 #+BEGIN_EXAMPLE
 Tech: javascript, CouchDB Year: 2013
@@ -302,7 +298,7 @@ Tech: javascript Year:2014
 
   "Replacement calendar for the one in roster",
 
-** Misc repos
+*** Misc repos
 **** [[https://github.com/Michieljoris/teocs][My answers for The Elements of Computing Systems",]]
 #+BEGIN_EXAMPLE
 Tech: Common Lisp Year: 2012
@@ -415,7 +411,7 @@ Tech: javascript, Angular Year: 2013
 
 Played around with Angular for a bit, but in the end was not a fan.
 
-** Aum, clojure
+*** Aum, clojure
 **** [[https://github.com/Michieljoris/boot-scripts][tail.boot]]
 #+BEGIN_EXAMPLE
 Tech: clojure Year: 2017
