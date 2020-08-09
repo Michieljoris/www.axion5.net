@@ -1,4 +1,4 @@
-var develop_mode = process.env.DEVELOP; 
+var develop_mode = true; //process.env.DEVELOP;
 var extend = require('extend');
 
 var fromTemplate = { id: 'body'

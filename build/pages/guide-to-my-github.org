@@ -37,7 +37,7 @@ but I got the chance to build this in clojure from 2016 onwards. This is a full
 stack app built from basic building blocks such as mysql, ring and om-next. A
 lot for it had to be built still such as database validation, backend and
 frontend parser, test framework, build scripts etc. I extracted the generic parts and bundled
-them in [[https://github.com/Michieljoris/aum][aum]] and a few accompanying repos. See [[/my-github.html#header-0-0-4][here]] for a summary of them.
+them in [[https://github.com/Michieljoris/pagora.aum][aum]] and a few accompanying repos. See [[/my-github.html#header-0-0-4][here]] for a summary of them.
 
 Playing around with devops a bit in [[https://github.com/Michieljoris/demo][demo]] (One line deploy of branch to
 branch.somedomain.com by using git push, ala dokku) and [[https://github.com/Michieljoris/mystack][mystack]], a work in
@@ -412,19 +412,32 @@ Tech: javascript, Angular Year: 2013
 Played around with Angular for a bit, but in the end was not a fan.
 
 *** Aum, clojure
-**** [[https://github.com/Michieljoris/boot-scripts][tail.boot]]
+**** [[https://github.com/Michieljoris/pagora.aum][pagora.aum]]
 #+BEGIN_EXAMPLE
-Tech: clojure Year: 2017
+Tech: clojure Year: 2020
 #+END_EXAMPLE
 
-"Boot task: prints, tails and filters logs on the commandline. Works best with logstash logs. "
+"Set of libs to build a full stack app in clojure"
 
-**** [[https://github.com/Michieljoris/revolt-extra][revolt-extra]]
+**** [[https://github.com/Michieljoris/pagora.revolt][pagora.revolt]]
 #+BEGIN_EXAMPLE
 Tech: clojure Year: 2019
 #+END_EXAMPLE
 
 "plugins and tasks for [[https://github.com/mbuczko/revolt][revolt]]",
+
+**** [[https://github.com/Michieljoris/pagora.clj-utils][pagora.clj-utils]]
+#+BEGIN_EXAMPLE
+Tech: clojure Year: 2020
+#+END_EXAMPLE
+
+"Set of generic clojure fns"
+**** [[https://github.com/Michieljoris/aum-starter-app][aum-starter-app]]
+#+BEGIN_EXAMPLE
+Tech: clojure Year: 2020
+#+END_EXAMPLE
+
+"Minimal full stack starter app using Aum"
 
 **** [[https://github.com/Michieljoris/tools-deps-poc][tools-deps-poc",]]
 #+BEGIN_EXAMPLE
@@ -435,30 +448,17 @@ Tech: clojure, tools.deps Year: 2019
 
   Experimenting with tools.deps
 
-****  [[https://github.com/Michieljoris/dj-consumer][dj-consumer]]
+**** [[https://github.com/Michieljoris/dj-consumer][dj-consumer]]
 #+BEGIN_EXAMPLE
 Tech: clojure Year: 2018
 #+END_EXAMPLE
 
 "Background jobs for clojure, modelled on Rails delayed jobs"
 
-**** [[https://github.com/Michieljoris/aum][aum]]
+
+**** [[https://github.com/Michieljoris/boot-scripts][tail.boot]]
 #+BEGIN_EXAMPLE
-Tech: clojure Year: 2020
+Tech: clojure Year: 2017
 #+END_EXAMPLE
 
-"Set of libs to build a full stack app in clojure"
-
-**** [[https://github.com/Michieljoris/aum-starter-app][aum-starter-app]]
-#+BEGIN_EXAMPLE
-Tech: clojure Year: 2020
-#+END_EXAMPLE
-
-"Minimal full stack starter app using Aum"
-
-**** [[https://github.com/Michieljoris/clj-utils][clj-utils]]
-#+BEGIN_EXAMPLE
-Tech: clojure Year: 2020
-#+END_EXAMPLE
-
-"Set of generic clojure fns"
+"Boot task: prints, tails and filters logs on the commandline. Works best with logstash logs. "
